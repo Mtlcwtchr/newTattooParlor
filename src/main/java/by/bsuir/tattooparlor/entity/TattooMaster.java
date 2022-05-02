@@ -11,14 +11,19 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true)
-public class TattooMaster extends User {
+public class TattooMaster {
+    @Id
+    private long id;
     @NonNull
     private String name;
     @NonNull
     private Date workStarted;
     private int rating;
+
+    @NonNull
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id", referencedColumnName = "id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "tariff_id")
