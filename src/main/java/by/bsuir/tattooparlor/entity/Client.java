@@ -11,13 +11,18 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true)
-public class Client extends User {
+public class Client {
+    @Id
+    private long id;
     @NonNull
     private String name;
     @NonNull
     private String phone;
+
+    @NonNull
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id", referencedColumnName = "id")
+    private User user;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<ClientDiscount> discounts;

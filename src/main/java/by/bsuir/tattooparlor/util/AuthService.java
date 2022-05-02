@@ -36,14 +36,12 @@ public class AuthService implements IAuthService {
             User user = applyGuestUser(phone);
             client = new Client();
             client.setId(user.getId());
-            client.setLogin(user.getLogin());
-            client.setPassword(user.getPassword());
-            client.setEmail(user.getEmail());
+            client.setUser(user);
             client.setName(name);
             client.setPhone(phone);
         } else {
             client = clientOpt.get();
-            if (!client.getLogin().equals(getGuestUserLogin(phone))) {
+            if (!client.getUser().getLogin().equals(getGuestUserLogin(phone))) {
                 throw new UserPresentedException();
             }
             client.setName(name);

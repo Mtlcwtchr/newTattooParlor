@@ -4,6 +4,7 @@ package by.bsuir.tattooparlor.entity;
 import by.bsuir.tattooparlor.entity.helpers.UserRole;
 import by.bsuir.tattooparlor.entity.helpers.UserStatus;
 import lombok.*;
+import org.hibernate.annotations.Generated;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
