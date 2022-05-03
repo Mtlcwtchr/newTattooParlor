@@ -3,6 +3,9 @@ package by.bsuir.tattooparlor.util;
 import by.bsuir.tattooparlor.entity.Client;
 import by.bsuir.tattooparlor.entity.TattooMaster;
 import by.bsuir.tattooparlor.entity.User;
+import by.bsuir.tattooparlor.util.exception.IllegalCredentialsException;
+import by.bsuir.tattooparlor.util.exception.NoClientPresentedException;
+import by.bsuir.tattooparlor.util.exception.NoMasterPresentedException;
 import by.bsuir.tattooparlor.util.exception.UtilException;
 
 import java.util.Date;
@@ -10,10 +13,10 @@ import java.util.Optional;
 
 public interface IAuthService {
     Optional<Client> applyGuest(String name, String phone) throws UtilException;
-    Optional<Client> applyClient(String username, String password, String email, String name, String phone);
-    Optional<TattooMaster> applyMaster(String username, String password, String email, String name, Date workStarted);
-    Optional<User> tryAuthenticate(String username, String password);
-    Optional<Client> tryAuthorizeClient(User user);
-    Optional<TattooMaster> tryAuthorizeMaster(User user);
-    Optional<User> tryAuthorizeAdmin(User user);
+    Client applyClient(String username, String password, String email, String name, String phone) throws UtilException;
+    TattooMaster applyMaster(String username, String password, String email, String name, Date workStarted) throws UtilException;
+    User tryAuthenticate(String username, String password) throws IllegalCredentialsException;
+    Client tryAuthorizeClient(User user) throws UtilException;
+    TattooMaster tryAuthorizeMaster(User user) throws UtilException;
+    User tryAuthorizeAdmin(User user) throws UtilException;
 }

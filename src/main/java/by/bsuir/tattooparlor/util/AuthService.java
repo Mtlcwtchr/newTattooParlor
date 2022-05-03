@@ -6,9 +6,9 @@ import by.bsuir.tattooparlor.dao.repository.UserRepository;
 import by.bsuir.tattooparlor.entity.Client;
 import by.bsuir.tattooparlor.entity.TattooMaster;
 import by.bsuir.tattooparlor.entity.User;
-import by.bsuir.tattooparlor.util.exception.NoGuestUserPresentedException;
-import by.bsuir.tattooparlor.util.exception.UserPresentedException;
-import by.bsuir.tattooparlor.util.exception.UtilException;
+import by.bsuir.tattooparlor.entity.helpers.UserRole;
+import by.bsuir.tattooparlor.entity.helpers.UserStatus;
+import by.bsuir.tattooparlor.util.exception.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -52,33 +52,106 @@ public class AuthService implements IAuthService {
     }
 
     @Override
-    public Optional<Client> applyClient(String username, String password, String email, String name, String phone) {
-        return Optional.empty();
+    public Client applyClient(String username, String password, String email, String name, String phone) throws UtilException {
+        ThrowIfExistUser(username, email);
+
+        Optional<Client> guestOpt = clientRepository.findByPhone(phone);
+        Client client = null;
+        long clientId = 0;
+        if (guestOpt.isPresent()) {
+            client = guestOpt.get();
+            User user = client.getUser();
+            user.setLogin(username);
+            user.setPassword(PasswordProtector.checkPassword(password));
+            user.setEmail(email);
+            client.setName(name);
+
+            clientId = client.getId();
+        } else {
+            User user = applyUser(username, email, password);
+            clientId = user.getId();
+
+            client = new Client(name, phone, user);
+            client.setId(clientId);
+        }
+
+        clientRepository.save(client);
+        Optional<Client> savedClientOpt = clientRepository.findById(clientId);
+
+        return savedClientOpt.orElseThrow(ApplyClientException::new);
     }
 
     @Override
-    public Optional<TattooMaster> applyMaster(String username, String password, String email, String name, Date workStarted) {
-        return Optional.empty();
+    public TattooMaster applyMaster(String username, String password, String email, String name, Date workStarted) throws UtilException{
+        User savedUser = applyUser(username, email, password);
+        long savedUserId = savedUser.getId();
+
+        TattooMaster tattooMaster = new TattooMaster(name, workStarted, savedUser);
+        tattooMaster.setId(savedUserId);
+        tattooMasterRepository.save(tattooMaster);
+        Optional<TattooMaster> savedMasterOpt = tattooMasterRepository.findById(savedUserId);
+
+        return savedMasterOpt.orElseThrow(ApplyMasterException::new);
+    }
+
+    private User applyUser(String username, String email, String password) throws UserPresentedException, ApplyUserException {
+        ThrowIfExistUser(username, email);
+        password = PasswordProtector.checkPassword(password);
+
+        User user = new User(username, password, email);
+        user.setRole(UserRole.CLIENT);
+        user.setStatus(UserStatus.UNCONFIRMED);
+        userRepository.save(user);
+        Optional<User> savedOpt = userRepository.findByLogin(username);
+        return savedOpt.orElseThrow(ApplyUserException::new);
+    }
+
+    private void ThrowIfExistUser(String username, String email) throws UserPresentedException {
+        Optional<User> userOpt = userRepository.findByLoginOrEmail(username, email);
+        if (userOpt.isPresent()) {
+            throw new UserPresentedException();
+        }
     }
 
     @Override
-    public Optional<User> tryAuthenticate(String username, String password) {
-        return Optional.empty();
+    public User tryAuthenticate(String username, String password) throws IllegalCredentialsException {
+        Optional<User> userOpt = userRepository.findByLogin(username);
+        User user = userOpt.orElseThrow(IllegalLoginException::new);
+        password = PasswordProtector.checkPassword(password);
+        if(!user.getPassword().equals(password)) {
+            throw new IllegalPasswordException();
+        }
+
+        return user;
     }
 
     @Override
-    public Optional<Client> tryAuthorizeClient(User user) {
-        return Optional.empty();
+    public Client tryAuthorizeClient(User user) throws UtilException {
+        if(user.getRole() == UserRole.CLIENT) {
+            Optional<Client> clientOpt = clientRepository.findById(user.getId());
+            return clientOpt.orElseThrow(NoClientPresentedException::new);
+        } else {
+            throw new IllegalRolePresentedException();
+        }
     }
 
     @Override
-    public Optional<TattooMaster> tryAuthorizeMaster(User user) {
-        return Optional.empty();
+    public TattooMaster tryAuthorizeMaster(User user) throws UtilException {
+        if(user.getRole() == UserRole.MODERATOR) {
+            Optional<TattooMaster> tattooMasterOpt = tattooMasterRepository.findById(user.getId());
+            return tattooMasterOpt.orElseThrow(NoMasterPresentedException::new);
+        } else {
+            throw new IllegalRolePresentedException();
+        }
     }
 
     @Override
-    public Optional<User> tryAuthorizeAdmin(User user) {
-        return Optional.empty();
+    public User tryAuthorizeAdmin(User user) throws UtilException {
+        if(user.getRole() == UserRole.ADMIN) {
+            return user;
+        } else {
+            throw new IllegalRolePresentedException();
+        }
     }
 
     private User applyGuestUser(String phone) throws UtilException {
@@ -90,5 +163,29 @@ public class AuthService implements IAuthService {
 
     private String getGuestUserLogin(String phone) {
         return "guest_" + Integer.toHexString(phone.hashCode());
+    }
+
+    private static class PasswordValidator {
+
+        private static final String PASSWORD_PATTERN = ".{6,20}";
+
+        private static boolean isValidPassword(String password) {
+            return password.matches(PASSWORD_PATTERN);
+        }
+    }
+
+    private static class PasswordProtector {
+
+        private static final String GLOBAL_SALT = "$%^";
+        private static final int hashDeep = 8;
+
+        private static String checkPassword(String password) {
+            int hash = (password + GLOBAL_SALT).hashCode();
+            for(int i=0; i < hashDeep; ++i) {
+                hash = (hash + GLOBAL_SALT).hashCode();
+            }
+            return Integer.toHexString(hash);
+        }
+
     }
 }
