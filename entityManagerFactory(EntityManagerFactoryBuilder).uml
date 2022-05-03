@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Persistence</ID>
+  <OriginalElement>JavaeeElement:/d9ab0c26/entityManagerFactory/TattooParlor/jpa/JPA/PersistenceModel</OriginalElement>
+  <nodes>
+    <node x="572.4565217391305" y="215.0">Product#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/Product.java</node>
+    <node x="193.00000000000003" y="0.0">User#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/User.java</node>
+    <node x="367.4565217391305" y="215.0">Discount#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/Discount.java</node>
+    <node x="0.0" y="697.0">AbstractAuditable#jar:///Users/stanislav/.m2/repository/org/springframework/data/spring-data-jpa/2.6.4/spring-data-jpa-2.6.4.jar!/org/springframework/data/jpa/domain/AbstractAuditable.class</node>
+    <node x="374.0163043478261" y="44.0">ClientDiscount#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/ClientDiscount.java</node>
+    <node x="0.0" y="594.0">AbstractPersistable#jar:///Users/stanislav/.m2/repository/org/springframework/data/spring-data-jpa/2.6.4/spring-data-jpa-2.6.4.jar!/org/springframework/data/jpa/domain/AbstractPersistable.class</node>
+    <node x="34.331521739130494" y="237.0">TattooMaster#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/TattooMaster.java</node>
+    <node x="0.0" y="44.0">Tariff#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/Tariff.java</node>
+    <node x="220.45652173913047" y="248.0">Client#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/Client.java</node>
+    <node x="314.25" y="408.0">Order#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/Order.java</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Discount#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/Discount.java" target="ClientDiscount#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/ClientDiscount.java" relationship="RELATION">
+      <point x="0.0" y="-70.5" />
+      <point x="459.4565217391305" y="189.0" />
+      <point x="484.0163043478261" y="189.0" />
+      <point x="0.0" y="37.5" />
+    </edge>
+    <edge source="AbstractAuditable#jar:///Users/stanislav/.m2/repository/org/springframework/data/spring-data-jpa/2.6.4/spring-data-jpa-2.6.4.jar!/org/springframework/data/jpa/domain/AbstractAuditable.class" target="AbstractPersistable#jar:///Users/stanislav/.m2/repository/org/springframework/data/spring-data-jpa/2.6.4/spring-data-jpa-2.6.4.jar!/org/springframework/data/jpa/domain/AbstractPersistable.class" relationship="INHERITANCE">
+      <point x="0.0" y="-37.5" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="Order#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/Order.java" target="Client#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/Client.java" relationship="RELATION">
+      <point x="0.0" y="-70.5" />
+      <point x="415.25" y="382.0" />
+      <point x="283.4565217391305" y="382.0" />
+      <point x="0.0" y="37.5" />
+    </edge>
+    <edge source="TattooMaster#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/TattooMaster.java" target="User#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/User.java" relationship="INHERITANCE">
+      <point x="39.75" y="-48.5" />
+      <point x="153.5815217391305" y="189.0" />
+      <point x="271.5" y="189.0" />
+      <point x="0.0" y="81.5" />
+    </edge>
+    <edge source="Order#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/Order.java" target="ClientDiscount#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/ClientDiscount.java" relationship="RELATION">
+      <point x="0.0" y="-70.5" />
+      <point x="415.25" y="382.0" />
+      <point x="561.9565217391305" y="382.0" />
+      <point x="561.9565217391305" y="189.0" />
+      <point x="484.0163043478261" y="189.0" />
+      <point x="0.0" y="37.5" />
+    </edge>
+    <edge source="Client#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/Client.java" target="ClientDiscount#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/ClientDiscount.java" relationship="RELATION">
+      <point x="31.5" y="-37.5" />
+      <point x="314.9565217391305" y="189.0" />
+      <point x="484.0163043478261" y="189.0" />
+      <point x="0.0" y="37.5" />
+    </edge>
+    <edge source="Order#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/Order.java" target="TattooMaster#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/TattooMaster.java" relationship="RELATION">
+      <point x="0.0" y="-70.5" />
+      <point x="415.25" y="382.0" />
+      <point x="113.83152173913052" y="382.0" />
+      <point x="0.0" y="48.5" />
+    </edge>
+    <edge source="Order#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/Order.java" target="Product#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/Product.java" relationship="RELATION">
+      <point x="0.0" y="-70.5" />
+      <point x="415.25" y="382.0" />
+      <point x="669.4565217391305" y="382.0" />
+      <point x="0.0" y="70.5" />
+    </edge>
+    <edge source="TattooMaster#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/TattooMaster.java" target="Tariff#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/Tariff.java" relationship="RELATION">
+      <point x="-39.75" y="-48.5" />
+      <point x="74.0815217391305" y="189.0" />
+      <point x="86.5" y="189.0" />
+      <point x="0.0" y="37.5" />
+    </edge>
+    <edge source="Client#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/Client.java" target="User#file:///Users/stanislav/idea/new/TattooParlor/src/main/java/by/bsuir/tattooparlor/entity/User.java" relationship="INHERITANCE">
+      <point x="-31.5" y="-37.5" />
+      <point x="251.95652173913047" y="189.0" />
+      <point x="271.5" y="189.0" />
+      <point x="0.0" y="81.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.547979797979798" showDependencies="false" x="383.5" y="648.7834101382488" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Embeddables</Category>
+    <Category>Properties</Category>
+    <Category>Superclasses</Category>
+  </Categories>
+</Diagram>
+

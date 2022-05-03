@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>EPAM Tattoo</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+ </head>
+
+<body>
+<header>
+  <a class="logo">EpamTattoo</a>
+  <table class="menu">
+      <td><a href="/">About us</a></td>
+      <td><a href="/gallery">Catalog</a></td>
+      <td><a href="/sign-up">Profile</a></td>
+      <td><a href="/masters">Masters</a></td>
+      <td>
+        <select>
+          <option>English</option>
+          <option>Русский</option>
+        </select>
+      </td>
+  </table>
+</header>
+
+<content>
+  <form class="sign" action="/authClient" method="post">
+    <h1>EpamTattoo</h1>
+    <div class="inputs">
+      <input type="text" name="login" placeholder="Login">
+      <input type="password" name="password" placeholder="Password">
+    </div>
+    <div th:if="${param.error != null && !param.error.isEmpty()}" class="ui-state-error">
+        <span class="ui-state-error-text" th:text="${param.error}"></span>
+    </div>
+    <button>Sign In</button>
+    <br>
+    <p class="or">
+      or&nbsp;<a href="sign-up.html">Sign Up</a><br>if you don't have an account
+    </p>
+  </div>
+</form>
+<footer>
+  <hr>
+  <p class="foo-content">Hello have a good day bro (:</p>
+</footer>
+
+</html>

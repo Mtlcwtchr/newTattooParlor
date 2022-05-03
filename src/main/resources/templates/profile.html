@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>EPAM Tattoo</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <meta charset="utf-8">
+ </head>
+
+<body>
+<header>
+  <a class="logo">EpamTattoo</a>
+  <table class="menu">
+      <td><a href="index.html">About us</a></td>
+      <td><a href="gallery.html">Catalog</a></td>
+      <td><a href="sign-up.html">Profile</a></td>
+      <td><a href="masters.html">Masters</a></td>
+      <td>
+        <select>
+          <option>English</option>
+          <option>Русский</option>
+        </select>
+      </td>
+  </table>
+</header>
+
+<content id="profile">
+  <div class="p-div personal-info">
+    <h1 class="profile-h2">Личная информация</h1>
+    <br>
+    <img src="../static/imgs/master2.jpg">
+    <form class="input-pers-info">
+      <span>Имя</span><input type="text" name=""><br>
+      <span>Фамилия</span><input type="text" name=""><br>
+      <span>Номер телефона</span><input type="text" name=""><br>
+      <span>E-mail:</span><input type="text" name=""><br>
+    </form>
+  </div>
+
+  <div class="p-div orders">
+    <h1 class="profile-h2">Заказы</h1>
+    <br>
+    <div class="order">
+      <div class="order-info">
+        <span class="info-in">Заказчик: </span><span class="info-value">Александра</span><br>
+        <span class="info-in">Мастер: </span><span class="info-value">Андрей</span><br>
+        <span class="info-in">Дата: </span><span class="info-value">24.12.2021 16:30</span><br>
+        <span class="info-in">Номер телефона: </span><span class="info-value">+375336409890</span><br>
+        <span class="info-in">Тариф: </span><span class="info-value">Сложная чёрно-белая</span><br>
+        <span class="info-in">Стоимость: </span><span class="info-value">300р</span><br>
+      </div>
+      <img src="../static/imgs/Untitled7.png">
+      <div class="order-status">
+        <span>Статус заказа: </span><span>одобрено</span>
+      </div>
+    </div>
+
+    <div class="order">
+      <div class="order-info">
+        <span class="info-in">Заказчик: </span><span class="info-value">Александра</span><br>
+        <span class="info-in">Мастер: </span><span class="info-value">Андрей</span><br>
+        <span class="info-in">Дата: </span><span class="info-value">24.12.2021 16:30</span><br>
+        <span class="info-in">Номер телефона: </span><span class="info-value">+375336409890</span><br>
+        <span class="info-in">Тариф: </span><span class="info-value">Сложная чёрно-белая</span><br>
+        <span class="info-in">Стоимость: </span><span class="info-value">300р</span><br>
+      </div>
+      <img src="../static/imgs/Untitled2.png">
+      <div class="order-status">
+        <span>Статус заказа: </span><span>одобрено</span>
+      </div>
+    </div>
+    <br>
+    <h2>Новый заказ</h2>
+    <form class="order new-order">
+      <div class="order-info">
+        <span class="info-in">Заказчик: </span><span class="info-value">Александра</span><br>
+        <span class="info-in">Мастер: </span><select>
+                                                <option>Андрей</option>
+                                                <option>Рустамчик</option>
+                                              </select><br>
+        <span class="info-in">Дата: </span><input type="date" value="2020-12-20" min="2020-12-20" max="2022-12-20"><br>
+        <span class="info-in">Номер телефона: </span><span class="info-value">+375336409890</span><br>
+        <span class="info-in">Тариф: </span><span class="info-value">Сложная чёрно-белая</span><br>
+        <span class="info-in">Стоимость: </span><span class="info-value">300р</span><br>
+      </div>
+      <img src="../static/imgs/Untitled2.png">
+      <div class="order-status">
+        <button>Оформить заказ</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="p-div favs">
+    <h1>Избранное</h1>
+    
+  </div>
+</content>
+
+
+<!--<table>
+  <tr>
+    <td> <a href=".html">Кабинет</a></td>
+  </tr>
+  <tr>
+    <td> <a href=".html">Заказы</a></td>
+  </tr>
+  <tr>
+    <td> <a href=".html">Избранное</a></td>
+  </tr>
+  <tr>
+    <td> <a href=".html"></a></td>
+  </tr>
+  <tr>
+    <td> <a href=".html"></a></td>
+  </tr>
+  <tr>
+    <td> <a href=".html"></a></td>
+  </tr>
+</table> -->
+
+<footer>
+  <hr>
+  <p class="foo-content">Hello have a good day bro (:</p>
+</footer>
+
+
+</html>

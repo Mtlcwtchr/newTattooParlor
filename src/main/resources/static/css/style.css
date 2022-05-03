@@ -1,0 +1,424 @@
+*, ::after, ::before {
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: #000;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    overflow-x: hidden;
+    color: #fff;
+    font-style: normal;
+    font-weight: 100;
+    font-size: 18px;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+}
+
+a{
+    color: #fff;
+    text-decoration: none;
+}
+
+header{
+    box-sizing: content-box;
+    z-index: 100;
+    padding: 0px 8%;
+    max-width: 84%;
+    width: 100%;
+    text-align: center;
+    background-color: #fff;
+    position: fixed;
+    top: 0;
+}
+
+header .logo{
+    display: inline-block;
+    padding-left: 0;
+    float: left;
+    line-height: 1px;
+}
+
+header table{
+    padding: 15px 0px;
+    display: inline-block;
+    float: right;
+    border-collapse: collapse;
+}
+
+header a {
+    color: #000 !important;
+    font-weight: 100;
+    font-weight: 100;
+    padding: 25px 20px;
+}
+
+select {
+    padding: 0px 20px;
+    font-weight: 100;
+    font-size: 18px;
+    border: none;
+    box-shadow: none;
+    -webkit-appearance: none;
+}
+select:hover{
+    cursor: pointer;
+    outline: none;
+    border: none;
+}
+select:focus{
+    outline: none;
+    border: none;
+}
+
+header .logo:hover{
+    text-decoration: none;
+}
+
+header .menu a:hover{
+    text-decoration: underline;
+}
+
+header .menu td a:last-child{
+    padding-right: 0;
+}
+
+footer hr{
+    width: 84%;
+    margin: 60px 8% 0;
+    border: 0.2px solid;
+    border-collapse: collapse;
+}
+
+.foo-content{
+    text-align: center;
+    font-style: italic;
+    margin: 30px 0;
+}
+
+content{
+    width: 84%;
+    max-width: 84%;
+}
+
+h1, h2 {
+    text-align: center;
+    font-weight: 200;
+    margin: 10px 0;
+}
+
+.catalog{
+    margin: 60px 8% 0;
+}
+
+.catalog .main {
+    width: 100%;
+    min-width: 100%;
+}
+
+.catalog .main, .desc{
+    padding: 20px 0;
+    display: inline-block;
+    width: 50%;
+}
+
+.catalog .main img{
+    display: inline-block;
+    float: right;
+    width: 20%;
+    height: 20%;
+}
+
+.catalog .imgs .item{
+    position: relative;
+    display: inline-block;
+    margin: 2% 2% 0 0;
+    max-width: 22%;
+    max-height: 22%;
+}
+
+.catalog .imgs .item:hover {
+    cursor: pointer;
+}
+
+.catalog .imgs .quad{
+    text-align: center;
+}
+
+.catalog .imgs .quad .sketch{
+    font-size: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.catalog .imgs .quad .rate{
+    display: inline-flex;
+    margin: 0 auto;
+    min-height: 30px;
+    height: 30px;
+    margin-top: 10px;
+}
+
+.catalog .imgs .quad .rate a{
+    display: inline-block;
+}
+
+.catalog .imgs .quad .rate a:hover{
+    transform: scale(1.09);
+}
+
+.catalog .imgs .quad .rate img {
+    display: inline-block;
+    max-width: 30px;
+    max-height: 30px;
+    width: 30px;
+    height: 30px;
+    margin: 0 10px ;
+}
+
+.quad .add-item {
+    display: none;
+    padding: 5px;
+    width: 20px;
+    height: 20px;
+    max-width: 20px;
+    max-height: 20px;
+    line-height: 20px;
+    background-color: rgba(0, 0, 0, .3);
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.quad .add-item:hover {
+    background-color: rgba(0, 0, 0, .7);
+}
+
+.catalog .imgs .quad .sketch:first-child{
+    padding-left: 0;
+}
+
+.catalog .imgs .sketch:last-child{
+    padding-right: 0;
+}
+
+.catalog .imgs .more{
+    margin: 20px 30px 0 0;
+    text-align: right;
+}
+
+.catalog .imgs .more a{
+    color: #fff;
+}
+
+.catalog .imgs .more a:hover{
+    cursor: pointer;
+    text-decoration: underline;
+    color: rgb(100, 149, 237);
+}
+
+.filter{
+    margin: 0 auto;
+}
+
+.filter a{
+    padding: 0 20px;
+}
+
+.rate-num{
+    display: inline-block;
+    min-height: 30px;
+    line-height: 30px;
+}
+
+.sign{
+    background-color: #fff;
+    border: 3px solid #454545;
+    width: 25%;
+    padding: 20px;
+    margin: 0 auto;
+    margin-top: 10%;
+}
+
+.sign input{
+    display: block;
+    border: 1px solid #000;
+    padding: 0 10px;
+    margin: 10px 0px;
+    font-size: 16px;
+    height: 30px;
+}
+
+.sign{
+    color: #000;
+}
+
+.sign .inputs{
+    margin: 20px 0;
+}
+
+.sign input{
+    width: calc(100% - 20px);
+}
+
+.sign button{
+    display: flex;
+    color: #fff;
+    margin: 0 auto;
+}
+
+.sign .or{
+    text-align: center;
+    font-size: 16px;
+}
+
+.sign .or a{
+    text-decoration: underline;
+    color: rgb(100, 149, 237);
+}
+
+.sign .or a:hover{
+    cursor: pointer;
+    text-decoration: underline;
+    color: rgb(100, 149, 237);
+}
+
+
+button{
+    background-color: rgb(204, 88, 88);
+    font-size: 18px;
+    font-weight: 200;
+    color: #fff;
+    padding: 5px 20px;
+    border: 1px solid rgb(204, 88, 88);
+    border-radius: 5px;
+}
+
+#masters {
+}
+
+.master {
+    margin: 90px 8%;
+
+}
+
+.master img {
+    width: 20%;
+}
+
+.master .desc {
+    display: inline-block;
+    width: 65%;
+    float: right;
+    vertical-align: top;
+    padding: 0;
+}
+
+.master h1 {
+    text-align: left;
+    margin: 0;
+}
+
+
+
+.p-div {
+    margin: 90px 8%;
+}
+
+.personal-info img {
+    width: 20%;
+}
+
+.profile-h2 {
+    text-align: center;
+}
+
+.personal-info input {
+    display: inline-block;
+}
+
+.input-pers-info {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.input-pers-info span {
+    display: inline-block;
+    width: 200px;
+    margin-left: 70px;
+}
+
+
+.order {
+    margin-top: 30px;
+    background-color: #fff;
+    width: 100%;
+    border: 1px solid #fff;
+    border-radius: 10px;
+}
+
+.order img {
+    padding: 5px 30px;
+    width: 15%;
+}
+
+.order span {
+    color: #000;
+}
+
+.order-info {
+    /*border-left: 1px solid #000;
+    border-right: 1px solid #000;*/
+    display: inline-block;
+    margin-top: 20px;
+    vertical-align: top;
+}
+
+.order-info span {
+    color: #858585;
+    line-height: 25px;
+}
+
+.info-in {
+    display: inline-block;
+    width: 200px;
+    margin-left: 50px;
+}
+
+.info-value {
+    margin-right: 50px;
+}
+
+.order-status {
+    margin-left: 100px;
+    display: inline-block;
+    vertical-align: top;
+    line-height: 200px;
+}
+
+.order-status span {
+}
+
+
+.favs img {
+    width: 200px; !important
+}
+
+.favs .quad .sketch {
+    font-size: 0;
+    width: 100px !important;
+    height: 100px;
+}
+
+.order select {
+    color: #000;
+    padding: 0;
+    text-decoration: underline;
+}
+
+.order select:hover {
+    font-weight: 200;
+}
+
+.order button {
+}
+
