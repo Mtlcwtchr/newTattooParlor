@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>EPAM Tattoo</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <meta charset="utf-8">
+ </head>
+
+<body>
+<script type="text/javascript" src="js/script.js"></script>
+  
+<header>
+  <a class="logo">EpamTattoo</a>
+  <table class="menu">
+      <td><a href="/">About us</a></td>
+      <td><a href="/gallery">Catalog</a></td>
+      <td><a href="/sign-up">Profile</a></td>
+      <td><a href="/masters">Masters</a></td>
+      <td>
+        <select>
+          <option>English</option>
+          <option>Русский</option>
+        </select>
+      </td>
+  </table>
+</header>
+
+<content>
+  <div class="catalog">
+    <div class="imgs">
+      <h1>Catalog</h1>
+      <table class="filter">
+        <td>
+          <a href="">Easy</a>
+          <a href="">Medium</a>
+          <a href="">Hard</a>
+          <a href="">Black</a>
+          <a href="">Colored</a>
+        </td>
+      </table>
+
+      <div>
+        <div class="quad" th:each="quad, iStat : ${products}">
+          <div class="item" th:each="item, iStat : ${quad}">
+            <a class="add-item">+</a>
+            <img class="sketch" th:src="@{/loadFile(uri=${item.imageUri})}">
+            <div style="display: flex;">
+              <div class="rate">
+                <a><div class="rate-num">2</div></a>
+                <a href=""><img class="dislike" th:src="@{/loadFile(uri=dislike.png)}" /></a>
+                <a href=""><img class="like" th:src="@{/loadFile(uri=like.png)}" /></a>
+                <a class="rate-num">156</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</content>
+<footer>
+  <hr>
+  <p class="foo-content">Hello have a good day bro (:</p>
+</footer>
+
+
+</html>
