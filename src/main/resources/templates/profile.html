@@ -3,71 +3,50 @@
 <head>
   <title>EPAM Tattoo</title>
   <link rel="stylesheet" type="text/css" href="css/style.css">
+  <script type="text/javascript" src="js/script.js"></script>
   <meta charset="utf-8">
  </head>
 
 <body>
-<header>
-  <a class="logo">EpamTattoo</a>
-  <table class="menu">
-      <td><a href="index.html">About us</a></td>
-      <td><a href="gallery.html">Catalog</a></td>
-      <td><a href="sign-up.html">Profile</a></td>
-      <td><a href="masters.html">Masters</a></td>
-      <td>
-        <select>
-          <option>English</option>
-          <option>Русский</option>
-        </select>
-      </td>
-  </table>
-</header>
+<div th:insert="header :: header"></div>
 
 <content id="profile">
   <div class="p-div personal-info">
     <h1 class="profile-h2">Личная информация</h1>
     <br>
-    <img src="../static/imgs/master2.jpg">
-    <form class="input-pers-info">
-      <span>Имя</span><input type="text" name=""><br>
-      <span>Фамилия</span><input type="text" name=""><br>
-      <span>Номер телефона</span><input type="text" name=""><br>
-      <span>E-mail:</span><input type="text" name=""><br>
+    <img th:src="@{/loadProfilePic}">
+    <form th:action="@{/updateProfilePic}" method="post" enctype="multipart/form-data">
+      <input type="file" name="file">
+      <button type="submit">Update profile</button>
     </form>
+    <form class="input-pers-info">
+      <span>Имя</span><input type="text" name="name" th:value="${session.currentClient.name}"><br>
+      <span>Номер телефона</span><input type="text" name="phone" th:value="${session.currentClient.phone}"><br>
+      <span>E-mail:</span><input type="text" name="e-mail" th:value="${session.currentClient.user.email}"><br>
+    </form>
+    <a href="/sign-out">Sign out</a>
   </div>
 
   <div class="p-div orders">
     <h1 class="profile-h2">Заказы</h1>
     <br>
-    <div class="order">
-      <div class="order-info">
-        <span class="info-in">Заказчик: </span><span class="info-value">Александра</span><br>
-        <span class="info-in">Мастер: </span><span class="info-value">Андрей</span><br>
-        <span class="info-in">Дата: </span><span class="info-value">24.12.2021 16:30</span><br>
-        <span class="info-in">Номер телефона: </span><span class="info-value">+375336409890</span><br>
-        <span class="info-in">Тариф: </span><span class="info-value">Сложная чёрно-белая</span><br>
-        <span class="info-in">Стоимость: </span><span class="info-value">300р</span><br>
-      </div>
-      <img src="../static/imgs/Untitled7.png">
-      <div class="order-status">
-        <span>Статус заказа: </span><span>одобрено</span>
+    <div th:each="order, iStat : ${session.currentClient.orders}">
+      <div class="order">
+        <div class="order-info">
+          <span class="info-in">Заказчик: </span><span class="info-value" th:text="${order.client.name}"></span><br>
+          <span class="info-in">Мастер: </span><span class="info-value" th:text="${order.master.name}"></span><br>
+          <span class="info-in">Дата: </span><span class="info-value" th:text="${order.dateTime}"></span><br>
+          <span class="info-in">Номер телефона: </span><span class="info-value" th:text="${order.contactPhone}"></span><br>
+          <span class="info-in">Тариф: </span><span class="info-value" th:text="${order.product.difficultyDescription}"></span><br>
+          <span class="info-in">Стоимость: </span><span class="info-value" th:text="${order.priceFormatted}"></span><br>
+        </div>
+        <img th:src="@{/loadFile(uri=${order.product.imageUri})}">
+        <div class="order-status">
+          <span>Статус заказа: </span><span th:text="${order.orderStatus.description}"></span>
+        </div>
       </div>
     </div>
 
-    <div class="order">
-      <div class="order-info">
-        <span class="info-in">Заказчик: </span><span class="info-value">Александра</span><br>
-        <span class="info-in">Мастер: </span><span class="info-value">Андрей</span><br>
-        <span class="info-in">Дата: </span><span class="info-value">24.12.2021 16:30</span><br>
-        <span class="info-in">Номер телефона: </span><span class="info-value">+375336409890</span><br>
-        <span class="info-in">Тариф: </span><span class="info-value">Сложная чёрно-белая</span><br>
-        <span class="info-in">Стоимость: </span><span class="info-value">300р</span><br>
-      </div>
-      <img src="../static/imgs/Untitled2.png">
-      <div class="order-status">
-        <span>Статус заказа: </span><span>одобрено</span>
-      </div>
-    </div>
     <br>
     <h2>Новый заказ</h2>
     <form class="order new-order">
@@ -121,6 +100,5 @@
   <hr>
   <p class="foo-content">Hello have a good day bro (:</p>
 </footer>
-
 
 </html>

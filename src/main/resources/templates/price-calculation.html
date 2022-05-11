@@ -3,27 +3,12 @@
 <head>
   <title>EPAM Tattoo</title>
   <link rel="stylesheet" type="text/css" href="css/style.css">
+  <script type="text/javascript" src="js/script.js"></script>
   <meta charset="utf-8">
  </head>
 
 <body>
-<script type="text/javascript" src="js/script.js"></script>
-  
-<header>
-  <a class="logo">EpamTattoo</a>
-  <table class="menu">
-      <td><a href="/">About us</a></td>
-      <td><a href="/gallery">Catalog</a></td>
-      <td><a href="/sign-up">Profile</a></td>
-      <td><a href="/masters">Masters</a></td>
-      <td>
-        <select>
-          <option>English</option>
-          <option>Русский</option>
-        </select>
-      </td>
-  </table>
-</header>
+<div th:insert="header :: header"></div>
 
 <content>
   <div class="catalog">

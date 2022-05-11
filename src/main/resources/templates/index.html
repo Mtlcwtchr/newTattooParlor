@@ -6,21 +6,7 @@
   <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<header>
-  <a class="logo">EpamTattoo</a>
-  <table class="menu">
-      <td><a href="/about">About us</a></td>
-      <td><a href="/gallery">Catalog</a></td>
-      <td><a href="/profile">Profile</a></td>
-      <td><a href="/masters">Masters</a></td>
-      <td>
-        <select>
-          <option>English</option>
-          <option>Русский</option>
-        </select>
-      </td>
-  </table>
-</header>
+<div th:insert="header :: header"></div>
 
 <content>
   <div class="catalog">
@@ -33,106 +19,23 @@
     </div>
     <div class="imgs">
       <h1>Clients best choice</h1>
-      <div class="quad">
-        <div class="item">
-          <img class="sketch" src="../static/imgs/Untitled.png">
-          <div style="display: flex;">
-            <div class="rate">
-              <a onClick="hello()"><div class="rate-num">2</div></a>
-              <a href=""><img class="dislike" src="../static/imgs/dislike.png" /></a>
-              <a href=""><img class="like" src="../static/imgs/like.png" /></a>
-              <a class="rate-num">156</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="item">
-          <img class="sketch" src="../static/imgs/Untitled2.png">
-          <div style="display: flex;">
-            <div class="rate">
-              <a><div class="rate-num">2</div></a>
-              <a href=""><img class="dislike" src="../static/imgs/dislike.png" /></a>
-              <a href=""><img class="like" src="../static/imgs/like.png" /></a>
-              <a class="rate-num">156</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="item">
-          <img class="sketch" src="../static/imgs/Untitled3.png">
-          <div style="display: flex;">
-            <div class="rate">
-              <a><div class="rate-num">2</div></a>
-              <a href=""><img class="dislike" src="../static/imgs/dislike.png" /></a>
-              <a href=""><img class="like" src="../static/imgs/like.png" /></a>
-              <a class="rate-num">156</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="item">
-          <img class="sketch" src="../static/imgs/Untitled4.png">
-          <div style="display: flex;">
-            <div class="rate">
-              <a><div class="rate-num">2</div></a>
-              <a href=""><img class="dislike" src="../static/imgs/dislike.png" /></a>
-              <a href=""><img class="like" src="../static/imgs/like.png" /></a>
-              <a class="rate-num">156</a>
+      <div>
+        <div class="quad" th:each="quad, iStat : ${products}">
+          <div class="item" th:each="item, iStat : ${quad}">
+            <a class="add-item">+</a>
+            <img class="sketch" th:src="@{/loadFile(uri=${item.imageUri})}">
+            <div style="display: flex;">
+              <div class="rate">
+                <a><div class="rate-num" th:text="${item.dislikesCount}"></div></a>
+                <a th:href="@{/rate(productId=${item.id}, markValue=-1)}"><img class="dislike" th:src="@{/loadFile(uri=dislike.png)}" /></a>
+                <a th:href="@{/rate(productId=${item.id}, markValue=1)}"><img class="like" th:src="@{/loadFile(uri=like.png)}" /></a>
+                <a class="rate-num" th:text="${item.likesCount}"></a>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="quad">
-        <div class="item">
-          <img class="sketch" src="../static/imgs/Untitled5.png">
-          <div style="display: flex;">
-            <div class="rate">
-              <a><div class="rate-num">2</div></a>
-              <a href=""><img class="dislike" src="../static/imgs/dislike.png" /></a>
-              <a href=""><img class="like" src="../static/imgs/like.png" /></a>
-              <a class="rate-num">156</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="item">
-          <img class="sketch" src="../static/imgs/Untitled6.png">
-          <div style="display: flex;">
-            <div class="rate">
-              <a><div class="rate-num">2</div></a>
-              <a href=""><img class="dislike" src="../static/imgs/dislike.png" /></a>
-              <a href=""><img class="like" src="../static/imgs/like.png" /></a>
-              <a class="rate-num">156</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="item">
-          <img class="sketch" src="../static/imgs/Untitled7.png">
-          <div style="display: flex;">
-            <div class="rate">
-              <a><div class="rate-num">2</div></a>
-              <a href=""><img class="dislike" src="../static/imgs/dislike.png" /></a>
-              <a href=""><img class="like" src="../static/imgs/like.png" /></a>
-              <a class="rate-num">156</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="item">
-          <img class="sketch" src="../static/imgs/Untitled8.png">
-          <div style="display: flex;">
-            <div class="rate">
-              <a><div class="rate-num">2</div></a>
-              <a href=""><img class="dislike" src="../static/imgs/dislike.png" /></a>
-              <a href=""><img class="like" src="../static/imgs/like.png" /></a>
-              <a class="rate-num">156</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <p class="more"><a href="gallery.html">Click to se more<a></p>
+      <p class="more"><a href="/gallery">Click to se more</a></p>
     </div>
   </div>
 </content>
