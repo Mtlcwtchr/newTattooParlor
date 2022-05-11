@@ -19,6 +19,8 @@ public class TattooMaster {
     @NonNull
     private Date workStarted;
     private int rating;
+    private String profilePictureUri;
+    private String masterDescription;
 
     @NonNull
     @OneToOne(cascade = CascadeType.ALL)

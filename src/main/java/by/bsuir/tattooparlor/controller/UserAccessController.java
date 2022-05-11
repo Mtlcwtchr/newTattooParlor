@@ -1,6 +1,7 @@
 package by.bsuir.tattooparlor.controller;
 
 import by.bsuir.tattooparlor.entity.Client;
+import by.bsuir.tattooparlor.entity.TattooMaster;
 import by.bsuir.tattooparlor.entity.User;
 import by.bsuir.tattooparlor.util.IAuthService;
 import by.bsuir.tattooparlor.util.exception.*;
@@ -15,19 +16,11 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class UserAccessController {
 
-    private IAuthService authService;
+    private final IAuthService authService;
 
     @Autowired
     public UserAccessController(IAuthService authService) {
         this.authService = authService;
-    }
-
-    @GetMapping("/profile")
-    public String forwardToProfile(HttpSession session) {
-        if (session.getAttribute("currentUser") == null) {
-            return "redirect:/sign-in";
-        }
-        return "profile";
     }
 
     @GetMapping("/sign-up")
@@ -36,6 +29,16 @@ public class UserAccessController {
             return "redirect:/profile";
         }
         return "sign-up";
+    }
+
+    @GetMapping("/sign-out")
+    public String signOut(HttpSession session) {
+        if (session.getAttribute("currentUser") != null) {
+            session.removeAttribute("currentUser");
+            session.removeAttribute("currentClient");
+            session.removeAttribute("currentMaster");
+        }
+        return "redirect:/";
     }
 
     @GetMapping("/sign-in")
@@ -72,8 +75,18 @@ public class UserAccessController {
             HttpSession session) {
         try {
             User user = authService.tryAuthenticate(login, password);
-            Client client = authService.tryAuthorizeClient(user);
-            session.setAttribute("currentUser", client);
+            session.setAttribute("currentUser", user);
+            switch (user.getRole()) {
+                case CLIENT:
+                    Client client = authService.tryAuthorizeClient(user);
+                    session.setAttribute("currentClient", client);
+                    break;
+                case MODERATOR:
+                    TattooMaster master = authService.tryAuthorizeMaster(user);
+                    session.setAttribute("currentMaster", master);
+                case ADMIN:
+                    authService.tryAuthorizeAdmin(user);
+            }
         } catch (IllegalLoginException ex) {
             return "redirect:/sign-in?error=illegal_login";
         } catch (IllegalPasswordException ex) {

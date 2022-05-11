@@ -18,6 +18,7 @@ public class Client {
     private String name;
     @NonNull
     private String phone;
+    private String profilePictureUri;
 
     @NonNull
     @OneToOne(cascade = CascadeType.ALL)
@@ -26,4 +27,10 @@ public class Client {
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<ClientDiscount> discounts;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    private List<ClientRate> rates;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Order> orders;
 }

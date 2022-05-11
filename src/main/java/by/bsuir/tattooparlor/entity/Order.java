@@ -6,7 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity(name = "order")
+@Entity(name = "t_order")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -25,6 +25,8 @@ public class Order {
     private String comment;
     @NonNull
     private int price;
+    @NonNull
+    private String contactPhone;
 
     @ManyToOne
     @JoinColumn(name = "discount_id")
@@ -41,4 +43,8 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "tattoo_master_id")
     private TattooMaster master;
+
+    public String getPriceFormatted() {
+        return price + "р";
+    }
 }
