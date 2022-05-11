@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Buba Tattoo</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <meta charset="utf-8">
+ </head>
+
+<body>
+<script type="text/javascript" src="js/script.js"></script>
+  
+<header>
+  <a class="logo">Inferno</a>
+  <table class="menu">
+      <td><a href="index.html">About us</a></td>
+      <td><a href="catalog.html">Catalog</a></td>
+      <td><a href="sign-up.html">Profile</a></td>
+      <td><a href="masters.html">Masters</a></td>
+      <td><a href="calculator.html">Calculator</a></td>
+  </table>
+</header>
+
+<content>
+  <div class="calculator">
+    <h4>Рассчитать стоимость</h4>
+    <form class="input-calc">
+      <span>Размер рисунка: </span><select>
+                                      <option>10x10</option>
+                                      <option>20x20</option>
+                                      <option>30x30</option>
+                                      <option>40x40</option>
+                                    </select><br>
+        <span>Количество цветов</span><select>
+                                      <option>1</option>
+                                      <option>2</option>
+                                      <option>3</option>
+                                      <option>4</option>
+                                      <option>5</option>
+                                      <option>6</option>
+                                      <option>7</option>
+                                      <option>8</option>
+                                    </select><br>
+        <span>Мастер</span><select>
+                                      <option>любой</option>
+                                      <option>Андрей</option>
+                                      <option>Виктория</option>
+                                      <option>Анастасия</option>
+                                      <option>Олег</option>
+                                    </select><br>
+        <span>Загрузить изображение</span><input type="file" name="uploadfile" id="img" style="display:none;"/>
+                                          <label class="lbl" for="img">Choose file</label><br>
+        <button>Count</button>
+    </form>
+  </div>
+</content>
+<footer>
+  <hr>
+  <p class="foo-content">Hello have a good day bro (:</p>
+</footer>
+
+
+</html>

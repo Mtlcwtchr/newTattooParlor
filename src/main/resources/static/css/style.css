@@ -3,6 +3,17 @@
     padding: 0;
 }
 
+.center {
+    text-align: center;
+}
+
+.red-style {
+    color: red;
+}
+.red-style:hover {
+    color: red;
+}
+
 body{
     background-color: #000;
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
@@ -206,14 +217,9 @@ h1, h2 {
     text-align: right;
 }
 
-.catalog .imgs .more a{
-    color: #fff;
-}
-
 .catalog .imgs .more a:hover{
     cursor: pointer;
-    text-decoration: underline;
-    color: rgb(100, 149, 237);
+    color: red;
 }
 
 .filter{
@@ -298,7 +304,6 @@ button{
 
 .master {
     margin: 90px 8%;
-
 }
 
 .master img {
@@ -352,13 +357,17 @@ button{
     margin-top: 30px;
     background-color: #fff;
     width: 100%;
-    border: 1px solid #fff;
+    border: 5px solid #fff;
     border-radius: 10px;
 }
 
 .order img {
-    padding: 5px 30px;
+    padding: 10px 30px;
     width: 15%;
+}
+
+.complete {
+    border: 5px solid red;
 }
 
 .order span {
@@ -422,3 +431,103 @@ button{
 .order button {
 }
 
+#calculator{
+
+}
+
+.calculator {
+    margin: 90px 8%;
+}
+
+.input-calc {
+    padding: 100px 20px;
+    border: 1px solid #fff;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.input-calc span {
+    display: inline-block;
+    width: 200px;
+}
+
+.input-calc span, .input-calc select, .input-calc input {
+    margin-bottom: 10px;
+}
+
+.input-calc select {
+    width: 100px;
+    text-align: center;
+}
+
+.lbl {
+    background-color: #fff;
+    width: 100px;
+    color: #000;
+    padding: 0 20px;
+}
+
+
+
+
+#schedule {
+
+}
+
+.orders-nav a {
+    padding-right: 20px;
+}
+.orders-nav a:hover {
+    text-decoration: underline;
+}
+
+.users {
+    margin: 90px 8%;
+}
+
+.users table {
+    width: 100%;
+    border: 1px solid red;
+}
+
+.users table tr {
+
+}
+
+.users table td {
+    padding: 5px 10px;
+}
+.users table th {
+    padding: 5px 10px;
+    text-align: left;
+}
+
+.users table button {
+    padding: 1px 12px;
+    background-color: red;
+    font-weight: 100;
+
+}
+
+.users table .id {
+    width: 15%;
+}
+
+.users table .name {
+    width: 15%;
+}
+
+.users table .email {
+}
+
+.users table .phone {
+    width: 20%;
+}
+
+.users table .role {
+    width: 10%;
+}
+
+.users table .act {
+    width: 10%;
+}
