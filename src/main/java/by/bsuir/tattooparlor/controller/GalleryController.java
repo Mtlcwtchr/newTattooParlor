@@ -4,6 +4,7 @@ import by.bsuir.tattooparlor.entity.Client;
 import by.bsuir.tattooparlor.entity.Product;
 import by.bsuir.tattooparlor.util.IClientRateManager;
 import by.bsuir.tattooparlor.util.IProductManager;
+import by.bsuir.tattooparlor.util.ListUtils;
 import by.bsuir.tattooparlor.util.exception.UtilException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,7 +36,7 @@ public class GalleryController {
         Collections.sort(products, this::sortByLikes);
         Collections.reverse(products);
         products = products.stream().limit(8).toList();
-        List<List<Product>> quarts = mapToQuarts(products);
+        List<List<Product>> quarts = ListUtils.mapToQuarts(products);
 
         model.addAttribute("products", quarts);
         return "index";
@@ -44,7 +45,7 @@ public class GalleryController {
     @GetMapping("/gallery")
     public String proceedToGallery(Model model) {
         List<Product> products = productManager.findAll();
-        List<List<Product>> quarts = mapToQuarts(products);
+        List<List<Product>> quarts = ListUtils.mapToQuarts(products);
 
         model.addAttribute("products", quarts);
         return "gallery";
@@ -65,23 +66,6 @@ public class GalleryController {
         }
 
         return "redirect:/gallery";
-    }
-
-    private List<List<Product>> mapToQuarts(List<Product> products) {
-        List<List<Product>> quarts = new ArrayList<>();
-
-        List<Product> quart = new ArrayList<>();
-        int j = 0;
-        for (Product product : products) {
-            quart.add(product);
-
-            if(++j % 4 == 0 || j == products.size()) {
-                quarts.add(quart);
-                quart = new ArrayList<>();
-            }
-        }
-
-        return quarts;
     }
 
     private int sortByLikes(Product m, Product n) {

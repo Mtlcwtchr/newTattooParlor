@@ -3,6 +3,9 @@ package by.bsuir.tattooparlor.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.Year;
 import java.util.Date;
 
 @Entity(name = "tattoo_master")
@@ -30,4 +33,10 @@ public class TattooMaster {
     @ManyToOne
     @JoinColumn(name = "tariff_id")
     private Tariff tariff;
+
+    public int getExperience() {
+        LocalDate now = LocalDate.now();
+        LocalDate workStarted = LocalDate.from(getWorkStarted().toInstant());
+        return Period.between(workStarted, now).getYears();
+    }
 }

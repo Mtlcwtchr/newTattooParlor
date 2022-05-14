@@ -1,10 +1,11 @@
 package by.bsuir.tattooparlor.controller;
 
-import by.bsuir.tattooparlor.entity.Client;
-import by.bsuir.tattooparlor.entity.Order;
-import by.bsuir.tattooparlor.entity.User;
+import by.bsuir.tattooparlor.entity.*;
+import by.bsuir.tattooparlor.entity.helpers.UserRole;
 import by.bsuir.tattooparlor.util.IClientManager;
+import by.bsuir.tattooparlor.util.IClientRateManager;
 import by.bsuir.tattooparlor.util.IOrderManager;
+import by.bsuir.tattooparlor.util.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class UserProfileController {
@@ -24,11 +27,13 @@ public class UserProfileController {
     private static final String SRC = "/Users/stanislav/idea/new/TattooParlor/src/main/resources/static/imgs/profiles/";
 
     private final IClientManager clientManager;
+    private final IClientRateManager clientRateManager;
     private final IOrderManager orderManager;
 
     @Autowired
-    public UserProfileController(IClientManager clientManager, IOrderManager orderManager) {
+    public UserProfileController(IClientManager clientManager, IClientRateManager clientRateManager, IOrderManager orderManager) {
         this.clientManager = clientManager;
+        this.clientRateManager = clientRateManager;
         this.orderManager = orderManager;
     }
 
@@ -37,6 +42,13 @@ public class UserProfileController {
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
             return "redirect:/sign-in";
+        }
+
+        if (currentUser.getRole() == UserRole.CLIENT) {
+            Client client = (Client) session.getAttribute("currentClient");
+            List<Product> favourites = clientRateManager.getLikedProducts(client);
+            List<List<Product>> quadFavourites = ListUtils.mapToQuarts(favourites);
+            model.addAttribute("favourites", quadFavourites);
         }
 
         return "profile";

@@ -68,33 +68,16 @@
     </form>
   </div>
 
-  <div class="p-div favs">
+  <div class="p-div favs imgs">
     <h1>Избранное</h1>
-    
+    <div class="quad" th:each="quad, iStat : ${favourites}">
+      <div class="item" th:each="item, iStat : ${quad}">
+        <img class="sketch" th:src="@{/loadFile(uri=${item.imageUri})}">
+      </div>
+    </div>
   </div>
+
 </content>
-
-
-<!--<table>
-  <tr>
-    <td> <a href=".html">Кабинет</a></td>
-  </tr>
-  <tr>
-    <td> <a href=".html">Заказы</a></td>
-  </tr>
-  <tr>
-    <td> <a href=".html">Избранное</a></td>
-  </tr>
-  <tr>
-    <td> <a href=".html"></a></td>
-  </tr>
-  <tr>
-    <td> <a href=".html"></a></td>
-  </tr>
-  <tr>
-    <td> <a href=".html"></a></td>
-  </tr>
-</table> -->
 
 <footer>
   <hr>

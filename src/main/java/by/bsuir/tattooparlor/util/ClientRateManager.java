@@ -7,6 +7,7 @@ import by.bsuir.tattooparlor.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -36,5 +37,14 @@ public class ClientRateManager implements IClientRateManager {
         ClientRate clientRate = new ClientRate(client, product, value);
         clientRateRepository.save(clientRate);
         return true;
+    }
+
+    @Override
+    public List<Product> getLikedProducts(Client client) {
+        return clientRateRepository.findAllByClient(client)
+                .stream()
+                .filter(clientRate -> clientRate.getMark() > 0)
+                .map(ClientRate::getProduct)
+                .toList();
     }
 }

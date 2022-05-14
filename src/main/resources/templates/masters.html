@@ -2,53 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>EPAM Tattoo</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
   <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" href="../static/css/style.css">
 </head>
 <body>
 <div th:insert="header :: header"></div>
 
 <content id="masters">
-<div class="master">
-    <img src="../static/imgs/master1.jpg">
-    <div class="desc">
-      <h1>Андрей</h1><br>
-      <p>
-        &nbsp;&nbsp;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-      </p>
+  <div th:each="master, iStat : ${masters}">
+    <div class="master">
+      <img th:src="@{/loadMasterProfilePic(masterId=${master.id})}">
+      <div class="desc">
+        <h1 th:text="${master.name}"></h1><br>
+        <p th:text="${master.masterDescription}"></p>
+        <p th:text="${'Опыт работы: '} + ${master.experience}"></p>
+        <p th:text="${'Рейтинг: '} +${master.rating}"></p>
+      </div>
     </div>
   </div>
-
-  <div class="master">
-    <img src="../static/imgs/master2.jpg">
-    <div class="desc">
-      <h1>Андрей</h1><br>
-      <p>
-        &nbsp;&nbsp;&nbsp;&nbsp;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-      </p>
-    </div>
-  </div>
-
-  <div class="master">
-    <img src="../static/imgs/master2.jpg">
-    <div class="desc">
-      <h1>Андрей</h1><br>
-      <p>
-        &nbsp;&nbsp;&nbsp;&nbsp;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-      </p>
-    </div>
-  </div>
-
-  <div class="master">
-    <img src="../static/imgs/master2.jpg">
-    <div class="desc">
-      <h1>Андрей</h1><br>
-      <p>
-        &nbsp;&nbsp;&nbsp;&nbsp;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-      </p>
-    </div>
-  </div>
-
 </content>
 
 <footer>
