@@ -4,6 +4,8 @@ import by.bsuir.tattooparlor.dao.repository.ClientRepository;
 import by.bsuir.tattooparlor.entity.Client;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class ClientManager implements IClientManager {
 
@@ -25,5 +27,9 @@ public class ClientManager implements IClientManager {
 
     public void update(Client client) {
         clientRepository.save(client);
+    }
+
+    public List<Client> findAll() {
+        return clientRepository.findAll();
     }
 }

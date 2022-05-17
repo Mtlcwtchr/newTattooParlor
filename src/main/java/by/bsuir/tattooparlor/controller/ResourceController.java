@@ -1,5 +1,6 @@
 package by.bsuir.tattooparlor.controller;
 
+import by.bsuir.tattooparlor.config.GlobalPaths;
 import by.bsuir.tattooparlor.entity.Client;
 import by.bsuir.tattooparlor.entity.TattooMaster;
 import by.bsuir.tattooparlor.util.ITattooMasterManager;
@@ -19,8 +20,10 @@ import java.nio.file.Path;
 @Controller
 public class ResourceController {
 
-    private static final String SRC = "/Users/stanislav/idea/new/TattooParlor/src/main/resources/static/imgs/";
-    private static final String NO_PROFILE_PICTURE_URI = "/Users/stanislav/idea/new/TattooParlor/src/main/resources/static/imgs/profiles/NoProfilePic.jpeg";
+    private static final String SRC = GlobalPaths.IMAGES_SRC;
+    private static final String NO_PROFILE_PICTURE_URI = GlobalPaths.NO_PROFILE_PICTURE_URI;
+    private static final String NO_PICTURE_URI = GlobalPaths.NO_PICTURE_URI;
+
 
     private final ITattooMasterManager tattooMasterManager;
 
@@ -33,7 +36,12 @@ public class ResourceController {
     public void loadImage(@RequestParam(name = "uri") String uri,
                           HttpServletResponse response) {
         try(ServletOutputStream stream = response.getOutputStream()) {
-            byte[] bytes = Files.readAllBytes(Path.of(String.format("%s%s", uri.contains(SRC) ? "" : SRC, uri)));
+            String url = String.format("%s%s", uri.contains(SRC) ? "" : SRC, uri);
+            if (url.equals(SRC)) {
+                url = NO_PICTURE_URI;
+            }
+
+            byte[] bytes = Files.readAllBytes(Path.of(url));
             stream.write(bytes);
             stream.flush();
         } catch (IOException ex) {

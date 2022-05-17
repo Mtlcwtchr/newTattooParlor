@@ -8,4 +8,5 @@ import java.util.List;
 public interface ITattooMasterManager {
     List<TattooMaster> findAll();
     TattooMaster findById(long id) throws UtilException;
+    TattooMaster findPrior() throws UtilException;
 }

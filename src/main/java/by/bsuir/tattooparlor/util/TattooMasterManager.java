@@ -28,4 +28,10 @@ public class TattooMasterManager implements ITattooMasterManager {
     public TattooMaster findById(long id) throws UtilException {
         return tattooMasterRepository.findById(id).orElseThrow(NoMasterPresentedException::new);
     }
+
+    @Override
+    public TattooMaster findPrior() throws UtilException {
+        List<TattooMaster> masters = tattooMasterRepository.findAll();
+        return masters.stream().findAny().orElseThrow(NoMasterPresentedException::new);
+    }
 }

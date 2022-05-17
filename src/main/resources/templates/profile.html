@@ -10,7 +10,7 @@
 <body>
 <div th:insert="header :: header"></div>
 
-<content id="profile">
+<content id="profile" th:if="${session.currentUser.role == session.currentUser.role.CLIENT}">
   <div class="p-div personal-info">
     <h1 class="profile-h2">Личная информация</h1>
     <br>

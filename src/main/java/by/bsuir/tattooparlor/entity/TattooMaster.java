@@ -1,5 +1,6 @@
 package by.bsuir.tattooparlor.entity;
 
+import by.bsuir.tattooparlor.util.DateUtils;
 import lombok.*;
 
 import javax.persistence.*;
@@ -36,7 +37,7 @@ public class TattooMaster {
 
     public int getExperience() {
         LocalDate now = LocalDate.now();
-        LocalDate workStarted = LocalDate.from(getWorkStarted().toInstant());
+        LocalDate workStarted = DateUtils.toLocal(getWorkStarted());
         return Period.between(workStarted, now).getYears();
     }
 }

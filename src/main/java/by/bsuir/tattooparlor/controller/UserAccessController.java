@@ -93,6 +93,8 @@ public class UserAccessController {
             return "redirect:/sign-in?error=illegal_password";
         } catch (IllegalRolePresentedException ex) {
             return "redirect:/sign-in?error=illegal_role";
+        } catch (UserBlockedException ex) {
+            return "redirect:/sign-in?error=user_blocked";
         } catch (UtilException ex) {
             return "redirect:/sign-in?error=unknown";
         }

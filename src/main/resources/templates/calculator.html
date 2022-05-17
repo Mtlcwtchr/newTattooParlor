@@ -13,34 +13,37 @@
 <content>
   <div class="calculator">
     <h4>Рассчитать стоимость</h4>
-    <form class="input-calc">
-      <span>Размер рисунка: </span><select>
-                                      <option>10x10</option>
-                                      <option>20x20</option>
-                                      <option>30x30</option>
-                                      <option>40x40</option>
+    <form class="input-calc" th:action="@{/calculateImageCost}" method="post" enctype="multipart/form-data">
+      <span>Размер рисунка: </span><select name="imageSize">
+                                      <option th:value="${imageSizes.TEN}">10x10</option>
+                                      <option th:value="${imageSizes.TWENTY}">20x20</option>
+                                      <option th:value="${imageSizes.THIRTY}">30x30</option>
+                                      <option th:value="${imageSizes.FORTY}">40x40</option>
+                                      <option th:value="${imageSizes.FIFTY}">50x50</option>
+                                      <option th:value="${imageSizes.SIXTY}">60x60</option>
                                     </select><br>
-        <span>Количество цветов</span><select>
-                                      <option>1</option>
-                                      <option>2</option>
-                                      <option>3</option>
-                                      <option>4</option>
-                                      <option>5</option>
-                                      <option>6</option>
-                                      <option>7</option>
-                                      <option>8</option>
+        <span>Количество цветов</span><select name="colorsCount">
+                                      <option value="1">1</option>
+                                      <option value="2">2</option>
+                                      <option value="3">3</option>
+                                      <option value="4">4</option>
+                                      <option value="5">5</option>
+                                      <option value="6">6</option>
+                                      <option value="7">7</option>
+                                      <option value="8">8</option>
                                     </select><br>
-        <span>Мастер</span><select>
-                                      <option>любой</option>
-                                      <option>Андрей</option>
-                                      <option>Виктория</option>
-                                      <option>Анастасия</option>
-                                      <option>Олег</option>
+        <span>Мастер</span><select name="masterId">
+                                  <option value="0">любой</option>
+                                  <option th:each="master, iStat : ${masters}" th:text="${master.name}" th:value="${master.id}"></option>
                                     </select><br>
-        <span>Загрузить изображение</span><input type="file" name="uploadfile" id="img" style="display:none;"/>
+        <span>Загрузить изображение</span><input type="file" name="uploadFile" id="img" style="display:none;"/>
                                           <label class="lbl" for="img">Choose file</label><br>
-        <button>Count</button>
+        <button type="submit">Calculate</button>
     </form>
+  </div>
+  <div th:if="${uploadedFileUri != null}">
+      <img th:src="@{/loadFile(uri=${uploadedFileUri})}">
+      <span th:text="${totalCost}"></span>
   </div>
 </content>
 <footer>
