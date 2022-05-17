@@ -114,12 +114,16 @@ public class AuthService implements IAuthService {
     }
 
     @Override
-    public User tryAuthenticate(String username, String password) throws IllegalCredentialsException {
+    public User tryAuthenticate(String username, String password) throws UtilException {
         Optional<User> userOpt = userRepository.findByLogin(username);
         User user = userOpt.orElseThrow(IllegalLoginException::new);
         password = PasswordProtector.checkPassword(password);
         if(!user.getPassword().equals(password)) {
             throw new IllegalPasswordException();
+        }
+
+        if(user.getStatus() == UserStatus.BLOCKED) {
+            throw new UserBlockedException();
         }
 
         return user;

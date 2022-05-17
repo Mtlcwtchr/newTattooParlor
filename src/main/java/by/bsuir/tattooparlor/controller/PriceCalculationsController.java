@@ -52,11 +52,12 @@ public class PriceCalculationsController {
         String fileUri = "";
         int totalCost = 0;
         try {
-            String fileName = Integer.toHexString(multipartFile.getName().hashCode() + new Date().hashCode());
+            String fileName = getPictureNewUri(
+                    Integer.toHexString(multipartFile.getName().hashCode() + new Date().hashCode()),
+                    multipartFile.getContentType().replace("/", "."));
             fileUri = fileName;
 
-            File file = new File(SRC + fileName);
-            multipartFile.transferTo(file);
+            File file = trySaveNewPictureByPath(multipartFile, fileName);
             BufferedImage image = ImageIO.read(file);
 
             TattooMaster master = null;
@@ -74,5 +75,15 @@ public class PriceCalculationsController {
         }
 
         return "redirect:/calculator?uploadedFileUri=" + fileUri + "&totalCost=" + totalCost;
+    }
+
+    private String getPictureNewUri(String fileName, String contentType) {
+        return SRC + Integer.toHexString(fileName.hashCode()) + contentType;
+    }
+
+    private File trySaveNewPictureByPath(MultipartFile multipartFile, String pictureUri) throws IOException {
+        File file = new File(pictureUri);
+        multipartFile.transferTo(file);
+        return file;
     }
 }
