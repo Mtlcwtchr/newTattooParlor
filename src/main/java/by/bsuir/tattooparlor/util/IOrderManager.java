@@ -3,6 +3,8 @@ package by.bsuir.tattooparlor.util;
 import by.bsuir.tattooparlor.entity.Client;
 import by.bsuir.tattooparlor.entity.Order;
 import by.bsuir.tattooparlor.entity.TattooMaster;
+import by.bsuir.tattooparlor.entity.helpers.OrderStatus;
+import by.bsuir.tattooparlor.util.exception.UtilException;
 
 import java.util.List;
 
@@ -12,4 +14,5 @@ public interface IOrderManager {
     List<Order> findAcceptedByMaster(TattooMaster tattooMaster);
     List<Order> findCompletedByMaster(TattooMaster tattooMaster);
     List<Order> findAllByMaster(TattooMaster tattooMaster);
+    void updateOrderStatus(long id, OrderStatus status) throws UtilException;
 }
