@@ -7,7 +7,23 @@
  </head>
 
 <body>
-<div th:insert="header :: header"></div>
+<script type="text/javascript" src="js/script.js"></script>
+  
+<header>
+  <a class="logo">EpamTattoo</a>
+  <table class="menu">
+      <td><a href="/">About us</a></td>
+      <td><a href="/gallery">Catalog</a></td>
+      <td><a href="/sign-up">Profile</a></td>
+      <td><a href="/masters">Masters</a></td>
+      <td>
+        <select>
+          <option>English</option>
+          <option>Русский</option>
+        </select>
+      </td>
+  </table>
+</header>
 
 <content>
   <div class="catalog">
@@ -46,6 +62,6 @@
   <hr>
   <p class="foo-content">Hello have a good day bro (:</p>
 </footer>
-
+</body>
 
 </html>

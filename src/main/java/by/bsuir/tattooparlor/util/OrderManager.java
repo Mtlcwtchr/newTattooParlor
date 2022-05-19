@@ -5,6 +5,8 @@ import by.bsuir.tattooparlor.entity.Client;
 import by.bsuir.tattooparlor.entity.Order;
 import by.bsuir.tattooparlor.entity.TattooMaster;
 import by.bsuir.tattooparlor.entity.helpers.OrderStatus;
+import by.bsuir.tattooparlor.util.exception.NoOrderPresentedException;
+import by.bsuir.tattooparlor.util.exception.UtilException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -51,5 +53,12 @@ public class OrderManager implements IOrderManager {
     @Override
     public List<Order> findAllByMaster(TattooMaster tattooMaster) {
         return orderRepository.findAllByMaster(tattooMaster);
+    }
+
+    @Override
+    public void updateOrderStatus(long id, OrderStatus status) throws UtilException {
+        Order order = orderRepository.findById(id).orElseThrow(NoOrderPresentedException::new);
+        order.setOrderStatus(status);
+        orderRepository.save(order);
     }
 }

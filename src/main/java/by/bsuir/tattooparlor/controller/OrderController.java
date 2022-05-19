@@ -3,13 +3,17 @@ package by.bsuir.tattooparlor.controller;
 import by.bsuir.tattooparlor.entity.Order;
 import by.bsuir.tattooparlor.entity.TattooMaster;
 import by.bsuir.tattooparlor.entity.User;
+import by.bsuir.tattooparlor.entity.helpers.OrderStatus;
 import by.bsuir.tattooparlor.entity.helpers.UserRole;
 import by.bsuir.tattooparlor.util.IOrderManager;
 import by.bsuir.tattooparlor.util.ITattooMasterManager;
+import by.bsuir.tattooparlor.util.exception.UtilException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -65,6 +69,22 @@ public class OrderController {
         acceptedByMaster.sort(Comparator.comparing(Order::getDateTime));
         model.addAttribute("orders", mapToDateOrdered(acceptedByMaster));
         return "schedule2";
+    }
+
+    @PostMapping("/updateOrderStatus")
+    public String updateOrderStatus(@RequestParam(name = "id") int orderId,
+                                    @RequestParam(name = "orderStatus") OrderStatus orderStatus,
+                              HttpSession session) {
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser.getRole() == UserRole.CLIENT) {
+            return "redirect:/";
+        }
+        try {
+            orderManager.updateOrderStatus(orderId, orderStatus);
+        } catch (UtilException ex) {
+            ex.printStackTrace();
+        }
+        return "redirect:/schedule2";
     }
 
     public Map<String, List<Order>> mapToDateOrdered(List<Order> orders) {
