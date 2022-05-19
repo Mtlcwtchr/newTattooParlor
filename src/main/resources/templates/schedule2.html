@@ -14,32 +14,44 @@
   <div class="p-div orders">
     <h1 class="profile-h2">Заказы</h1>
     <nav class="orders-nav">
-      <a href="schedule.html">Acceped</a>
-      <a class="red-style" href="schedule2.html">Requets</a>
+      <a class="red-style" th:href="@{/schedule}">Acceped</a>
+      <a th:href="@{/scheduleNew}">Requets</a>
     </nav>
     <br>
 
-    <span class="red-style">Tuesday 5/10/2022</span>
-    <form class="order new-order">
-      <div class="order-info">
-        <span class="info-in">Заказчик: </span><span class="info-value">Александра</span><br>
-        <span class="info-in">Мастер: </span><span class="info-value">Андрей</span><br>
-        <span class="info-in">Дата: </span><span class="info-value">24.12.2021 16:30</span><br>
-        <span class="info-in">Номер телефона: </span><span class="info-value">+375336409890</span><br>
-        <span class="info-in">Тариф: </span><span class="info-value">Сложная чёрно-белая</span><br>
-        <span class="info-in">Стоимость: </span><input class="info-value">300р</input><br>
+    <div th:each="pair, iStat : ${orders}">
+      <span class="red-style" th:text="${pair.key}"></span>
+      <div class="order complete" th:each="order, jStat : ${pair.value}">
+        <div class="order-info">
+          <span class="info-in">Заказчик: </span><span class="info-value" th:text="${order.client.name}"></span><br>
+          <span class="info-in">Мастер: </span><span class="info-value" th:text="${order.master.name}"></span><br>
+          <span class="info-in">Дата: </span><span class="info-value" th:text="${order.dateFormatted}"></span><br>
+          <span class="info-in">Номер телефона: </span><span class="info-value" th:text="${order.contactPhone}"></span><br>
+          <span class="info-in">Тариф: </span><span class="info-value" th:text="${order.tariff}"></span><br>
+          <span class="info-in">Стоимость: </span><span class="info-value" th:text="${order.priceFormatted}"></span><br>
+        </div>
+        <img th:src="@{/loadFile(uri=${order.product.imageUri})}">
+        <div class="order-status">
+          <span>Статус заказа: </span><span th:text="${order.statusFormatted}"></span>
+        </div>
+        <form th:action="@{/updateOrderStatus(id=${order.id}, status=${order.orderStatus.ACCEPTED})}">
+          <div class="order-status">
+            <button>Принять заказ</button>
+          </div>
+        </form>
+        <form th:action="@{/updateOrderStatus(id=${order.id}, status=${order.orderStatus.REJECTED})}">
+          <div class="order-status">
+            <button>Отклонить заказ</button>
+          </div>
+        </form>
       </div>
-      <img src="imgs/Untitled2.png">
-      <div class="order-status">
-        <button>Принять заказ</button>
-      </div>
-    </form>
+    </div>
   </div>
 </content>
 <footer>
   <hr>
   <p class="foo-content">Hello have a good day bro (:</p>
 </footer>
-
+</body>
 
 </html>

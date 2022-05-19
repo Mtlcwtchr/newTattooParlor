@@ -47,4 +47,20 @@ public class Order {
     public String getPriceFormatted() {
         return price + "р";
     }
+
+    public String getDateFormatted() {
+        return dateTime.toString();
+    }
+
+    public String getShortDateFormatted() {
+        return dateTime.toString();
+    }
+
+    public String getTariff() {
+        return product.getDifficultyDescription();
+    }
+
+    public String getStatusFormatted() {
+        return orderStatus.getDescription();
+    }
 }
