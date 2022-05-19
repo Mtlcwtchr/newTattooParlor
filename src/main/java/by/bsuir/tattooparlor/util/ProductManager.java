@@ -1,25 +1,31 @@
 package by.bsuir.tattooparlor.util;
 
+import by.bsuir.tattooparlor.config.GlobalPaths;
 import by.bsuir.tattooparlor.dao.repository.ProductRepository;
 import by.bsuir.tattooparlor.entity.Product;
+import by.bsuir.tattooparlor.util.calculator.ICalculationsManager;
 import by.bsuir.tattooparlor.util.exception.NoProductPresentedException;
 import by.bsuir.tattooparlor.util.exception.UtilException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ProductManager implements IProductManager{
 
+    private final ICalculationsManager calculationsManager;
     private final ProductRepository productRepository;
 
     @Autowired
-    public ProductManager(ProductRepository productRepository) {
+    public ProductManager(ICalculationsManager calculationsManager, ProductRepository productRepository) {
+        this.calculationsManager = calculationsManager;
         this.productRepository = productRepository;
     }
-
 
     @Override
     public List<Product> findAll() {
@@ -35,5 +41,4 @@ public class ProductManager implements IProductManager{
     public void delete(long id) {
         productRepository.deleteById(id);
     }
-
 }

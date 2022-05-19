@@ -5,6 +5,7 @@
     <title>Header</title>
 </head>
 <body>
+<div th:insert="header :: header"></div>
 
 <header>
     <a class="logo">BubaTattoo</a>
@@ -13,7 +14,7 @@
         <td><a href="/gallery">Catalog</a></td>
         <td><a href="/profile">Profile</a></td>
         <td><a href="/masters">Masters</a></td>
-        <td th:if="${session.user != null}"><a href="/logOut"><img src="/loadFile?name=icons/logout.png" alt="" style="height: 20px;"></a></td>
+        <td th:if="${session.currentUser != null}"><a th:href="@{/logOut}"><img th:src="@{/loadFile(uri=logout.png)}" alt="" style="height: 20px;"></a></td>
     </table>
 </header>
 

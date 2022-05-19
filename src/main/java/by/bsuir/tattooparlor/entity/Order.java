@@ -1,9 +1,11 @@
 package by.bsuir.tattooparlor.entity;
 
 import by.bsuir.tattooparlor.entity.helpers.OrderStatus;
+import by.bsuir.tattooparlor.util.DateUtils;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity(name = "t_order")
@@ -62,5 +64,13 @@ public class Order {
 
     public String getStatusFormatted() {
         return orderStatus.getDescription();
+    }
+
+    public Date getMinDateTime() {
+        return DateUtils.toDate(LocalDate.now().plusDays(1));
+    }
+
+    public Date getMaxDateTime() {
+        return DateUtils.toDate(LocalDate.now().plusYears(2));
     }
 }

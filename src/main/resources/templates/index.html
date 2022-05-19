@@ -22,7 +22,7 @@
       <div>
         <div class="quad" th:each="quad, iStat : ${products}">
           <div class="item" th:each="item, iStat : ${quad}">
-            <a class="add-item">+</a>
+            <a th:href="@{/formOrder(itemid=${item.id})}" class="add-item">+</a>
             <img class="sketch" th:src="@{/loadFile(uri=${item.imageUri})}">
             <div style="display: flex;">
               <div class="rate">
@@ -43,6 +43,6 @@
   <hr>
   <p class="foo-content">Hello have a good day bro (:</p>
 </footer>
-
+</body>
 
 </html>

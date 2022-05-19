@@ -9,21 +9,7 @@
 <body>
 <script type="text/javascript" src="js/script.js"></script>
   
-<header>
-  <a class="logo">EpamTattoo</a>
-  <table class="menu">
-      <td><a href="/">About us</a></td>
-      <td><a href="/gallery">Catalog</a></td>
-      <td><a href="/sign-up">Profile</a></td>
-      <td><a href="/masters">Masters</a></td>
-      <td>
-        <select>
-          <option>English</option>
-          <option>Русский</option>
-        </select>
-      </td>
-  </table>
-</header>
+
 
 <content>
   <div class="catalog">
@@ -42,7 +28,7 @@
       <div>
         <div class="quad" th:each="quad, iStat : ${products}">
           <div class="item" th:each="item, iStat : ${quad}">
-            <a th:href="/placeOrder" class="add-item">+</a>
+            <a th:href="@{/formOrder(itemid=${item.id})}" class="add-item">+</a>
             <img class="sketch" th:src="@{/loadFile(uri=${item.imageUri})}">
             <div style="display: flex;">
               <div class="rate">

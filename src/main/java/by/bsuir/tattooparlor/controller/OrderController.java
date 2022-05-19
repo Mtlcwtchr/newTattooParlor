@@ -1,12 +1,14 @@
 package by.bsuir.tattooparlor.controller;
 
-import by.bsuir.tattooparlor.entity.Order;
-import by.bsuir.tattooparlor.entity.TattooMaster;
-import by.bsuir.tattooparlor.entity.User;
+import by.bsuir.tattooparlor.controller.helpers.ImageSize;
+import by.bsuir.tattooparlor.entity.*;
 import by.bsuir.tattooparlor.entity.helpers.OrderStatus;
 import by.bsuir.tattooparlor.entity.helpers.UserRole;
 import by.bsuir.tattooparlor.util.IOrderManager;
+import by.bsuir.tattooparlor.util.IProductManager;
 import by.bsuir.tattooparlor.util.ITattooMasterManager;
+import by.bsuir.tattooparlor.util.calculator.ICalculationsManager;
+import by.bsuir.tattooparlor.util.exception.NoMasterPresentedException;
 import by.bsuir.tattooparlor.util.exception.UtilException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,13 +23,50 @@ import java.util.*;
 @Controller
 public class OrderController {
 
+    private final IProductManager productManager;
     private final IOrderManager orderManager;
     private final ITattooMasterManager masterManager;
+    private final ICalculationsManager calculationsManager;
 
     @Autowired
-    public OrderController(IOrderManager orderManager, ITattooMasterManager masterManager) {
+    public OrderController(IProductManager productManager, IOrderManager orderManager, ITattooMasterManager masterManager, ICalculationsManager calculationsManager) {
+        this.productManager = productManager;
         this.orderManager = orderManager;
         this.masterManager = masterManager;
+        this.calculationsManager = calculationsManager;
+    }
+
+    @GetMapping("/placeOrder")
+    public String placeOrder() {
+        return "";
+    }
+
+    @GetMapping("/formOrder")
+    public String proceedToFormOrder(@RequestParam(name = "itemId") int itemId,
+                                     HttpSession session,
+                                     Model model) {
+        try {
+            User currentUser = (User) session.getAttribute("currentUser");
+            if(currentUser.getRole() != UserRole.CLIENT) {
+                return "redirect:/";
+            }
+            Client currentClient = (Client) session.getAttribute("currentClient");
+            Product product = productManager.findById(itemId);
+            Order order = new Order();
+            order.setProduct(product);
+            order.setClient(currentClient);
+
+            List<TattooMaster> masters = masterManager.findAll();
+
+            model.addAttribute("currentOrder", order);
+            model.addAttribute("masters", masters);
+            model.addAttribute("imageSizes", ImageSize.TEN);
+
+            return "place-order";
+        } catch (UtilException ex) {
+            ex.printStackTrace();
+            return "redirect:/";
+        }
     }
 
     @GetMapping("/schedule")
@@ -99,5 +138,4 @@ public class OrderController {
         }
         return map;
     }
-
 }
