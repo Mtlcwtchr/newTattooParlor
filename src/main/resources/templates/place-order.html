@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>EPAM Tattoo</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <meta charset="utf-8">
+ </head>
+
+<body>
+<header>
+  <a class="logo">Inferno</a>
+  <table class="menu">
+      <td><a href="index.html">About us</a></td>
+      <td><a href="catalog.html">Catalog</a></td>
+      <td><a href="sign-up.html">Profile</a></td>
+      <td><a href="masters.html">Masters</a></td>
+      <td><a href="calculator.html">Calculator</a></td>
+  </table>
+</header>
+
+<content id="order">
+
+  <div class="p-div orders">
+    <h2>Новый заказ</h2>
+    <form class="order new-order">
+      <div class="order-info">
+        <span class="info-in">Заказчик: </span><span class="info-value">Александра</span><br>
+        <span class="info-in">Мастер: </span><select>
+                                                <option>Андрей</option>
+                                                <option>Рустамчик</option>
+                                              </select><br>
+        <span class="info-in">Дата: </span><input type="date" value="2020-12-20" min="2020-12-20" max="2022-12-20"><br>
+        <span class="info-in">Номер телефона: </span><input type="text" value="+375292256789" min="" max="13"><br>
+        <span class="info-in">Тариф: </span><span class="info-value">Сложная чёрно-белая</span><br>
+        <span class="info-in">Стоимость: </span><span class="info-value">300р</span><br>
+      </div>
+      <img src="imgs/Untitled2.png">
+      <div class="order-status">
+        <button>Оформить заказ</button>
+      </div>
+    </form>
+
+  </div>
+
+
+</content>
+
+
+<footer>
+  <hr>
+  <p class="foo-content">Hello have a good day bro (:</p>
+</footer>
+
+
+</html>

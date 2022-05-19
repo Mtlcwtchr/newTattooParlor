@@ -13,12 +13,7 @@
         <td><a href="/gallery">Catalog</a></td>
         <td><a href="/profile">Profile</a></td>
         <td><a href="/masters">Masters</a></td>
-        <td>
-            <select>
-                <option>English</option>
-                <option>Русский</option>
-            </select>
-        </td>
+        <td th:if="${session.user != null}"><a href="/logOut"><img src="/loadFile?name=icons/logout.png" alt="" style="height: 20px;"></a></td>
     </table>
 </header>
 

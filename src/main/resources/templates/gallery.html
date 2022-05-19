@@ -26,7 +26,7 @@
       <div>
         <div class="quad" th:each="quad, iStat : ${products}">
           <div class="item" th:each="item, iStat : ${quad}">
-            <a class="add-item">+</a>
+            <a th:href="/placeOrder" class="add-item">+</a>
             <img class="sketch" th:src="@{/loadFile(uri=${item.imageUri})}">
             <div style="display: flex;">
               <div class="rate">
