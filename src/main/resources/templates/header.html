@@ -12,11 +12,11 @@
     <table class="menu">
         <td><a th:href="@{/}">О нас</a></td>
         <td><a th:href="@{/gallery}">Каталог</a></td>
-        <td th:if="${session.currentUser != null && session.currentUser.role != session.currentUser.role.ADMIN}"><a th:href="@{/profile}">Профиль</a></td>
-        <td th:if="${session.currentUser != null && session.currentUser.role != session.currentUser.role.ADMIN}"><a th:href="@{/masters}">Мастера</a></td>
-        <td th:if="${session.currentUser != null && session.currentUser.role == session.currentUser.role.CLIENT}"><a th:href="@{/calculator}">Калькулятор</a></td>
+        <td><a th:href="@{/masters}">Мастера</a></td>
+        <td><a th:href="@{/calculator}">Калькулятор</a></td>
         <td th:if="${session.currentUser != null && session.currentUser.role == session.currentUser.role.MODERATOR}"><a th:href="@{/schedule}">Schedule</a></td>
-        <td th:if="${session.currentUser != null}"><a th:href="@{/logOut}"><img th:src="@{/loadFile(uri=logout.png)}" alt="" style="height: 20px;"></a></td>
+        <td th:if="${session.currentUser == null || session.currentUser.role != session.currentUser.role.ADMIN}"><a th:href="@{/profile}">Профиль</a></td>
+        <td th:if="${session.currentUser != null}"><a th:href="@{/log-out}"><img th:src="@{/loadFile(uri=logout.png)}" alt="" style="height: 20px;"></a></td>
     </table>
 </header>
 

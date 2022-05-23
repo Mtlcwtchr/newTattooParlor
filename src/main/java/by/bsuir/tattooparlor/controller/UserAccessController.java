@@ -42,7 +42,7 @@ public class UserAccessController {
         return "sign-up-master";
     }
 
-    @GetMapping("/signOut")
+    @GetMapping("/sign-out")
     public String signOut(HttpSession session) {
         if (session.getAttribute("currentUser") != null) {
             session.removeAttribute("currentUser");

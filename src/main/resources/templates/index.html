@@ -27,8 +27,8 @@
             <div style="display: flex;">
               <div class="rate">
                 <a><div class="rate-num" th:text="${item.dislikesCount}"></div></a>
-                <a th:href="@{/rate(productId=${item.id}, markValue=-1)}"><img class="dislike" th:src="@{/loadFile(uri=dislike.png)}" /></a>
-                <a th:href="@{/rate(productId=${item.id}, markValue=1)}"><img class="like" th:src="@{/loadFile(uri=like.png)}" /></a>
+                <a th:href="@{/rate(productId=${item.id}, markValue=-1)}"><img class="dislike" th:src="@{/loadFile(uri=dislike.png)}" th:if="${!item.isDislikedByClient(session.currentClient)}" /><img class="dislike" th:src="@{/loadFile(uri=dislike_active.png)}" th:if="${item.isDislikedByClient(session.currentClient)}" /></a>
+                <a th:href="@{/rate(productId=${item.id}, markValue=1)}"><img class="like" th:src="@{/loadFile(uri=like.png)}" th:if="${!item.isLikedByClient(session.currentClient)}" /><img class="dislike" th:src="@{/loadFile(uri=like_active.png)}" th:if="${item.isLikedByClient(session.currentClient)}" /></a>
                 <a class="rate-num" th:text="${item.likesCount}"></a>
               </div>
             </div>

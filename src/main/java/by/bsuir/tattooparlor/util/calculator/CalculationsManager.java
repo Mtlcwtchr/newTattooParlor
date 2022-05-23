@@ -25,6 +25,11 @@ public class CalculationsManager implements ICalculationsManager {
         return imageProcessor.getImageDifficulty(image);
     }
 
+    @Override
+    public int getColorsCount(BufferedImage image) {
+        return imageProcessor.getSimpleColors(image).size();
+    }
+
     public int getTotalCost(BufferedImage image, int colorsCount, TattooMaster master, ImageSize size) {
         int imageDifficulty = imageProcessor.getImageDifficulty(image);
         colorsCount = colorsCount == 0 ? imageProcessor.getSimpleColors(image).size() : colorsCount;

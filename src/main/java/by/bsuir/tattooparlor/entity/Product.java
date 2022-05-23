@@ -50,4 +50,18 @@ public class Product {
         return (difficulty > 60 ? "Сложная" : "Простая") +
                (colorsCount > 1 ? " Цветная" : " Черно-белая");
     }
+
+    public boolean isLikedByClient(Client client) {
+        if(client == null) {
+            return false;
+        }
+        return rates.stream().anyMatch(clientRate -> clientRate.getClient().getId() == client.getId() && clientRate.getMark() > 0);
+    }
+
+    public boolean isDislikedByClient(Client client) {
+        if(client == null) {
+            return false;
+        }
+        return rates.stream().anyMatch(clientRate -> clientRate.getClient().getId() == client.getId() && clientRate.getMark() < 0);
+    }
 }

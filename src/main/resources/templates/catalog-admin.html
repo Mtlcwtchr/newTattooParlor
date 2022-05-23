@@ -38,32 +38,26 @@
             </div>
           </div>
           <div class="item new-item" th:if="${(quad == products.get(products.size() - 1)) && (products.get(products.size() - 1).size() % 4 != 0)}">
-            <a href="">
-              <form class="create-new-item" action="">
-                <img th:src="@{/loadFile(uri=pluss.png)}" class="plus">
-              </form>
-            </a>
+            <form class="create-new-item" th:action="@{/addNewItem}" enctype="multipart/form-data"  method="post">
+              <input id="pl" class="plus" type="file" name="uploadFile" style="display: none">
+              <label for="pl">
+                <img class="plus" th:src="@{/loadFile(uri=pluss.png)}">>
+              </label>
+              <button type="submit">Добавить</button>
+            </form>
           </div>
         </div>
         <div class="quad" th:if="${products.get(products.size() - 1).size() % 4 == 0}">
-          <a href="" class="item new-item">
-            <form class="create-new-item" action="">
-              <img th:src="@{/loadFile(uri=pluss.png)}" class="plus">
+          <div class="item new-item">
+            <form class="create-new-item" th:action="@{/addNewItem}" enctype="multipart/form-data" method="post">
+              <input id="pl" class="plus" type="file" name="uploadFile" style="display: none">
+              <label for="pl">
+                <img class="plus" th:src="@{/loadFile(uri=pluss.png)}">
+              </label>
+              <button type="submit">Добавить</button>
             </form>
-          </a>
+          </div>
         </div>
-
-<!--------
-        <div href="" class="item new-item">
-          <form class="create-new-item" action="">
-            <input id="pl" class="plus" type="file"  name="" style="display: none">
-            <label for="pl">
-              <img class="plus" src="imgs/icons/pluss.png">
-            </label>
-            <button>Добавить</button>
-          </form>
-        </div>
---------->
       </div>
 
       <div>
