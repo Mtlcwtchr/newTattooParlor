@@ -21,7 +21,7 @@
 
     <div th:each="pair, iStat : ${orders}">
       <span class="red-style" th:text="${pair.key}"></span>
-      <form th:action="@{/updateOrderStatus(id=${order.id}, status=${order.orderStatus.ACCEPTED})}" class="order complete" th:each="order, jStat : ${pair.value}">
+      <form th:action="@{/updateOrderStatus(id=${order.id}, orderStatus=${order.orderStatus.ACCEPTED})}" method="post" class="order complete" th:each="order, jStat : ${pair.value}">
         <div class="order-info">
           <span class="info-in">Заказчик: </span><span class="info-value" th:text="${order.client.name}"></span><br>
 
@@ -36,20 +36,17 @@
           -->
           <span class="info-in">Дата: </span><span class="info-value" th:text="${order.dateFormatted}"></span><br>
           <span class="info-in">Номер телефона: </span><span class="info-value" th:text="${order.contactPhone}"></span><br>
-          <span class="info-in">Тариф: </span><input class="info-value" th:text="${order.tariff}" /><br>
-          <span class="info-in">Стоимость: </span><input class="info-value" th:text="${order.priceFormatted}" /><br>
+          <span class="info-in">Тариф: </span><input class="info-value" th:value="${order.tariff}" /><br>
+          <span class="info-in">Стоимость: </span><input class="info-value" th:value="${order.priceFormatted}" /><br>
         </div>
         <img th:src="@{/loadFile(uri=${order.product.imageUri})}">
-        <div class="order-status">
-          <span>Статус заказа: </span><span th:text="${order.statusFormatted}"></span>
-        </div>
         <div class="buts">
           <button>Принять</button>
-          <form th:action="@{/updateOrderStatus(id=${order.id}, status=${order.orderStatus.REJECTED})}">
+          <form th:action="@{/updateOrderStatus(id=${order.id}, orderStatus=${order.orderStatus.REJECTED})}" method="post">
             <button>Отклонить</button>
           </form>
         </div>
-        <!-- Я ТУТ ПОМЕНЯЛА ТВОЙ КОД И ВИД ФОРМЫ ПРОВЕРИШЬ ПОТОМ!!!!!!!!! ЛЮБЛЮ ЧМО_К
+        <!-- Я ТУТ ПОМЕНЯЛА ТВОЙ КОД И ВИД ФОРМЫ ПРОВЕРИШЬ ПОТОМ!!!!!!!!! ЛЮБЛЮ ЧМО_K
         ПЕРЕНАПРАВЛЕНИЕ ЗАКАЗА "НИКОМУ" ЗНАЧИТ ЧТО ЗАКАЗЧИК ДАУН И ЗАЛИЛ ТУПУЮ ПИКЧУ И НАПРИМЕР ЗАБАНЕН ПОСЛЕ ТАКОГО
         <form th:action="@{/updateOrderStatus(id=${order.id}, status=${order.orderStatus.ACCEPTED})}">
           <div class="order-status">

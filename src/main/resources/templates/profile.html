@@ -19,12 +19,21 @@
       <input type="file" name="file">
       <button type="submit">Update profile</button>
     </form>
-    <form class="input-pers-info">
-      <span>Имя</span><input type="text" name="name" th:value="${session.currentClient.name}"><br>
-      <span>Номер телефона</span><input type="text" name="phone" th:value="${session.currentClient.phone}"><br>
-      <span>E-mail:</span><input type="text" name="e-mail" th:value="${session.currentClient.user.email}"><br>
-    </form>
-    <a href="/sign-out">Sign out</a>
+    <div class="update-profile-label" style="display: none">
+      <span onclick="showLabel()" class="update-label-button">karandashik</span>
+      <form th:action="@{/updatePersonalInfo}" method="post" class="input-pers-info">
+        <span>Имя</span><input type="text" name="name" th:value="${session.currentClient.name}"><br>
+        <span>Номер телефона</span><input type="text" name="phone" th:value="${session.currentClient.phone}"><br>
+        <span>E-mail:</span><input type="text" name="e-mail" th:value="${session.currentClient.user.email}"><br>
+        <button type="submit">Сохранить изменения</button>
+      </form>
+    </div>
+    <div class="show-profile-label">
+      <span onclick="updateLabel()" class="show-label-button">karandashik</span>
+      <span>Имя</span><span th:text="${session.currentClient.name}"></span><br>
+      <span>Номер телефона</span><span th:text="${session.currentClient.phone}"></span><br>
+      <span>E-mail:</span><span th:text="${session.currentClient.user.email}"></span><br>
+    </div>
   </div>
 
   <div class="p-div orders">
@@ -35,7 +44,7 @@
         <div class="order-info">
           <span class="info-in">Заказчик: </span><span class="info-value" th:text="${order.client.name}"></span><br>
           <span class="info-in">Мастер: </span><span class="info-value" th:text="${order.master.name}"></span><br>
-          <span class="info-in">Дата: </span><span class="info-value" th:text="${order.dateTime}"></span><br>
+          <span class="info-in">Дата: </span><span class="info-value" th:text="${order.dateFormatted}"></span><br>
           <span class="info-in">Номер телефона: </span><span class="info-value" th:text="${order.contactPhone}"></span><br>
           <span class="info-in">Тариф: </span><span class="info-value" th:text="${order.product.difficultyDescription}"></span><br>
           <span class="info-in">Стоимость: </span><span class="info-value" th:text="${order.priceFormatted}"></span><br>
@@ -46,26 +55,6 @@
         </div>
       </div>
     </div>
-
-    <br>
-    <h2>Новый заказ</h2>
-    <form class="order new-order">
-      <div class="order-info">
-        <span class="info-in">Заказчик: </span><span class="info-value">Александра</span><br>
-        <span class="info-in">Мастер: </span><select>
-                                                <option>Андрей</option>
-                                                <option>Рустамчик</option>
-                                              </select><br>
-        <span class="info-in">Дата: </span><input type="date" value="2020-12-20" min="2020-12-20" max="2022-12-20"><br>
-        <span class="info-in">Номер телефона: </span><span class="info-value">+375336409890</span><br>
-        <span class="info-in">Тариф: </span><span class="info-value">Сложная чёрно-белая</span><br>
-        <span class="info-in">Стоимость: </span><span class="info-value">300р</span><br>
-      </div>
-      <img src="../static/imgs/Untitled2.png">
-      <div class="order-status">
-        <button>Оформить заказ</button>
-      </div>
-    </form>
   </div>
 
   <div class="p-div favs imgs">

@@ -6,10 +6,7 @@ import by.bsuir.tattooparlor.entity.helpers.UserStatus;
 import lombok.*;
 import org.hibernate.annotations.Generated;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.*;
 
 @Entity(name = "t_user")
 @Inheritance(strategy = InheritanceType.JOINED)

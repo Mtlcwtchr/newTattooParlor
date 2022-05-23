@@ -15,7 +15,7 @@
       <div class="desc">
         <h1 th:text="${master.name}"></h1><br>
         <p th:text="${master.masterDescription}"></p>
-        <p th:text="${'Опыт работы: '} + ${master.experience}"></p>
+        <p th:text="${'Опыт работы: '} + ${master.experience} + ${' лет'}"></p>
         <p th:text="${'Рейтинг: '} +${master.rating}"></p>
       </div>
     </div>

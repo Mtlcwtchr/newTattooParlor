@@ -1,14 +1,17 @@
 package by.bsuir.tattooparlor.util;
 
 import by.bsuir.tattooparlor.dao.repository.ClientRepository;
+import by.bsuir.tattooparlor.dao.repository.TariffRepository;
 import by.bsuir.tattooparlor.dao.repository.TattooMasterRepository;
 import by.bsuir.tattooparlor.dao.repository.UserRepository;
 import by.bsuir.tattooparlor.entity.Client;
+import by.bsuir.tattooparlor.entity.Tariff;
 import by.bsuir.tattooparlor.entity.TattooMaster;
 import by.bsuir.tattooparlor.entity.User;
 import by.bsuir.tattooparlor.entity.helpers.UserRole;
 import by.bsuir.tattooparlor.entity.helpers.UserStatus;
 import by.bsuir.tattooparlor.util.exception.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -17,14 +20,17 @@ import java.util.Optional;
 @Component
 public class AuthService implements IAuthService {
 
-    private UserRepository userRepository;
-    private ClientRepository clientRepository;
-    private TattooMasterRepository tattooMasterRepository;
+    private final UserRepository userRepository;
+    private final ClientRepository clientRepository;
+    private final TattooMasterRepository tattooMasterRepository;
+    private final TariffRepository tariffRepository;
 
-    public AuthService(UserRepository userRepository, ClientRepository clientRepository, TattooMasterRepository tattooMasterRepository) {
+    @Autowired
+    public AuthService(UserRepository userRepository, ClientRepository clientRepository, TattooMasterRepository tattooMasterRepository, TariffRepository tariffRepository) {
         this.userRepository = userRepository;
         this.clientRepository = clientRepository;
         this.tattooMasterRepository = tattooMasterRepository;
+        this.tariffRepository = tariffRepository;
     }
 
     @Override
@@ -84,10 +90,13 @@ public class AuthService implements IAuthService {
     @Override
     public TattooMaster applyMaster(String username, String password, String email, String name, Date workStarted) throws UtilException{
         User savedUser = applyUser(username, email, password);
+        savedUser.setRole(UserRole.MODERATOR);
+        savedUser.setStatus(UserStatus.CONFIRMED);
         long savedUserId = savedUser.getId();
 
         TattooMaster tattooMaster = new TattooMaster(name, workStarted, savedUser);
         tattooMaster.setId(savedUserId);
+        tattooMaster.setTariff(tariffRepository.findById(1L).orElseThrow());
         tattooMasterRepository.save(tattooMaster);
         Optional<TattooMaster> savedMasterOpt = tattooMasterRepository.findById(savedUserId);
 

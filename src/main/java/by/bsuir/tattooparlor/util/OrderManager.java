@@ -7,10 +7,13 @@ import by.bsuir.tattooparlor.entity.TattooMaster;
 import by.bsuir.tattooparlor.entity.helpers.OrderStatus;
 import by.bsuir.tattooparlor.util.exception.NoOrderPresentedException;
 import by.bsuir.tattooparlor.util.exception.UtilException;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class OrderManager implements IOrderManager {
@@ -28,31 +31,35 @@ public class OrderManager implements IOrderManager {
 
     @Override
     public List<Order> findUnacceptedByMaster(TattooMaster tattooMaster) {
-        return orderRepository.findAllByMaster(tattooMaster)
+        List<Order> orders = orderRepository.findAllByMaster(tattooMaster)
                 .stream()
                 .filter(order -> order.getOrderStatus() == OrderStatus.REQUESTED)
-                .toList();
+                .collect(Collectors.toList());
+        return orders;
     }
 
     @Override
     public List<Order> findAcceptedByMaster(TattooMaster tattooMaster) {
-        return orderRepository.findAllByMaster(tattooMaster)
+        List<Order> orders = orderRepository.findAllByMaster(tattooMaster)
                 .stream()
                 .filter(order -> order.getOrderStatus() == OrderStatus.ACCEPTED)
-                .toList();
+                .collect(Collectors.toList());
+        return orders;
     }
 
     @Override
     public List<Order> findCompletedByMaster(TattooMaster tattooMaster) {
-        return orderRepository.findAllByMaster(tattooMaster)
+        List<Order> orders = orderRepository.findAllByMaster(tattooMaster)
                 .stream()
                 .filter(order -> order.getOrderStatus() == OrderStatus.COMPLETED)
-                .toList();
+                .collect(Collectors.toList());
+        return orders;
     }
 
     @Override
     public List<Order> findAllByMaster(TattooMaster tattooMaster) {
-        return orderRepository.findAllByMaster(tattooMaster);
+        List<Order> orders = orderRepository.findAllByMaster(tattooMaster);
+        return orders == null ? Collections.emptyList() : orders;
     }
 
     @Override
@@ -60,5 +67,10 @@ public class OrderManager implements IOrderManager {
         Order order = orderRepository.findById(id).orElseThrow(NoOrderPresentedException::new);
         order.setOrderStatus(status);
         orderRepository.save(order);
+    }
+
+    @Override
+    public Order saveOrder(Order order) {
+        return orderRepository.saveAndFlush(order);
     }
 }

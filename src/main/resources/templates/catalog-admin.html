@@ -22,106 +22,41 @@
           <a href="">Colored</a>
         </td>
       </table>
-      <div class="quad">
-        <div onmouseout="hidePlus()" onmouseover="showPlus()" class="item">
-          <a href="make-order.html" class="add-item">+</a>
-          <img class="sketch" src="imgs/Untitled.png" alt="tattoo" title="helloooooo">
-          <div style="display: flex;">
-            <div class="rate">
-              <a><div class="rate-num">2</div></a>
-              <a href=""><img class="dislike" src="imgs/dislike.png" /></a>
-              <a href=""><img class="like" src="imgs/like.png" /></a>
-              <a class="rate-num">156</a>
+
+      <div>
+        <div class="quad" th:each="quad, iStat : ${products}">
+          <div onmouseout="hidePlus()" onmouseover="showPlus()" class="item" th:each="item, jStat : ${quad}">
+            <a th:href="@{/formOrder(itemId=${item.id})}" class="add-item">+</a>
+            <img class="sketch" th:src="@{/loadFile(uri=${item.imageUri})}">
+            <div style="display: flex;">
+              <div class="rate">
+                <a><div class="rate-num" th:text="${item.dislikesCount}"></div></a>
+                <a th:href="@{/rate(productId=${item.id}, markValue=-1)}"><img class="dislike" th:src="@{/loadFile(uri=dislike.png)}" /></a>
+                <a th:href="@{/rate(productId=${item.id}, markValue=1)}"><img class="like" th:src="@{/loadFile(uri=like.png)}" /></a>
+                <a class="rate-num" th:text="${item.likesCount}"></a>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div onmouseout="hidePlus()" onmouseover="showPlus()" class="item">
-          <a href="make-order.html" class="add-item">+</a>
-          <img class="sketch" src="imgs/Untitled2.png" alt="tattoo" title="helloooooo">
-          <div style="display: flex;">
-            <div class="rate">
-              <a><div class="rate-num">2</div></a>
-              <a href=""><img class="dislike" src="imgs/dislike.png" /></a>
-              <a href=""><img class="like" src="imgs/like.png" /></a>
-              <a class="rate-num">156</a>
-            </div>
+          <div class="item new-item" th:if="${(quad == products.get(products.size() - 1)) && (products.get(products.size() - 1).size() % 4 != 0)}">
+            <a href="">
+              <form class="create-new-item" action="">
+                <img th:src="@{/loadFile(uri=pluss.png)}" class="plus">
+              </form>
+            </a>
           </div>
         </div>
-
-        <div onmouseout="hidePlus()" onmouseover="showPlus()" class="item">
-          <a href="make-order.html" class="add-item">+</a>
-          <img class="sketch" src="imgs/Untitled3.png" alt="tattoo" title="good mooorning">
-          <div style="display: flex;">
-            <div class="rate">
-              <a><div class="rate-num">2</div></a>
-              <a href=""><img class="dislike" src="imgs/dislike.png" /></a>
-              <a href=""><img class="like" src="imgs/like.png" /></a>
-              <a class="rate-num">156</a>
-            </div>
-          </div>
-        </div>
-
-        <div onmouseout="hidePlus()" onmouseover="showPlus()" class="item">
-          <a href="make-order.html" class="add-item">+</a>
-          <img class="sketch" src="imgs/Untitled4.png">
-          <div style="display: flex;">
-            <div class="rate">
-              <a><div class="rate-num">2</div></a>
-              <a href=""><img class="dislike" src="imgs/dislike.png" /></a>
-              <a href=""><img class="like" src="imgs/like.png" /></a>
-              <a class="rate-num">156</a>
-            </div>
-          </div
+        <div class="quad" th:if="${products.get(products.size() - 1).size() % 4 == 0}">
+          <a href="" class="item new-item">
+            <form class="create-new-item" action="">
+              <img th:src="@{/loadFile(uri=pluss.png)}" class="plus">
+            </form>
+          </a>
         </div>
       </div>
 
-      <div class="quad">
-        <div onmouseout="hidePlus()" onmouseover="showPlus()" class="item">
-          <a class="add-item">+</a>
-          <img class="sketch" src="imgs/Untitled5.png">
-          <div style="display: flex;">
-            <div class="rate">
-              <a><div class="rate-num">2</div></a>
-              <a href=""><img class="dislike" src="imgs/dislike.png" /></a>
-              <a href=""><img class="like" src="imgs/like.png" /></a>
-              <a class="rate-num">156</a>
-            </div>
-          </div>
-        </div>
-
-        <div onmouseout="hidePlus()" onmouseover="showPlus()" class="item">
-          <a class="add-item">+</a>
-          <img class="sketch" src="imgs/Untitled6.png">
-          <div style="display: flex;">
-            <div class="rate">
-              <a><div class="rate-num">2</div></a>
-              <a href=""><img class="dislike" src="imgs/dislike.png" /></a>
-              <a href=""><img class="like" src="imgs/like.png" /></a>
-              <a class="rate-num">156</a>
-            </div>
-          </div>
-        </div>
-
-        <div onmouseout="hidePlus()" onmouseover="showPlus()" onmouseover="showPlus()" class="item">
-          <a class="add-item">+</a>
-          <img class="sketch" src="imgs/Untitled7.png">
-          <div style="display: flex;">
-            <div class="rate">
-              <a><div class="rate-num">2</div></a>
-              <a href=""><img class="dislike" src="imgs/dislike.png" /></a>
-              <a href=""><img class="like" src="imgs/like.png" /></a>
-              <a class="rate-num">156</a>
-            </div>
-          </div>
-        </div>
-
-        <a href="" class="item new-item">
-          <form class="create-new-item" action="">
-            <img src="imgs/icons/pluss.png" class="plus">
-          </form>
-        </a>
+      <div>
       </div>
+
     </div>
   </div>
 </content>

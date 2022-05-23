@@ -8,40 +8,29 @@
 
 <body>
 <div th:insert="header :: header"></div>
-  
-<header>
-  <a class="logo">Inferno</a>
-  <table class="menu">
-      <td><a href="index.html">About us</a></td>
-      <td><a href="catalog.html">Catalog</a></td>
-      <td><a href="sign-up.html">Profile</a></td>
-      <td><a href="masters.html">Masters</a></td>
-      <td><a href="load-image-for-calculating.html">Calculator</a></td>
-  </table>
-</header>
 
 <content>
-  <form class="calc-res calculator">
+  <form th:action="@{/formOrderAfterCalculations}" method="get" class="calc-res calculator">
     <h3>Приблизительная стоимость работы</h3>
     <br>
-    <img src="imgs/Untitled2.png">
+    <img th:src="@{/loadFile(uri=${product.imageUri})}">
     <table>
       <tr>
         <td>Размер рисунка:</td>
-        <td>10x10</td>
-        <td style="font-size: 22px; color: red;" rowspan="3">300 BYN</td>
+        <td th:text="${imageSize.description}"></td>
+        <td style="font-size: 22px; color: red;" rowspan="3" th:text="${totalCost}"></td>
       </tr>
       <tr>
         <td>Количество цветов:</td>
-        <td>2</td>
+        <td th:text="${product.colorsCount}"></td>
       </tr>
       <tr>
         <td>Мастер:</td>
-        <td>Виктория</td>
+        <td th:text="${master.name}"></td>
       </tr>
     </table>
     <br>
-    <button>Добавить в заказ</button>
+    <button type="submit">Добавить в заказ</button>
   </form>
 </content>
 </body>

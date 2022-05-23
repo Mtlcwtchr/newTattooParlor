@@ -15,4 +15,5 @@ public interface IOrderManager {
     List<Order> findCompletedByMaster(TattooMaster tattooMaster);
     List<Order> findAllByMaster(TattooMaster tattooMaster);
     void updateOrderStatus(long id, OrderStatus status) throws UtilException;
+    Order saveOrder(Order order);
 }

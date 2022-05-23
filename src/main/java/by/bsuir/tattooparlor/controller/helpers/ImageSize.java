@@ -17,4 +17,15 @@ public enum ImageSize {
     public float getPriceMultiplier() {
         return priceMultiplier;
     }
+
+    public String getDescription() {
+        return switch (this) {
+            case TEN -> "10x10";
+            case TWENTY -> "20x20";
+            case THIRTY -> "30x30";
+            case FORTY -> "40x40";
+            case FIFTY -> "50x50";
+            case SIXTY -> "60x60";
+        };
+    }
 }

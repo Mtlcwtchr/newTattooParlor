@@ -2,6 +2,7 @@ package by.bsuir.tattooparlor.controller;
 
 import by.bsuir.tattooparlor.config.GlobalPaths;
 import by.bsuir.tattooparlor.controller.helpers.ImageSize;
+import by.bsuir.tattooparlor.entity.Product;
 import by.bsuir.tattooparlor.entity.TattooMaster;
 import by.bsuir.tattooparlor.util.ITattooMasterManager;
 import by.bsuir.tattooparlor.util.calculator.ICalculationsManager;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -44,18 +46,18 @@ public class PriceCalculationsController {
         return "calculator";
     }
 
-    @PostMapping("/calculateImageCost")
+    @RequestMapping("/calculateImageCost")
     public String calculateImageCost(@RequestParam(name = "uploadFile") MultipartFile multipartFile,
                                      @RequestParam(name = "colorsCount") int colorsCount,
                                      @RequestParam(name = "masterId") int masterId,
-                                     @RequestParam(name = "imageSize") ImageSize size) {
-        String fileUri = "";
-        int totalCost = 0;
+                                     @RequestParam(name = "imageSize") ImageSize size,
+                                     Model model,
+                                     HttpSession session) {
         try {
             String fileName = getPictureNewUri(
                     Integer.toHexString(multipartFile.getName().hashCode() + new Date().hashCode()),
                     multipartFile.getContentType().replace("/", "."));
-            fileUri = fileName;
+            String fileUri = fileName;
 
             File file = trySaveNewPictureByPath(multipartFile, fileName);
             BufferedImage image = ImageIO.read(file);
@@ -67,14 +69,30 @@ public class PriceCalculationsController {
                 master = masterManager.findById(masterId);
             }
 
-            totalCost = calculationsManager.getTotalCost(image, colorsCount, master, size);
+            int totalCost = calculationsManager.getTotalCost(image, colorsCount, master, size);
+            int difficulty = calculationsManager.getDifficulty(image);
+
+            Product product = new Product();
+            product.setImageUri(fileUri);
+            product.setColorsCount(colorsCount);
+            product.setDifficulty(difficulty);
+
+            session.setAttribute("product", product);
+            session.setAttribute("master", master);
+            session.setAttribute("imageSize", size);
+            session.setAttribute("totalCost", totalCost);
+
+            model.addAttribute("product", product);
+            model.addAttribute("master", master);
+            model.addAttribute("imageSize", size);
+            model.addAttribute("totalCost", totalCost + " BYN");
         } catch (IOException ex) {
             ex.printStackTrace();
         } catch (UtilException ex) {
             ex.printStackTrace();
         }
 
-        return "redirect:/calculator?uploadedFileUri=" + fileUri + "&totalCost=" + totalCost;
+        return "calculating-results";
     }
 
     private String getPictureNewUri(String fileName, String contentType) {

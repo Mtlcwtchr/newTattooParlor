@@ -18,6 +18,7 @@ import java.util.Date;
 @ToString
 public class Order {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NonNull
     private OrderStatus orderStatus = OrderStatus.REQUESTED;
@@ -47,15 +48,15 @@ public class Order {
     private TattooMaster master;
 
     public String getPriceFormatted() {
-        return price + "р";
+        return price + " BYN";
     }
 
     public String getDateFormatted() {
-        return dateTime.toString();
+        return DateUtils.dateTimeToHtmlString(dateTime);
     }
 
     public String getShortDateFormatted() {
-        return dateTime.toString();
+        return DateUtils.dateToHtmlString(dateTime);
     }
 
     public String getTariff() {

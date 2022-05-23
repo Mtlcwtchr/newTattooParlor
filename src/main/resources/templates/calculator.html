@@ -36,12 +36,12 @@
                                   <option value="0">любой</option>
                                   <option th:each="master, iStat : ${masters}" th:text="${master.name}" th:value="${master.id}"></option>
                                     </select><br>
-        <button type="submit">Calculate</button>
+        <input type="file" name="uploadFile" id="img" style="display:none;"/>
+        <br>
+        <label class="lbl" for="img">Выберите файл</label>
+        <br>
+        <button type="submit">Рассчитать</button>
     </form>
-  </div>
-  <div th:if="${uploadedFileUri != null}">
-      <img th:src="@{/loadFile(uri=${uploadedFileUri})}">
-      <span th:text="${totalCost}"></span>
   </div>
 </content>
 <footer>

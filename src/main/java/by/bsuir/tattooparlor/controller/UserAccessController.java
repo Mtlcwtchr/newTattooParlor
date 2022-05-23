@@ -3,6 +3,7 @@ package by.bsuir.tattooparlor.controller;
 import by.bsuir.tattooparlor.entity.Client;
 import by.bsuir.tattooparlor.entity.TattooMaster;
 import by.bsuir.tattooparlor.entity.User;
+import by.bsuir.tattooparlor.util.DateUtils;
 import by.bsuir.tattooparlor.util.IAuthService;
 import by.bsuir.tattooparlor.util.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 @Controller
 public class UserAccessController {
@@ -31,7 +33,16 @@ public class UserAccessController {
         return "sign-up";
     }
 
-    @GetMapping("/sign-out")
+    @GetMapping("/sign-up-master")
+    public String forwardToRegisterMasterForm(HttpSession session) {
+        if (session.getAttribute("currentUser") != null) {
+            return "redirect:/profile";
+        }
+        session.setAttribute("today", new Date());
+        return "sign-up-master";
+    }
+
+    @GetMapping("/signOut")
     public String signOut(HttpSession session) {
         if (session.getAttribute("currentUser") != null) {
             session.removeAttribute("currentUser");
@@ -49,6 +60,16 @@ public class UserAccessController {
         return "sign-in";
     }
 
+    @GetMapping("/log-out")
+    public String logOut(HttpSession session) {
+        if (session.getAttribute("currentUser") != null) {
+            session.removeAttribute("currentUser");
+            session.removeAttribute("currentClient");
+            session.removeAttribute("currentMaster");
+        }
+        return "redirect:/";
+    }
+
     @PostMapping("/applyClient")
     public String applyClient(
             @RequestParam(name = "login") String login,
@@ -64,6 +85,25 @@ public class UserAccessController {
             return "redirect:/sign-up?error=internal_error";
         } catch (UtilException ex) {
             return "redirect:/sign-up?error=unknown";
+        }
+        return "redirect:/sign-in";
+    }
+
+    @PostMapping("/applyMaster")
+    public String applyMaster(
+            @RequestParam(name = "login") String login,
+            @RequestParam(name = "password") String password,
+            @RequestParam(name = "email") String email,
+            @RequestParam(name = "name") String name,
+            @RequestParam(name = "workStarted") String workStarted) {
+        try {
+            authService.applyMaster(login, password, email, name, DateUtils.dateFromHtmlString(workStarted));
+        } catch (UserPresentedException ex) {
+            return "redirect:/sign-up-master?error=user_exist";
+        } catch (ApplyClientException | ApplyUserException ex) {
+            return "redirect:/sign-up-master?error=internal_error";
+        } catch (UtilException ex) {
+            return "redirect:/sign-up-master?error=unknown";
         }
         return "redirect:/sign-in";
     }

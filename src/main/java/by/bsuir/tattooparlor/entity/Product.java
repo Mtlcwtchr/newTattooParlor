@@ -16,6 +16,7 @@ import java.util.List;
 @ToString
 public class Product {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NonNull
     private int colorsCount;
