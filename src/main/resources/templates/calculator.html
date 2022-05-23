@@ -36,8 +36,6 @@
                                   <option value="0">любой</option>
                                   <option th:each="master, iStat : ${masters}" th:text="${master.name}" th:value="${master.id}"></option>
                                     </select><br>
-        <span>Загрузить изображение</span><input type="file" name="uploadFile" id="img" style="display:none;"/>
-                                          <label class="lbl" for="img">Choose file</label><br>
         <button type="submit">Calculate</button>
     </form>
   </div>
@@ -51,5 +49,4 @@
   <p class="foo-content">Hello have a good day bro (:</p>
 </footer>
 </body>
-
 </html>

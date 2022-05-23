@@ -21,19 +21,36 @@
 
     <div th:each="pair, iStat : ${orders}">
       <span class="red-style" th:text="${pair.key}"></span>
-      <div class="order complete" th:each="order, jStat : ${pair.value}">
+      <form th:action="@{/updateOrderStatus(id=${order.id}, status=${order.orderStatus.ACCEPTED})}" class="order complete" th:each="order, jStat : ${pair.value}">
         <div class="order-info">
           <span class="info-in">Заказчик: </span><span class="info-value" th:text="${order.client.name}"></span><br>
+
+          <span class="info-in">Мастер: </span><select title="Перенаправляйте заказ другому мастеру &#010; только если не готовы выполнить его">
+                                                <option>Андрей</option>
+                                                <option>Рустамчик</option>
+                                                <option>Виктория</option>
+                                                <option>НИКОМУ</option>
+                                              </select><br>
+          <!--
           <span class="info-in">Мастер: </span><span class="info-value" th:text="${order.master.name}"></span><br>
+          -->
           <span class="info-in">Дата: </span><span class="info-value" th:text="${order.dateFormatted}"></span><br>
           <span class="info-in">Номер телефона: </span><span class="info-value" th:text="${order.contactPhone}"></span><br>
-          <span class="info-in">Тариф: </span><span class="info-value" th:text="${order.tariff}"></span><br>
-          <span class="info-in">Стоимость: </span><span class="info-value" th:text="${order.priceFormatted}"></span><br>
+          <span class="info-in">Тариф: </span><input class="info-value" th:text="${order.tariff}" /><br>
+          <span class="info-in">Стоимость: </span><input class="info-value" th:text="${order.priceFormatted}" /><br>
         </div>
         <img th:src="@{/loadFile(uri=${order.product.imageUri})}">
         <div class="order-status">
           <span>Статус заказа: </span><span th:text="${order.statusFormatted}"></span>
         </div>
+        <div class="buts">
+          <button>Принять</button>
+          <form th:action="@{/updateOrderStatus(id=${order.id}, status=${order.orderStatus.REJECTED})}">
+            <button>Отклонить</button>
+          </form>
+        </div>
+        <!-- Я ТУТ ПОМЕНЯЛА ТВОЙ КОД И ВИД ФОРМЫ ПРОВЕРИШЬ ПОТОМ!!!!!!!!! ЛЮБЛЮ ЧМО_К
+        ПЕРЕНАПРАВЛЕНИЕ ЗАКАЗА "НИКОМУ" ЗНАЧИТ ЧТО ЗАКАЗЧИК ДАУН И ЗАЛИЛ ТУПУЮ ПИКЧУ И НАПРИМЕР ЗАБАНЕН ПОСЛЕ ТАКОГО
         <form th:action="@{/updateOrderStatus(id=${order.id}, status=${order.orderStatus.ACCEPTED})}">
           <div class="order-status">
             <button>Принять заказ</button>
@@ -43,8 +60,8 @@
           <div class="order-status">
             <button>Отклонить заказ</button>
           </div>
-        </form>
-      </div>
+        </form>-->
+      </form>
     </div>
   </div>
 </content>

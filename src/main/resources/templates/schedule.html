@@ -17,6 +17,22 @@
       <a class="red-style" th:href="@{/schedule}">Acceped</a>
       <a th:href="@{/scheduleNew}">Requets</a>
     </nav>
+    <form class="order new-order">
+      <h4>Новый заказ</h4>
+      <hr>
+      <div class="order-info">
+        <span class="info-in">Заказчик: </span><input class="info-value" placeholder=""></input><br>
+        <span class="info-in">Мастер: </span><input class="info-value" value="Андрей" readonly><br>
+        <span class="info-in">Дата: </span><input class="info-value" type="date"><br>
+        <span class="info-in">Номер телефона: </span><input class="info-value"><br>
+        <span class="info-in">Тариф: </span><input class="info-value"><br>
+        <span class="info-in">Стоимость: </span><input class="info-value"><br>
+      </div>
+      <img style="visibility: hidden;" src="imgs/Untitled2.png">
+      <div class="order-status">
+        <button>Добавить</button>
+      </div>
+    </form>
     <br>
     <a class="center" href="">show previous</a>
     <br>
