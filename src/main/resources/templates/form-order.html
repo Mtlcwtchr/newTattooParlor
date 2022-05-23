@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>EPAM Tattoo</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <meta charset="utf-8">
+ </head>
+
+<body>
+<div th:insert="header :: header"></div>
+
+<content id="order">
+  <div class="p-div orders">
+    <h2>Новый заказ</h2>
+    <form th:action="@{/placeOrder}" class="order new-order">
+      <div class="order-info">
+        <span class="info-in">Заказчик: </span><input type="text" class="info-value" name="clientName" th:value="${currentOrder.client == null ? '' : currentOrder.client.name}"><br>
+        <span class="info-in">Мастер: </span><select name="masterId">
+                                               <option value="0">любой</option>
+                                               <option th:each="master, iStat : ${masters}" th:text="${master.name}" th:value="${master.id}"></option>
+                                             </select><br>
+
+        <span class="info-in">Размер: </span><select name="imageSize">
+                                               <option th:value="${imageSizes.TEN}">10x10</option>
+                                               <option th:value="${imageSizes.TWENTY}">20x20</option>
+                                               <option th:value="${imageSizes.THIRTY}">30x30</option>
+                                               <option th:value="${imageSizes.FORTY}">40x40</option>
+                                               <option th:value="${imageSizes.FIFTY}">50x50</option>
+                                               <option th:value="${imageSizes.SIXTY}">60x60</option>
+                                             </select><br>
+
+        <span class="info-in">Количество цветов: </span><select name="colorsCount">
+                                                          <option value="1">1</option>
+                                                          <option value="2">2</option>
+                                                          <option value="3">3</option>
+                                                          <option value="4">4</option>
+                                                          <option value="5">5</option>
+                                                          <option value="6">6</option>
+                                                          <option value="7">7</option>
+                                                          <option value="8">8</option>
+                                                        </select><br>
+
+        <span class="info-in">Дата: </span><input type="datetime-local" name="dateTime" th:min="${currentOrder.minDateTime}" th:max="${currentOrder.maxDateTime}"><br>
+        <span class="info-in">Номер телефона: </span><input type="text" name="contactPhone" th:value="${currentOrder.client == null ? '' : currentOrder.client.phone}" min="" max="13"><br>
+        <span class="info-in">Тариф: </span><span class="info-value" th:text="${currentOrder.tariff}"></span><br>
+      </div>
+      <img th:src="@{/loadFile(uri=${currentOrder.product.imageUri})}">
+      <div class="order-status">
+        <button>Оформить заказ</button>
+      </div>
+    </form>
+  </div>
+</content>
+
+<footer>
+  <hr>
+  <p class="foo-content">Hello have a good day bro (:</p>
+</footer>
+</body>
+
+</html>
