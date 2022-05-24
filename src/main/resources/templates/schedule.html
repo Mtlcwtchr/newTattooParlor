@@ -59,8 +59,8 @@
       <div class="order complete" th:each="order, jStat : ${pair.value}">
         <div class="order-info">
           <span class="info-in">Заказчик: </span><span class="info-value" th:text="${order.client.name}"></span><br>
-          <span class="info-in">Мастер: </span><span class="info-value" th:text="${order.master.name}"></span><br>
-          <span class="info-in">Дата: </span><span class="info-value" th:text="${order.dateFormatted}"></span><br>
+          <span class="info-in">Мастер: </span><input class="info-value" th:text="${order.master.name}"><br>
+          <span class="info-in">Дата: </span><input type="date" class="info-value" th:text="${order.dateFormatted}"><br>
           <span class="info-in">Номер телефона: </span><span class="info-value" th:text="${order.contactPhone}"></span><br>
           <span class="info-in">Тариф: </span><span class="info-value" th:text="${order.tariff}"></span><br>
           <span class="info-in">Стоимость: </span><span class="info-value" th:text="${order.priceFormatted}"></span><br>
@@ -87,6 +87,7 @@
         <div class="order-status">
           <span>Статус заказа: </span><span th:text="${order.statusFormatted}"></span>
         </div>
+        <a href="" class="edit"><img src="imgs/icons/edit.png"></a>
       </div>
     </div>
   </div>

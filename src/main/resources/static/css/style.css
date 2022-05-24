@@ -412,6 +412,7 @@ button{
 }
 
 
+
 .order {
     position: relative;
     margin-top: 30px;
@@ -508,7 +509,21 @@ button{
     transform: translateY(-50%);
 }
 
+.order .edit img{
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+    max-width: 30px;
+    max-height: 30px;
+    line-height: 30px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
 
+.order .edit:hover {
+    cursor: pointer;
+}
 
 #calculator{
 
@@ -642,4 +657,34 @@ button{
 
 .users table .act {
     width: 10%;
+}
+
+.sales table .id {
+    width: 6%;
+}
+
+.sales table .desc {
+    width: 100%;
+}
+
+.sales table .code {
+    width: 8%;
+}
+
+.sales table .value {
+    width: 8%;
+}
+
+.res .work {
+    text-align: center;
+    line-height: 0;
+}
+
+.res .work img {
+    display: inline-block;
+    text-align: center;
+    font-size: 0;
+    line-height: 0;
+    height: 80vh;
+    letter-spacing: unset;
 }
