@@ -7,16 +7,7 @@
  </head>
 
 <body>
-<header>
-  <a class="logo">Inferno</a>
-  <table class="menu">
-      <td><a href="index.html">About us</a></td>
-      <td><a href="catalog.html">Catalog</a></td>
-      <td><a href="sign-up.html">Profile</a></td>
-      <td><a href="masters.html">Masters</a></td>
-      <td><a href="calculator.html">Calculator</a></td>
-  </table>
-</header>
+<div th:insert="header :: header"></div>
 
 <content id="profile">
 
@@ -33,50 +24,33 @@
           <th>Статус</th>
         </tr>
         <tr>
-            <td class="id"><input type="number" name="" value="0"></td>
-            <td class="code"><input type="text" value="LK503J2"></td>
-            <td class="value"><input type="number" name=""></td>
-            <td class="desc"><input type="text" name=""></td>
-            <td class="exspires"><input type="date" name=""></td>
-            <td class="status">Активна</td>
-            <td class="act"><form><button>Add</button></form></td>
+            <form th:action="@{/addNewDiscount}" method="post">
+                <td class="id"><input readonly type="number" name="" value="0"></td>
+                <td class="code"><input readonly type="text" value="LK503J2"></td>
+                <td class="value"><input type="number" min="0" max="100" name="percentage"></td>
+                <td class="desc"><input type="text" name="description"></td>
+                <td class="exspires"><input type="date" name="expireDate"></td>
+                <td class="status">Активна</td>
+                <td class="act"><button>Add</button></td>
+            </form>
         </tr>
-        <tr>
-            <td class="id">1</td>
-            <td class="code">T45RX7</td>
-            <td class="value">30%</td>
-            <td class="desc">Скидка на первую татуировку</td>
-            <td class="exspires">17.06.2022</td>
-            <td class="status">Активна</td>
-            <td class="act"><form><button>Delete</button></form></td>
-        </tr>
-        <tr>
-            <td class="id">2</td>
-            <td class="code">AS00J2</td>
-            <td class="value">10%</td>
-            <td class="desc">Скидка за регистрацию на сайте</td>
-            <td class="exspires">12.07.2022</td>
-            <td class="status">Истекла</td>
-            <td class="act"><form><button>Delete</button></form></td>
-        </tr>
-        <tr>
-            <td class="id">25</td>
-            <td class="code">PS03J2</td>
-            <td class="value">10%</td>
-            <td class="desc">Скидка за отсос админу</td>
-            <td class="exspires">12.07.2022</td>
-            <td class="status">Активна</td>
-            <td class="act"><form><button>Delete</button></form></td>
+        <tr th:each="discount, iStat : ${discounts}">
+            <td class="id" th:text="${discount.id}"></td>
+            <td class="code" th:text="${discount.promocode}"></td>
+            <td class="value" th:text="${discount.valueFormatted}"></td>
+            <td class="desc" th:text="${discount.description}"></td>
+            <td class="exspires" th:text="${discount.expireDateFormatted}"></td>
+            <td class="status" th:text="${discount.statusDescription}"></td>
+            <td class="act"><form th:action="@{/deleteDiscount(discountId=${discount.id})}" method="post"><button>Delete</button></form></td>
         </tr>
       </table>
   </div>
 </content>
 
-
 <footer>
   <hr>
   <p class="foo-content">Hello have a good day bro (:</p>
 </footer>
-
+</body>
 
 </html>
