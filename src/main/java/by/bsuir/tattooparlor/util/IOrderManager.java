@@ -9,6 +9,8 @@ import by.bsuir.tattooparlor.util.exception.UtilException;
 import java.util.List;
 
 public interface IOrderManager {
+    Order findById(long id) throws UtilException;
+    List<Order> findAllCompleted();
     List<Order> findAllByClient(Client client);
     List<Order> findUnacceptedByMaster(TattooMaster tattooMaster);
     List<Order> findAcceptedByMaster(TattooMaster tattooMaster);

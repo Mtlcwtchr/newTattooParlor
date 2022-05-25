@@ -40,4 +40,8 @@ public class TattooMaster {
         LocalDate workStarted = DateUtils.toLocal(getWorkStarted());
         return Period.between(workStarted, now).getYears();
     }
+
+    public String getDateOfWorkStartFormatted() {
+        return DateUtils.dateToHtmlString(workStarted);
+    }
 }

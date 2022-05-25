@@ -3,7 +3,27 @@
 <head>
   <title>Buba Tattoo</title>
   <link rel="stylesheet" type="text/css" href="css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script type="text/javascript" src="js/script.js"></script>
+  <script>
+    $(document).ready(function() {
+
+      document.querySelectorAll('.show-update-label').forEach((link) => {
+        link.addEventListener('click', () => {
+          $('.order-update-' + link.getAttribute('about')).css('display', 'revert');
+          $('.order-show-' + link.getAttribute('about')).css('display', 'none');
+        })
+      })
+
+      document.querySelectorAll('.show-view-label').forEach((link) => {
+        link.addEventListener('click', () => {
+          $('.order-update-' + link.getAttribute('about')).css('display', 'none');
+          $('.order-show-' + link.getAttribute('about')).css('display', 'revert');
+        })
+      })
+
+    })
+  </script>
   <meta charset="utf-8">
  </head>
 
@@ -17,25 +37,26 @@
       <a class="red-style" th:href="@{/schedule}">Acceped</a>
       <a th:href="@{/scheduleNew}">Requets</a>
     </nav>
-    <form class="order new-order">
+
+    <form class="order new-order" th:action="@{/postPseudoOrder}" method="post">
       <h4>Новый заказ</h4>
       <hr>
       <div class="order-info">
-        <span class="info-in">Заказчик: </span><input class="info-value" placeholder=""></input><br>
-        <span class="info-in">Мастер: </span><input class="info-value" value="Андрей" readonly><br>
-        <span class="info-in">Дата: </span><input class="info-value" type="date"><br>
-        <span class="info-in">Номер телефона: </span><input class="info-value"><br>
-        <span class="info-in">Тариф: </span><input class="info-value"><br>
-        <span class="info-in">Стоимость: </span><input class="info-value"><br>
+        <span class="info-in">Дата: </span><input class="info-value" type="date" name="dateTime"><br>
+        <span class="info-in">Номер телефона: </span><input class="info-value" type="text" name="contactPhone"><br>
+        <span class="info-in">Стоимость: </span><input class="info-value" type="text" name="price"><br>
+        <span class="info-in">Комментарий: </span><input class="info-value" type="text" name="comment"><br>
       </div>
       <img style="visibility: hidden;" src="imgs/Untitled2.png">
       <div class="order-status">
         <button>Добавить</button>
       </div>
     </form>
+
     <br>
     <a class="center" href="">show previous</a>
     <br>
+
     <div th:if="false" th:each="pair, iStat : ${previouslyCompletedOrders}">
       <span class="red-style" th:text="${pair.key}"></span>
       <div class="order complete" th:each="order, jStat : ${pair.value}">
@@ -59,8 +80,8 @@
       <div class="order complete" th:each="order, jStat : ${pair.value}">
         <div class="order-info">
           <span class="info-in">Заказчик: </span><span class="info-value" th:text="${order.client.name}"></span><br>
-          <span class="info-in">Мастер: </span><input class="info-value" th:text="${order.master.name}"><br>
-          <span class="info-in">Дата: </span><input type="date" class="info-value" th:text="${order.dateFormatted}"><br>
+          <span class="info-in">Мастер: </span><span class="info-value" th:text="${order.master.name}"></span><br>
+          <span class="info-in">Дата: </span><span class="info-value" th:text="${order.dateFormatted}"></span><br>
           <span class="info-in">Номер телефона: </span><span class="info-value" th:text="${order.contactPhone}"></span><br>
           <span class="info-in">Тариф: </span><span class="info-value" th:text="${order.tariff}"></span><br>
           <span class="info-in">Стоимость: </span><span class="info-value" th:text="${order.priceFormatted}"></span><br>
@@ -75,21 +96,47 @@
     <div th:each="pair, iStat : ${acceptedOrders}">
       <span class="red-style" th:text="${pair.key}"></span>
       <div class="order complete" th:each="order, jStat : ${pair.value}">
-        <div class="order-info">
-          <span class="info-in">Заказчик: </span><span class="info-value" th:text="${order.client.name}"></span><br>
-          <span class="info-in">Мастер: </span><span class="info-value" th:text="${order.master.name}"></span><br>
-          <span class="info-in">Дата: </span><span class="info-value" th:text="${order.dateFormatted}"></span><br>
-          <span class="info-in">Номер телефона: </span><span class="info-value" th:text="${order.contactPhone}"></span><br>
-          <span class="info-in">Тариф: </span><span class="info-value" th:text="${order.tariff}"></span><br>
-          <span class="info-in">Стоимость: </span><span class="info-value" th:text="${order.priceFormatted}"></span><br>
+        <div th:class="${'order-show-'} + ${order.id}">
+          <div class="order-info">
+            <span class="info-in">Заказчик: </span><span class="info-value" th:text="${order.client.name}"></span><br>
+            <span class="info-in">Мастер: </span><span class="info-value" th:text="${order.master.name}"></span><br>
+            <span class="info-in">Дата: </span><span class="info-value" th:text="${order.dateFormatted}"></span><br>
+            <span class="info-in">Номер телефона: </span><span class="info-value" th:text="${order.contactPhone}"></span><br>
+            <span class="info-in">Тариф: </span><span class="info-value" th:text="${order.tariff}"></span><br>
+            <span class="info-in">Стоимость: </span><span class="info-value" th:text="${order.priceFormatted}"></span><br>
+          </div>
+          <img th:src="@{/loadFile(uri=${order.product.imageUri})}">
+          <div class="order-status">
+            <span>Статус заказа: </span><span th:text="${order.statusFormatted}"></span>
+          </div>
+          <a class="edit show-update-label" th:about="${order.id}"><img th:src="@{/loadFile(uri=edit.png)}"></a></span>
         </div>
-        <img th:src="@{/loadFile(uri=${order.product.imageUri})}">
-        <div class="order-status">
-          <span>Статус заказа: </span><span th:text="${order.statusFormatted}"></span>
+        <div th:class="${'order-update-'} + ${order.id}" style="display: none">
+          <form th:action="@{/updateOrder(orderId=${order.id})}" method="post" enctype="multipart/form-data">
+            <div class="order-info">
+              <span class="info-in">Заказчик: </span><span class="info-value" th:text="${order.client.name}"></span><br>
+              <span class="info-in">Мастер: </span><span class="info-value" th:text="${order.master.name}"></span><br>
+              <span class="info-in">Дата: </span><input class="info-value" type="datetime-local" name="datetime" th:value="${order.dateFormatted}"/><br>
+              <span class="info-in">Номер телефона: </span><span class="info-value" th:text="${order.contactPhone}"></span><br>
+              <span class="info-in">Тариф: </span><span class="info-value" th:text="${order.tariff}"></span><br>
+              <span class="info-in">Стоимость: </span><span class="info-value" th:text="${order.priceFormatted}"></span><br>
+              <span class="info-in">Готовая работа: </span><input class="info-value" type="file" name="completedImage"><br>
+            </div>
+            <img th:src="@{/loadFile(uri=${order.product.imageUri})}">
+            <div class="order-status">
+              <span>Статус заказа: </span><select name="orderStatus">
+              <option selected th:value="${order.orderStatus.ACCEPTED}" th:text="${order.orderStatus.ACCEPTED.description}"></option>
+              <option th:value="${order.orderStatus.COMPLETED}" th:text="${order.orderStatus.COMPLETED.description}"></option>
+              <option th:value="${order.orderStatus.REJECTED}" th:text="${order.orderStatus.REJECTED.description}"></option>
+            </select>
+            </div>
+            <button type="submit">Внести изменения</button>
+          </form>
+          <a class="edit show-view-label" th:about="${order.id}"><img th:src="@{/loadFile(uri=edit.png)}"></a></span>
         </div>
-        <a href="" class="edit"><img src="imgs/icons/edit.png"></a>
       </div>
     </div>
+
   </div>
 </content>
 <footer>

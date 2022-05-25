@@ -27,4 +27,22 @@ public class ListUtils {
 
         return quarts;
     }
+
+
+    public static List<List<Product>> mapToOctants(List<Product> products) {
+        List<List<Product>> quarts = new ArrayList<>();
+
+        List<Product> quart = new ArrayList<>();
+        int j = 0;
+        for (Product product : products) {
+            quart.add(product);
+
+            if(++j % 8 == 0 || j == products.size()) {
+                quarts.add(quart);
+                quart = new ArrayList<>();
+            }
+        }
+
+        return quarts;
+    }
 }

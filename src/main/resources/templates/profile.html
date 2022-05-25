@@ -3,7 +3,27 @@
 <head>
   <title>EPAM Tattoo</title>
   <link rel="stylesheet" type="text/css" href="css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script type="text/javascript" src="js/script.js"></script>
+  <script>
+    $(document).ready(function() {
+
+      document.querySelectorAll('.show-update-label').forEach((link) => {
+        link.addEventListener('click', () => {
+          $('.view-profile-label').css('display', 'none');
+          $('.update-profile-label').css('display', 'revert');
+        })
+      })
+
+      document.querySelectorAll('.show-view-label').forEach((link) => {
+        link.addEventListener('click', () => {
+          $('.view-profile-label').css('display', 'revert');
+          $('.update-profile-label').css('display', 'none');
+        })
+      })
+
+    })
+  </script>
   <meta charset="utf-8">
  </head>
 
@@ -15,35 +35,17 @@
     <h1 class="profile-h2">Личная информация</h1>
     <br>
     <img th:src="@{/loadProfilePic}">
-    <form th:action="@{/updateProfilePic}" method="post" enctype="multipart/form-data">
-      <input type="file" name="file">
-      <button type="submit">Update profile</button>
-    </form>
-    <div id="update-profile-label" style="display: none">
-      <span onclick="
-      function updateLabel() {
-        document.getElementById('update-profile-label').style.display = 'none';
-        document.getElementById('show-profile-label').style.display = 'revert';
-      }
-
-      updateLabel()
-      " class="update-label-button">karandashik</span>
-      <form th:action="@{/updatePersonalInfo}" method="post" class="input-pers-info">
+    <div class="update-profile-label" style="display: none">
+      <a class="edit show-view-label"><img th:src="@{/loadFile(uri=edit.png)}"></a>
+      <form th:action="@{/updateClientPersonalInfo}" method="post" enctype="multipart/form-data" class="input-pers-info">
         <span>Имя</span><input type="text" name="name" th:value="${session.currentClient.name}"><br>
         <span>Номер телефона</span><input type="text" name="phone" th:value="${session.currentClient.phone}"><br>
-        <span>E-mail:</span><input type="text" name="e-mail" th:value="${session.currentClient.user.email}"><br>
+        <span>Аватар</span><input type="file" name="file"><br>
         <button type="submit">Сохранить изменения</button>
       </form>
     </div>
-    <div id="show-profile-label">
-      <span onclick="
-      function showLabel() {
-        document.getElementById('update-profile-label').style.display = 'revert';
-        document.getElementById('show-profile-label').style.display = 'none';
-      }
-
-      showLabel()
-      " class="show-label-button">karandashik</span>
+    <div class="view-profile-label">
+      <a class="edit show-update-label"><img th:src="@{/loadFile(uri=edit.png)}"></a>
       <span>Имя</span><span th:text="${session.currentClient.name}"></span><br>
       <span>Номер телефона</span><span th:text="${session.currentClient.phone}"></span><br>
       <span>E-mail:</span><span th:text="${session.currentClient.user.email}"></span><br>
@@ -71,14 +73,17 @@
     </div>
   </div>
 
-  <div class="p-div favs imgs">
-    <h1>Избранное</h1>
-    <div class="quad" th:each="quad, iStat : ${favourites}">
-      <div class="item" th:each="item, iStat : ${quad}">
-        <img class="sketch" th:src="@{/loadFile(uri=${item.imageUri})}">
+  <div class="catalog">
+    <div class="p-div favs imgs">
+      <h1>Избранное</h1>
+      <div class="quad" th:each="quad, iStat : ${favourites}">
+        <div class="item" th:each="item, iStat : ${quad}">
+          <img class="sketch" th:src="@{/loadFile(uri=${item.imageUri})}">
+        </div>
       </div>
     </div>
   </div>
+
   <div class="p-div users sales">
     <h1>Скидки</h1>
     <br>
@@ -88,37 +93,41 @@
         <th>Промокод</th>
         <th>Скидка</th>
         <th>Описание</th>
-        <th>Срок действия</th>
         <th>Статус</th>
+        <th></th>
       </tr>
-      <tr>
-        <td class="id">1</td>
-        <td class="code">T45RX7</td>
-        <td class="value">30%</td>
-        <td class="desc">Скидка на первую татуировку</td>
-        <td class="expires">17.06.2022</td>
-        <td class="status">Использована</td>
-        <td class="act"><form><button>Copy</button></form></td>
-      </tr>
-      <tr>
-        <td class="id">2</td>
-        <td class="code">AS00J2</td>
-        <td class="value">10%</td>
-        <td class="desc">Скидка за регистрацию на сайте</td>
-        <td class="expires">12.07.2022</td>
-        <td class="status">Истекла</td>
-        <td class="act"><form><button>Copy</button></form></td>
-      </tr>
-      <tr>
-        <td class="id">25</td>
-        <td class="code">PS03J2</td>
-        <td class="value">10%</td>
-        <td class="desc">Скидка просто так</td>
-        <td class="expires">12.07.2022</td>
-        <td class="status">Активна</td>
-        <td class="act"><form><button>Copy</button></form></td>
+      <tr th:each="discount, iStat : ${discounts}">
+        <td class="id" th:value="${discount.id}"></td>
+        <td class="code" th:value="${discount.discount.promocode}"></td>
+        <td class="value" th:value="${discount.discount.percentage}"></td>
+        <td class="desc" th:value="${discount.discount.description}"></td>
+        <td class="status" th:value="${discount.statusDescription}"></td>
+        <td class="act"><button>Copy</button></td>
       </tr>
     </table>
+  </div>
+</content>
+
+<content id="profile" th:if="${session.currentUser.role == session.currentUser.role.MODERATOR}">
+  <div class="p-div personal-info">
+    <h1 class="profile-h2">Личная информация</h1>
+    <br>
+    <img th:src="@{/loadMasterProfilePic(masterId=${session.currentMaster.id})}">
+    <div class="update-profile-label" style="display: none">
+      <a class="edit show-view-label"><img th:src="@{/loadFile(uri=edit.png)}"></a>
+      <form th:action="@{/updateMasterPersonalInfo}" method="post" class="input-pers-info" enctype="multipart/form-data">
+        <span>Имя</span><input type="text" name="name" th:value="${session.currentMaster.name}"><br>
+        <span>Дата начала работы</span><input type="date" name="workStarted" th:value="${session.currentMaster.dateOfWorkStartFormatted}"><br>
+        <span>Аватар</span><input type="file" name="file"><br>
+        <button type="submit">Сохранить изменения</button>
+      </form>
+    </div>
+    <div class="view-profile-label">
+      <a class="edit show-update-label"><img th:src="@{/loadFile(uri=edit.png)}"></a>
+      <span>Имя</span><span th:text="${session.currentMaster.name}"></span><br>
+      <span>E-mail:</span><span th:text="${session.currentMaster.user.email}"></span><br>
+      <span>Дата начала работы</span><span th:value="${session.currentMaster.dateOfWorkStartFormatted}"></span><br>
+    </div>
   </div>
 </content>
 

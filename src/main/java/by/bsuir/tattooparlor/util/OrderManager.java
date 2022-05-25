@@ -25,6 +25,16 @@ public class OrderManager implements IOrderManager {
         this.orderRepository = orderRepository;
     }
 
+    @Override
+    public Order findById(long id) throws UtilException {
+        return orderRepository.findById(id).orElseThrow(NoOrderPresentedException::new);
+    }
+
+    @Override
+    public List<Order> findAllCompleted() {
+        return orderRepository.findAll().stream().filter(order -> order.getOrderStatus() == OrderStatus.COMPLETED).collect(Collectors.toList());
+    }
+
     public List<Order> findAllByClient(Client client) {
         return orderRepository.findAllByClient(client);
     }

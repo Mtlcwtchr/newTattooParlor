@@ -1,6 +1,7 @@
 package by.bsuir.tattooparlor.entity;
 
 import by.bsuir.tattooparlor.entity.helpers.ClientDiscountStatus;
+import by.bsuir.tattooparlor.entity.helpers.DiscountStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,4 +29,19 @@ public class ClientDiscount {
     @ManyToOne
     @JoinColumn(name = "discount_id")
     private Discount discount;
+
+    public String getStatusDescription() {
+        DiscountStatus discountStatus = discount.getStatus();
+        ClientDiscountStatus clientDiscountStatus = getStatus();
+
+        if (discountStatus == DiscountStatus.EXPIRED) {
+            return "Истекла";
+        }
+
+        return switch (clientDiscountStatus) {
+            case ACTIVE -> "Активна";
+            case APPLYING -> "Применена к заказу";
+            case APPLIED -> "Использована";
+        };
+    }
 }

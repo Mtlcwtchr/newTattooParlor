@@ -25,8 +25,8 @@ public class ClientManager implements IClientManager {
         clientRepository.save(client);
     }
 
-    public void update(Client client) {
-        clientRepository.save(client);
+    public Client update(Client client) {
+        return clientRepository.saveAndFlush(client);
     }
 
     public List<Client> findAll() {

@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface IClientManager {
     void updateProfilePictureUri(Client client, String profilePictureUri);
-    void update(Client client);
+    Client update(Client client);
     List<Client> findAll();
 }

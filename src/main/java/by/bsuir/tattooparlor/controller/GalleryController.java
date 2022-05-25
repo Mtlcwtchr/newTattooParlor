@@ -1,12 +1,11 @@
 package by.bsuir.tattooparlor.controller;
 
 import by.bsuir.tattooparlor.config.GlobalPaths;
-import by.bsuir.tattooparlor.entity.Client;
-import by.bsuir.tattooparlor.entity.Product;
-import by.bsuir.tattooparlor.entity.User;
+import by.bsuir.tattooparlor.entity.*;
 import by.bsuir.tattooparlor.entity.helpers.GalleryType;
 import by.bsuir.tattooparlor.entity.helpers.UserRole;
 import by.bsuir.tattooparlor.util.IClientRateManager;
+import by.bsuir.tattooparlor.util.IOrderManager;
 import by.bsuir.tattooparlor.util.IProductManager;
 import by.bsuir.tattooparlor.util.ListUtils;
 import by.bsuir.tattooparlor.util.calculator.ICalculationsManager;
@@ -25,9 +24,7 @@ import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class GalleryController {
@@ -35,12 +32,13 @@ public class GalleryController {
     private final ICalculationsManager calculationsManager;
     private final IProductManager productManager;
     private final IClientRateManager clientRateManager;
+    private final IOrderManager orderManager;
 
-    @Autowired
-    public GalleryController(ICalculationsManager calculationsManager, IProductManager productManager, IClientRateManager clientRateManager) {
+    public GalleryController(ICalculationsManager calculationsManager, IProductManager productManager, IClientRateManager clientRateManager, IOrderManager orderManager) {
         this.calculationsManager = calculationsManager;
         this.productManager = productManager;
         this.clientRateManager = clientRateManager;
+        this.orderManager = orderManager;
     }
 
     @RequestMapping("/")
@@ -69,6 +67,13 @@ public class GalleryController {
 
         model.addAttribute("products", quarts);
         return retVal;
+    }
+
+    @RequestMapping("/workGallery")
+    public String proceedToWorkGallery(HttpSession session, Model model) {
+        List<Order> orders = orderManager.findAllCompleted();
+        model.addAttribute("products", mapToMasterOrdered(orders));
+        return "work-gallery";
     }
 
     @RequestMapping("/rate")
@@ -130,5 +135,23 @@ public class GalleryController {
         File file = new File(pictureUri);
         multipartFile.transferTo(file);
         return file;
+    }
+
+    private Map<TattooMaster, List<Product>> mapToMasterOrdered(List<Order> orders) {
+        if(orders == null || orders.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        Map<TattooMaster, List<Product>> map = new HashMap<>();
+        orders.sort(Comparator.comparing(Order::getDateTime));
+
+        for (Order order : orders) {
+            TattooMaster master = order.getMaster();
+            if(!map.containsKey(master)) {
+                map.put(master, new ArrayList<>());
+            }
+            map.get(master).add(order.getProduct());
+        }
+
+        return map;
     }
 }

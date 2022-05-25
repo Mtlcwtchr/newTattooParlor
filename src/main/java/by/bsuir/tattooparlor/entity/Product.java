@@ -23,7 +23,9 @@ public class Product {
     @NonNull
     private String imageUri;
     @NonNull
-    private GalleryType galleryType = GalleryType.GALLERY;
+    private String completedImageUri = "";
+    @NonNull
+    private GalleryType galleryType = GalleryType.NONE;
     @NonNull
     private int difficulty;
 

@@ -23,6 +23,7 @@
           <span class="info-in">Номер телефона: </span><span class="info-value" th:text="${currentOrder.contactPhone}"></span><br>
           <span class="info-in">Тариф: </span><span class="info-value" th:text="${currentOrder.product.difficultyDescription}"></span><br>
           <span class="info-in">Стоимость: </span><span class="info-value" th:text="${currentOrder.priceFormatted}"></span><br>
+          <span th:if="${discount != null}" class="info-in">Применена скидка: </span><span th:if="${discount != null}"  class="info-value" th:text="${discount.discount.description}"></span><br>
         </div>
         <img th:src="@{/loadFile(uri=${currentOrder.product.imageUri})}">
       </div>

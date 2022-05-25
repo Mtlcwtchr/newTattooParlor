@@ -21,43 +21,24 @@
 
     <div th:each="pair, iStat : ${orders}">
       <span class="red-style" th:text="${pair.key}"></span>
-      <form th:action="@{/updateOrderStatus(id=${order.id}, orderStatus=${order.orderStatus.ACCEPTED})}" method="post" class="order complete" th:each="order, jStat : ${pair.value}">
+      <form th:action="@{/updateOrderStatus(id=${order.id})}" method="post" class="order complete" th:each="order, jStat : ${pair.value}">
         <div class="order-info">
           <span class="info-in">Заказчик: </span><span class="info-value" th:text="${order.client.name}"></span><br>
-
-          <span class="info-in">Мастер: </span><select title="Перенаправляйте заказ другому мастеру &#010; только если не готовы выполнить его">
-                                                <option>Андрей</option>
-                                                <option>Рустамчик</option>
-                                                <option>Виктория</option>
-                                                <option>НИКОМУ</option>
+          <span class="info-in">Мастер: </span><select name="masterId" title="Перенаправляйте заказ другому мастеру &#010; только если не готовы выполнить его">
+                                                <option value="0">Отклонить</option>
+                                                <option th:if="${master.id == session.currentMaster.id}" selected th:each="master, jStat : ${masters}" th:text="${master.name}" th:value="${master.id}"></option>
+                                                <option th:if="${master.id != session.currentMaster.id}" th:each="master, jStat : ${masters}" th:text="${master.name}" th:value="${master.id}"></option>
                                               </select><br>
-          <!--
-          <span class="info-in">Мастер: </span><span class="info-value" th:text="${order.master.name}"></span><br>
-          -->
+
           <span class="info-in">Дата: </span><span class="info-value" th:text="${order.dateFormatted}"></span><br>
           <span class="info-in">Номер телефона: </span><span class="info-value" th:text="${order.contactPhone}"></span><br>
-          <span class="info-in">Тариф: </span><input class="info-value" th:value="${order.tariff}" /><br>
-          <span class="info-in">Стоимость: </span><input class="info-value" th:value="${order.priceFormatted}" /><br>
+          <span class="info-in">Тариф: </span><span class="info-value" th:value="${order.tariff}"></span><br>
+          <span class="info-in">Стоимость: </span><input name="priceAccepted" class="info-value" th:value="${order.price}"/><br>
         </div>
         <img th:src="@{/loadFile(uri=${order.product.imageUri})}">
         <div class="buts">
-          <button>Принять</button>
-          <form th:action="@{/updateOrderStatus(id=${order.id}, orderStatus=${order.orderStatus.REJECTED})}" method="post">
-            <button>Отклонить</button>
-          </form>
+          <button>Обработать</button>
         </div>
-        <!-- Я ТУТ ПОМЕНЯЛА ТВОЙ КОД И ВИД ФОРМЫ ПРОВЕРИШЬ ПОТОМ!!!!!!!!! ЛЮБЛЮ ЧМО_K
-        ПЕРЕНАПРАВЛЕНИЕ ЗАКАЗА "НИКОМУ" ЗНАЧИТ ЧТО ЗАКАЗЧИК ДАУН И ЗАЛИЛ ТУПУЮ ПИКЧУ И НАПРИМЕР ЗАБАНЕН ПОСЛЕ ТАКОГО
-        <form th:action="@{/updateOrderStatus(id=${order.id}, status=${order.orderStatus.ACCEPTED})}">
-          <div class="order-status">
-            <button>Принять заказ</button>
-          </div>
-        </form>
-        <form th:action="@{/updateOrderStatus(id=${order.id}, status=${order.orderStatus.REJECTED})}">
-          <div class="order-status">
-            <button>Отклонить заказ</button>
-          </div>
-        </form>-->
       </form>
     </div>
   </div>
