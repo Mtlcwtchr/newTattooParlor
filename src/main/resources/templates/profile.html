@@ -97,11 +97,11 @@
         <th></th>
       </tr>
       <tr th:each="discount, iStat : ${discounts}">
-        <td class="id" th:value="${discount.id}"></td>
-        <td class="code" th:value="${discount.discount.promocode}"></td>
-        <td class="value" th:value="${discount.discount.percentage}"></td>
-        <td class="desc" th:value="${discount.discount.description}"></td>
-        <td class="status" th:value="${discount.statusDescription}"></td>
+        <td class="id" th:text="${discount.id}"></td>
+        <td class="code" th:text="${discount.discount.promocode}"></td>
+        <td class="value" th:text="${discount.discount.percentage}"></td>
+        <td class="desc" th:text="${discount.discount.description}"></td>
+        <td class="status" th:text="${discount.statusDescription}"></td>
         <td class="act"><button>Copy</button></td>
       </tr>
     </table>
