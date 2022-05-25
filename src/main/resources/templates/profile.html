@@ -19,8 +19,15 @@
       <input type="file" name="file">
       <button type="submit">Update profile</button>
     </form>
-    <div class="update-profile-label" style="display: none">
-      <span onclick="showLabel()" class="update-label-button">karandashik</span>
+    <div id="update-profile-label" style="display: none">
+      <span onclick="
+      function updateLabel() {
+        document.getElementById('update-profile-label').style.display = 'none';
+        document.getElementById('show-profile-label').style.display = 'revert';
+      }
+
+      updateLabel()
+      " class="update-label-button">karandashik</span>
       <form th:action="@{/updatePersonalInfo}" method="post" class="input-pers-info">
         <span>Имя</span><input type="text" name="name" th:value="${session.currentClient.name}"><br>
         <span>Номер телефона</span><input type="text" name="phone" th:value="${session.currentClient.phone}"><br>
@@ -28,8 +35,15 @@
         <button type="submit">Сохранить изменения</button>
       </form>
     </div>
-    <div class="show-profile-label">
-      <span onclick="updateLabel()" class="show-label-button">karandashik</span>
+    <div id="show-profile-label">
+      <span onclick="
+      function showLabel() {
+        document.getElementById('update-profile-label').style.display = 'revert';
+        document.getElementById('show-profile-label').style.display = 'none';
+      }
+
+      showLabel()
+      " class="show-label-button">karandashik</span>
       <span>Имя</span><span th:text="${session.currentClient.name}"></span><br>
       <span>Номер телефона</span><span th:text="${session.currentClient.phone}"></span><br>
       <span>E-mail:</span><span th:text="${session.currentClient.user.email}"></span><br>
