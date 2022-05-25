@@ -22,6 +22,15 @@
         })
       })
 
+      let prevShown = false;
+
+      document.querySelectorAll('.show-prev-view').forEach((link) => {
+        link.addEventListener('click', () => {
+          prevShown = !prevShown;
+          $('.prev-view-label').css('display', prevShown ? 'revert' : 'none');
+        })
+      })
+
     })
   </script>
   <meta charset="utf-8">
@@ -55,10 +64,10 @@
     </form>
 
     <br>
-    <a class="center" href="">show previous</a>
+    <a class="center show-prev-view" href="">show previous</a>
     <br>
 
-    <div th:if="false" th:each="pair, iStat : ${previouslyCompletedOrders}">
+    <div style="display: none" class="prev-view-label" th:if="false" th:each="pair, iStat : ${previouslyCompletedOrders}">
       <span class="red-style" th:text="${pair.key}"></span>
       <div class="order complete" th:each="order, jStat : ${pair.value}">
         <div class="order-info">

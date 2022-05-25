@@ -23,25 +23,6 @@
             <th>Роль</th>
             <th>Действие</th>
           </tr>
-          <tr th:each="client, iStat : ${clients}">
-              <td class="id" th:text="${client.id}"></td>
-              <td class="name" th:text="${client.name}"></td>
-              <td class="email" th:text="${client.user.email}"></td>
-              <td class="phone" th:text="${client.phone}"></td>
-              <td class="role" th:text="${client.user.role.description}"></td>
-              <td class="act">
-                  <div th:if="${client.user.status != client.user.status.BLOCKED}">
-                      <form th:action="@{/setUserStatus(userId=${client.id}, status=${client.user.status.BLOCKED})}" method="post">
-                          <button>Block</button>
-                      </form>
-                  </div>
-                  <div th:if="${client.user.status == client.user.status.BLOCKED}">
-                      <form th:action="@{/setUserStatus(userId=${client.id}, status=${client.user.status.CONFIRMED})}" method="post">
-                          <button>Unblock</button>
-                      </form>
-                  </div>
-              </td>
-          </tr>
           <tr th:each="master, iStat : ${masters}">
               <td class="id" th:text="${master.id}"></td>
               <td class="name" th:text="${master.name}"></td>
@@ -61,7 +42,25 @@
                   </div>
               </td>
           </tr>
-
+          <tr th:each="client, iStat : ${clients}">
+              <td class="id" th:text="${client.id}"></td>
+              <td class="name" th:text="${client.name}"></td>
+              <td class="email" th:text="${client.user.email}"></td>
+              <td class="phone" th:text="${client.phone}"></td>
+              <td class="role" th:text="${client.user.role.description}"></td>
+              <td class="act">
+                  <div th:if="${client.user.status != client.user.status.BLOCKED}">
+                      <form th:action="@{/setUserStatus(userId=${client.id}, status=${client.user.status.BLOCKED})}" method="post">
+                          <button>Block</button>
+                      </form>
+                  </div>
+                  <div th:if="${client.user.status == client.user.status.BLOCKED}">
+                      <form th:action="@{/setUserStatus(userId=${client.id}, status=${client.user.status.CONFIRMED})}" method="post">
+                          <button>Unblock</button>
+                      </form>
+                  </div>
+              </td>
+          </tr>
       </table>
     </div>
     <form class="users-form"></form>
