@@ -38,18 +38,19 @@
       <a th:href="@{/scheduleNew}">Requets</a>
     </nav>
 
-    <form class="order new-order" th:action="@{/postPseudoOrder}" method="post">
+    <form class="order new-order" th:action="@{/addNewScheduledItem}" method="post">
       <h4>Новый заказ</h4>
       <hr>
       <div class="order-info">
-        <span class="info-in">Дата: </span><input class="info-value" type="date" name="dateTime"><br>
+        <span class="info-in">Заказчик: </span><input class="info-value" type="text" name="clientName"><br>
+        <span class="info-in">Дата: </span><input class="info-value" type="datetime-local" required name="dateTime"><br>
         <span class="info-in">Номер телефона: </span><input class="info-value" type="text" name="contactPhone"><br>
         <span class="info-in">Стоимость: </span><input class="info-value" type="text" name="price"><br>
         <span class="info-in">Комментарий: </span><input class="info-value" type="text" name="comment"><br>
       </div>
-      <img style="visibility: hidden;" src="imgs/Untitled2.png">
+      <img style="visibility: hidden;" th:src="@{/loadFile(uri=)}">
       <div class="order-status">
-        <button>Добавить</button>
+        <button type="submit">Добавить</button>
       </div>
     </form>
 
@@ -61,14 +62,14 @@
       <span class="red-style" th:text="${pair.key}"></span>
       <div class="order complete" th:each="order, jStat : ${pair.value}">
         <div class="order-info">
-          <span class="info-in">Заказчик: </span><span class="info-value" th:text="${order.client.name}"></span><br>
+          <span class="info-in">Заказчик: </span><span class="info-value" th:text="${order.clientName}"></span><br>
           <span class="info-in">Мастер: </span><span class="info-value" th:text="${order.master.name}"></span><br>
           <span class="info-in">Дата: </span><span class="info-value" th:text="${order.dateFormatted}"></span><br>
           <span class="info-in">Номер телефона: </span><span class="info-value" th:text="${order.contactPhone}"></span><br>
           <span class="info-in">Тариф: </span><span class="info-value" th:text="${order.tariff}"></span><br>
           <span class="info-in">Стоимость: </span><span class="info-value" th:text="${order.priceFormatted}"></span><br>
         </div>
-        <img th:src="@{/loadFile(uri=${order.product.imageUri})}">
+        <img th:src="@{/loadFile(uri=${order.imageUri})}">
         <div class="order-status">
           <span>Статус заказа: </span><span th:text="${order.statusFormatted}"></span>
         </div>
@@ -79,14 +80,14 @@
       <span class="red-style" th:text="${pair.key}"></span>
       <div class="order complete" th:each="order, jStat : ${pair.value}">
         <div class="order-info">
-          <span class="info-in">Заказчик: </span><span class="info-value" th:text="${order.client.name}"></span><br>
+          <span class="info-in">Заказчик: </span><span class="info-value" th:text="${order.clientName}"></span><br>
           <span class="info-in">Мастер: </span><span class="info-value" th:text="${order.master.name}"></span><br>
           <span class="info-in">Дата: </span><span class="info-value" th:text="${order.dateFormatted}"></span><br>
           <span class="info-in">Номер телефона: </span><span class="info-value" th:text="${order.contactPhone}"></span><br>
           <span class="info-in">Тариф: </span><span class="info-value" th:text="${order.tariff}"></span><br>
           <span class="info-in">Стоимость: </span><span class="info-value" th:text="${order.priceFormatted}"></span><br>
         </div>
-        <img th:src="@{/loadFile(uri=${order.product.imageUri})}">
+        <img th:src="@{/loadFile(uri=${order.imageUri})}">
         <div class="order-status">
           <span>Статус заказа: </span><span th:text="${order.statusFormatted}"></span>
         </div>
@@ -98,31 +99,54 @@
       <div class="order complete" th:each="order, jStat : ${pair.value}">
         <div th:class="${'order-show-'} + ${order.id}">
           <div class="order-info">
-            <span class="info-in">Заказчик: </span><span class="info-value" th:text="${order.client.name}"></span><br>
+            <span class="info-in">Заказчик: </span><span class="info-value" th:text="${order.clientName}"></span><br>
             <span class="info-in">Мастер: </span><span class="info-value" th:text="${order.master.name}"></span><br>
             <span class="info-in">Дата: </span><span class="info-value" th:text="${order.dateFormatted}"></span><br>
             <span class="info-in">Номер телефона: </span><span class="info-value" th:text="${order.contactPhone}"></span><br>
             <span class="info-in">Тариф: </span><span class="info-value" th:text="${order.tariff}"></span><br>
             <span class="info-in">Стоимость: </span><span class="info-value" th:text="${order.priceFormatted}"></span><br>
           </div>
-          <img th:src="@{/loadFile(uri=${order.product.imageUri})}">
+          <img th:src="@{/loadFile(uri=${order.imageUri})}">
           <div class="order-status">
             <span>Статус заказа: </span><span th:text="${order.statusFormatted}"></span>
           </div>
           <a class="edit show-update-label" th:about="${order.id}"><img th:src="@{/loadFile(uri=edit.png)}"></a></span>
         </div>
         <div th:class="${'order-update-'} + ${order.id}" style="display: none">
-          <form th:action="@{/updateOrder(orderId=${order.id})}" method="post" enctype="multipart/form-data">
+          <form th:if="${order.realOrder}" th:action="@{/updateOrder(orderId=${order.id})}" method="post" enctype="multipart/form-data">
             <div class="order-info">
-              <span class="info-in">Заказчик: </span><span class="info-value" th:text="${order.client.name}"></span><br>
-              <span class="info-in">Мастер: </span><span class="info-value" th:text="${order.master.name}"></span><br>
-              <span class="info-in">Дата: </span><input class="info-value" type="datetime-local" name="datetime" th:value="${order.dateFormatted}"/><br>
+              <span class="info-in">Заказчик: </span><span class="info-value" th:text="${order.clientName}"></span><br>
+              <span class="info-in">Мастер: </span><select name="masterId" title="Перенаправляйте заказ другому мастеру &#010; только если не готовы выполнить его">
+              <option th:if="${master.id == session.currentMaster.id}" selected th:each="master, jStat : ${masters}" th:text="${master.name}" th:value="${master.id}"></option>
+              <option th:if="${master.id != session.currentMaster.id}" th:each="master, jStat : ${masters}" th:text="${master.name}" th:value="${master.id}"></option>
+            </select><br>
+              <span class="info-in">Дата: </span><input class="info-value" type="datetime-local" name="dateTime" th:value="${order.dateFormattedISO}"/><br>
               <span class="info-in">Номер телефона: </span><span class="info-value" th:text="${order.contactPhone}"></span><br>
               <span class="info-in">Тариф: </span><span class="info-value" th:text="${order.tariff}"></span><br>
               <span class="info-in">Стоимость: </span><span class="info-value" th:text="${order.priceFormatted}"></span><br>
               <span class="info-in">Готовая работа: </span><input class="info-value" type="file" name="completedImage"><br>
             </div>
-            <img th:src="@{/loadFile(uri=${order.product.imageUri})}">
+            <img th:src="@{/loadFile(uri=${order.imageUri})}">
+            <div class="order-status">
+              <span>Статус заказа: </span><select name="orderStatus">
+              <option selected th:value="${order.orderStatus.ACCEPTED}" th:text="${order.orderStatus.ACCEPTED.description}"></option>
+              <option th:value="${order.orderStatus.COMPLETED}" th:text="${order.orderStatus.COMPLETED.description}"></option>
+              <option th:value="${order.orderStatus.REJECTED}" th:text="${order.orderStatus.REJECTED.description}"></option>
+            </select>
+            </div>
+            <button type="submit">Внести изменения</button>
+          </form>
+          <form th:if="${!order.realOrder}" th:action="@{/updateScheduledItem(itemId=${order.id})}" method="post" enctype="multipart/form-data">
+            <div class="order-info">
+              <span class="info-in">Заказчик: </span><input type="text" class="info-value" name="clientName" th:value="${order.clientName}"><br>
+              <span class="info-in">Мастер: </span><span class="info-value" th:text="${order.master.name}"></span><br>
+              <span class="info-in">Дата: </span><input class="info-value" type="datetime-local" name="dateTime" th:value="${order.dateFormattedISO}"/><br>
+              <span class="info-in">Номер телефона: </span><input type="text" class="info-value" name="contactPhone" th:value="${order.contactPhone}"><br>
+              <span class="info-in">Тариф: </span><span class="info-value" th:text="${order.tariff}"></span><br>
+              <span class="info-in">Стоимость: </span><input type="text" class="info-value" name="price" th:value="${order.price}"><br>
+              <span class="info-in">Комментарий: </span><input type="text" class="info-value" name="comment" th:value="${order.comment}"><br>
+            </div>
+            <img th:src="@{/loadFile(uri=${order.imageUri})}">
             <div class="order-status">
               <span>Статус заказа: </span><select name="orderStatus">
               <option selected th:value="${order.orderStatus.ACCEPTED}" th:text="${order.orderStatus.ACCEPTED.description}"></option>

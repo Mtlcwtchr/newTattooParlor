@@ -20,7 +20,7 @@
     <br>
 
     <div th:each="pair, iStat : ${orders}">
-      <span class="red-style" th:text="${pair.key}"></span>
+      <br><span class="red-style" th:text="${pair.key}"></span><br>
       <form th:action="@{/updateOrderStatus(id=${order.id})}" method="post" class="order complete" th:each="order, jStat : ${pair.value}">
         <div class="order-info">
           <span class="info-in">Заказчик: </span><span class="info-value" th:text="${order.client.name}"></span><br>
@@ -35,7 +35,7 @@
           <span class="info-in">Тариф: </span><span class="info-value" th:value="${order.tariff}"></span><br>
           <span class="info-in">Стоимость: </span><input name="priceAccepted" class="info-value" th:value="${order.price}"/><br>
         </div>
-        <img th:src="@{/loadFile(uri=${order.product.imageUri})}">
+        <img th:src="@{/loadFile(uri=${order.imageUri})}">
         <div class="buts">
           <button>Обработать</button>
         </div>

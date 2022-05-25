@@ -43,7 +43,12 @@ public class DiscountManager implements IDiscountManager {
 
     @Override
     public Discount save(Discount discount) {
-        return discountRepository.save(discount);
+        return discountRepository.saveAndFlush(discount);
+    }
+
+    @Override
+    public ClientDiscount save(ClientDiscount clientDiscount) {
+        return clientDiscountRepository.saveAndFlush(clientDiscount);
     }
 
     @Override

@@ -25,6 +25,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class GalleryController {
@@ -71,7 +72,7 @@ public class GalleryController {
 
     @RequestMapping("/workGallery")
     public String proceedToWorkGallery(HttpSession session, Model model) {
-        List<Order> orders = orderManager.findAllCompleted();
+        List<Order> orders = orderManager.findAllCompleted().stream().filter(order -> !order.getProduct().getCompletedImageUri().isEmpty()).collect(Collectors.toList());
         model.addAttribute("products", mapToMasterOrdered(orders));
         return "work-gallery";
     }

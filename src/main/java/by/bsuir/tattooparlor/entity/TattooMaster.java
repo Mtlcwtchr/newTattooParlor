@@ -44,4 +44,8 @@ public class TattooMaster {
     public String getDateOfWorkStartFormatted() {
         return DateUtils.dateToHtmlString(workStarted);
     }
+
+    public String getDateOfWorkStartFormattedISO() {
+        return DateUtils.dateToHtmlStringISO(workStarted);
+    }
 }

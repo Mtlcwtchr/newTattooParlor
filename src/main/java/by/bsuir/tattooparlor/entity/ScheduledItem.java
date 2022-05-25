@@ -1,5 +1,6 @@
 package by.bsuir.tattooparlor.entity;
 
+
 import by.bsuir.tattooparlor.entity.helpers.OrderStatus;
 import by.bsuir.tattooparlor.util.DateUtils;
 import lombok.*;
@@ -8,7 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
 
-@Entity(name = "t_order")
+@Entity(name = "scheduled_item")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,7 +17,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class Order {
+public class ScheduledItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -29,34 +30,43 @@ public class Order {
     @NonNull
     private int price;
     @NonNull
+    private String clientName;
+    @NonNull
     private String contactPhone;
 
-    @ManyToOne
-    @JoinColumn(name = "discount_id")
-    private ClientDiscount discount;
+    @Transient
+    private boolean isRealOrder;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id")
-    private Client client;
+    @Transient
+    private String imageUri;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @Transient
+    private String tariffDescription;
 
     @ManyToOne
     @JoinColumn(name = "tattoo_master_id")
     private TattooMaster master;
 
-    public String getClientName() {
-        return client.getName();
-    }
-
-    public String getImageUri() {
-        return product.getImageUri();
+    public ScheduledItem(Order order) {
+        this.id = order.getId();
+        this.orderStatus = order.getOrderStatus();
+        this.dateTime = order.getDateTime();
+        this.comment = order.getComment();
+        this.price = order.getPrice();
+        this.clientName = order.getClient().getName();
+        this.contactPhone = order.getContactPhone();
+        this.master = order.getMaster();
+        this.imageUri = order.getImageUri();
+        this.tariffDescription = order.getTariff();
+        this.isRealOrder = true;
     }
 
     public String getPriceFormatted() {
-        return price + " BYN";
+        return price == 0 ? "Не указано" : (price + " BYN");
+    }
+
+    public String getImageUri() {
+        return imageUri == null ? "" : imageUri;
     }
 
     public String getDateFormatted() {
@@ -76,7 +86,7 @@ public class Order {
     }
 
     public String getTariff() {
-        return product.getDifficultyDescription();
+        return tariffDescription == null ? "Не указано" : tariffDescription;
     }
 
     public String getStatusFormatted() {
@@ -92,6 +102,10 @@ public class Order {
     }
 
     public int getDiscountedPrice() {
-        return (int) (price * ((100.0 - discount.getDiscount().getPercentage()) / 100.0));
+        return price;
+    }
+
+    public boolean isRealOrder() {
+        return isRealOrder;
     }
 }

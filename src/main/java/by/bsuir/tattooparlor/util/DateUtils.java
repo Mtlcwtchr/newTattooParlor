@@ -15,22 +15,34 @@ public class DateUtils {
     }
 
     public static LocalDate toLocal(Date date) {
+        if(date == null) {
+            return null;
+        }
         return date.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
     }
 
     public static LocalDateTime toLocalDT(Date date) {
+        if(date == null) {
+            return null;
+        }
         return date.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime();
     }
 
     public static Date toDate(LocalDate date) {
+        if(date == null) {
+            return null;
+        }
         return Date.from(date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
     }
 
     public static Date toDate(LocalDateTime date) {
+        if(date == null) {
+            return null;
+        }
         return Date.from(date.atZone(ZoneId.systemDefault()).toInstant());
     }
 
@@ -48,5 +60,14 @@ public class DateUtils {
 
     public static String dateTimeToHtmlString(Date date) {
         return toLocalDT(date).format(DateTimeFormatter.ofPattern(GlobalRegEx.HTML_DATETIME_FORMAT));
+    }
+
+
+    public static String dateToHtmlStringISO(Date date) {
+        return toLocal(date).format(DateTimeFormatter.ISO_LOCAL_DATE);
+    }
+
+    public static String dateTimeToHtmlStringISO(Date date) {
+        return toLocalDT(date).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     }
 }

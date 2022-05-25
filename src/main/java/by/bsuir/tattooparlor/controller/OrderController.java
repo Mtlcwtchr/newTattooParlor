@@ -2,6 +2,7 @@ package by.bsuir.tattooparlor.controller;
 
 import by.bsuir.tattooparlor.controller.helpers.ImageSize;
 import by.bsuir.tattooparlor.entity.*;
+import by.bsuir.tattooparlor.entity.helpers.ClientDiscountStatus;
 import by.bsuir.tattooparlor.entity.helpers.GalleryType;
 import by.bsuir.tattooparlor.entity.helpers.OrderStatus;
 import by.bsuir.tattooparlor.entity.helpers.UserRole;
@@ -28,16 +29,18 @@ public class OrderController {
     private final IClientManager clientManager;
     private final IProductManager productManager;
     private final IOrderManager orderManager;
+    private final IScheduledItemManager scheduledItemManager;
     private final ITattooMasterManager masterManager;
     private final ICalculationsManager calculationsManager;
     private final IDiscountManager discountManager;
     private final IAuthService userManager;
 
     @Autowired
-    public OrderController(IClientManager clientManager, IProductManager productManager, IOrderManager orderManager, ITattooMasterManager masterManager, ICalculationsManager calculationsManager, IDiscountManager discountManager, IAuthService userManager) {
+    public OrderController(IClientManager clientManager, IProductManager productManager, IOrderManager orderManager, IScheduledItemManager scheduledItemManager, ITattooMasterManager masterManager, ICalculationsManager calculationsManager, IDiscountManager discountManager, IAuthService userManager) {
         this.clientManager = clientManager;
         this.productManager = productManager;
         this.orderManager = orderManager;
+        this.scheduledItemManager = scheduledItemManager;
         this.masterManager = masterManager;
         this.calculationsManager = calculationsManager;
         this.discountManager = discountManager;
@@ -105,8 +108,6 @@ public class OrderController {
                 if (!promocode.isEmpty()) {
                     ClientDiscount discount = discountManager.findByPromoForClient(client, promocode);
                     order.setDiscount(discount);
-                    int reducedCost = (int) (totalCost * ((100.0 - discount.getDiscount().getPercentage()) / 100.0));
-                    model.addAttribute("reducedCost", reducedCost);
                     model.addAttribute("discount", discount);
                 }
             } catch (NoDiscountPresentedException ex) {
@@ -167,7 +168,6 @@ public class OrderController {
         }
         Product product = (Product) session.getAttribute("product");
         Product savedProduct = productManager.save(product);
-        System.out.println(savedProduct);
 
         return "redirect:/formOrder?itemId=" + savedProduct.getId();
     }
@@ -182,26 +182,37 @@ public class OrderController {
         TattooMaster currentMaster = (TattooMaster) session.getAttribute("currentMaster");
 
         List<Order> acceptedByMaster = orderManager.findAcceptedByMaster(currentMaster);
-        if(!acceptedByMaster.isEmpty()) {
-            acceptedByMaster.sort(Comparator.comparing(Order::getDateTime));
+        List<ScheduledItem> acceptedByMasterScheduled = acceptedByMaster.stream().map(ScheduledItem::new).collect(Collectors.toList());
+        List<ScheduledItem> acceptedByMasterCached = scheduledItemManager.findAcceptedByMaster(currentMaster);
+        acceptedByMasterScheduled.addAll(acceptedByMasterCached);
+
+        if(!acceptedByMasterScheduled.isEmpty()) {
+            acceptedByMasterScheduled.sort(Comparator.comparing(ScheduledItem::getDateTime));
         }
 
         List<Order> completedByMaster = orderManager.findCompletedByMaster(currentMaster);
-        List<Order> previouslyCompletedByMaster = Collections.emptyList();
+
+        List<ScheduledItem> completedByMasterScheduled = completedByMaster.stream().map(ScheduledItem::new).collect(Collectors.toList());
+        List<ScheduledItem> completedByMasterCached = scheduledItemManager.findCompletedByMaster(currentMaster);
+        completedByMasterScheduled.addAll(completedByMasterCached);
+        List<ScheduledItem> previouslyCompletedByMasterScheduled = Collections.emptyList();
+
         if (!completedByMaster.isEmpty()) {
             completedByMaster.sort(Comparator.comparing(Order::getDateTime));
 
-            previouslyCompletedByMaster = completedByMaster
+            previouslyCompletedByMasterScheduled = completedByMasterScheduled
                     .stream()
-                    .filter(order -> order.getDateTime().before(new Date()))
+                    .filter(item -> item.getDateTime().before(new Date()))
                     .collect(Collectors.toList());
 
-            completedByMaster.removeAll(previouslyCompletedByMaster);
+            completedByMasterScheduled.removeAll(previouslyCompletedByMasterScheduled);
         }
 
-        model.addAttribute("acceptedOrders", mapToDateOrdered(acceptedByMaster));
-        model.addAttribute( "completedOrders", mapToDateOrdered(completedByMaster));
-        model.addAttribute("previouslyCompletedOrders", mapToDateOrdered(previouslyCompletedByMaster));
+        List<TattooMaster> masters = masterManager.findAll();
+        model.addAttribute("masters", masters);
+        model.addAttribute("acceptedOrders", mapToDateOrderedItems(acceptedByMasterScheduled));
+        model.addAttribute( "completedOrders", mapToDateOrderedItems(completedByMasterScheduled));
+        model.addAttribute("previouslyCompletedOrders", mapToDateOrderedItems(previouslyCompletedByMasterScheduled));
         return "schedule";
     }
 
@@ -254,9 +265,8 @@ public class OrderController {
 
     @RequestMapping("/updateOrder")
     public String updateOrder(@RequestParam(name = "orderId") int orderId,
-                              @RequestParam(name = "datetime", required = false) String dateTime,
-                              @RequestParam(name = "contactPhone", required = false) String contactPhone,
-                              @RequestParam(name = "totalCost", required = false) Integer totalCost,
+                              @RequestParam(name = "masterId", required = false) Integer masterId,
+                              @RequestParam(name = "dateTime", required = false) String dateTime,
                               @RequestParam(name = "completedImage", required = false) MultipartFile multipartFile,
                               @RequestParam(name = "orderStatus") OrderStatus orderStatus,
                               HttpSession session) {
@@ -265,35 +275,138 @@ public class OrderController {
             return "redirect:/";
         }
         try {
+            TattooMaster currentMaster = (TattooMaster) session.getAttribute("currentMaster");
+
             Order order = orderManager.findById(orderId);
 
             if (dateTime != null && !dateTime.isEmpty()) {
                 order.setDateTime(DateUtils.dateTimeFromHtmlString(dateTime));
             }
-            if (contactPhone != null && !contactPhone.isEmpty()) {
-                order.setContactPhone(contactPhone);
-            }
-            if (totalCost != null && totalCost != 0) {
-                order.setPrice(totalCost);
-            }
-
-            if (multipartFile != null) {
-                String fileName = FileUtils.getNewPictureUri(
-                        Integer.toHexString(multipartFile.getName().hashCode() + new Date().hashCode()),
-                        multipartFile.getContentType().replace("/", "."));
-
-                FileUtils.trySaveNewPictureByPath(multipartFile, fileName);
-                Product product = order.getProduct();
-                product.setCompletedImageUri(fileName);
-            }
 
             order.setOrderStatus(orderStatus);
 
+            if(masterId != null && masterId != currentMaster.getId()) {
+                TattooMaster master = masterManager.findById(masterId);
+                order.setMaster(master);
+                order.setOrderStatus(OrderStatus.REQUESTED);
+            } else {
+                if(orderStatus == OrderStatus.COMPLETED) {
+                    ClientDiscount discount = order.getDiscount();
+                    if(discount != null) {
+                        discount.setStatus(ClientDiscountStatus.APPLIED);
+                        discountManager.save(discount);
+                    }
+
+                    try {
+                        if (multipartFile != null && !multipartFile.isEmpty()) {
+                            String fileName = FileUtils.getNewPictureUri(
+                                    Integer.toHexString(multipartFile.getName().hashCode() + new Date().hashCode()),
+                                    multipartFile.getContentType().replace("/", "."));
+
+                            FileUtils.trySaveNewPictureByPath(multipartFile, fileName);
+                            Product product = order.getProduct();
+                            product.setCompletedImageUri(fileName);
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+
+                }
+            }
+
             orderManager.saveOrder(order);
-        } catch (UtilException | IOException ex) {
+        } catch (UtilException ex) {
             ex.printStackTrace();
         }
         return "redirect:/schedule";
+    }
+
+    @RequestMapping("/updateScheduledItem")
+    public String updateScheduledItem(@RequestParam(name = "itemId") int itemId,
+                                      @RequestParam(name = "clientName", required = false) String clientName,
+                                      @RequestParam(name = "dateTime", required = false) String dateTime,
+                                      @RequestParam(name = "contactPhone", required = false) String contactPhone,
+                                      @RequestParam(name = "comment", required = false) String comment,
+                                      @RequestParam(name = "price", required = false) Integer price,
+                                      @RequestParam(name = "orderStatus") OrderStatus orderStatus,
+                                      HttpSession session) {
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser.getRole() != UserRole.MODERATOR) {
+            return "redirect:/";
+        }
+
+        try {
+            ScheduledItem scheduledItem = scheduledItemManager.findById(itemId);
+
+            if(clientName != null && !clientName.isEmpty()) {
+                scheduledItem.setClientName(clientName);
+            }
+            if(dateTime != null && !dateTime.isEmpty()) {
+                scheduledItem.setDateTime(DateUtils.dateTimeFromHtmlString(dateTime));
+            }
+            if(contactPhone != null && !contactPhone.isEmpty()) {
+                scheduledItem.setContactPhone(contactPhone);
+            }
+            if(comment != null && !comment.isEmpty()) {
+                scheduledItem.setComment(comment);
+            }
+            if(price != null && price != 0) {
+                scheduledItem.setPrice(price);
+            }
+
+            scheduledItem.setOrderStatus(orderStatus);
+
+            scheduledItemManager.save(scheduledItem);
+        } catch (UtilException ex) {
+            ex.printStackTrace();
+        }
+
+        return "redirect:/schedule";
+    }
+
+    @RequestMapping("/addNewScheduledItem")
+    public String addNewScheduledItem(@RequestParam(name = "clientName", required = false) String clientName,
+                                      @RequestParam(name = "dateTime", required = false) String dateTime,
+                                      @RequestParam(name = "contactPhone", required = false) String contactPhone,
+                                      @RequestParam(name = "comment", required = false) String comment,
+                                      @RequestParam(name = "price", required = false) Integer price,
+                                      HttpSession session) {
+        User currentUser = (User) session.getAttribute("currentUser");
+        if (currentUser.getRole() != UserRole.MODERATOR) {
+            return "redirect:/";
+        }
+        TattooMaster currentMaster = (TattooMaster) session.getAttribute("currentMaster");
+
+        ScheduledItem scheduledItem = new ScheduledItem();
+        scheduledItem.setClientName(clientName);
+        if(dateTime != null && !dateTime.isEmpty()) {
+            scheduledItem.setDateTime(DateUtils.dateTimeFromHtmlString(dateTime));
+        }
+        scheduledItem.setContactPhone(contactPhone);
+        scheduledItem.setComment(comment);
+        scheduledItem.setPrice(price);
+        scheduledItem.setMaster(currentMaster);
+        scheduledItem.setOrderStatus(OrderStatus.ACCEPTED);
+
+        scheduledItemManager.save(scheduledItem);
+
+        return "redirect:/schedule";
+    }
+
+    public Map<String, List<ScheduledItem>> mapToDateOrderedItems(List<ScheduledItem> orders) {
+        if(orders == null || orders.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        Map<String, List<ScheduledItem>> map = new HashMap<>();
+        orders.sort(Comparator.comparing(ScheduledItem::getDateTime));
+        for (ScheduledItem order : orders) {
+            String date = order.getShortDateFormatted();
+            if(!map.containsKey(date)) {
+                map.put(date, new ArrayList<>());
+            }
+            map.get(date).add(order);
+        }
+        return map;
     }
 
     public Map<String, List<Order>> mapToDateOrdered(List<Order> orders) {

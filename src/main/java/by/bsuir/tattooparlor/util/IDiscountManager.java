@@ -15,4 +15,5 @@ public interface IDiscountManager {
     ClientDiscount findByPromoForClient(Client client, String promo) throws UtilException;
     Discount findById(long id) throws UtilException;
     Discount save(Discount discount);
+    ClientDiscount save(ClientDiscount clientDiscount);
 }

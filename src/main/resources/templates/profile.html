@@ -117,7 +117,7 @@
       <a class="edit show-view-label"><img th:src="@{/loadFile(uri=edit.png)}"></a>
       <form th:action="@{/updateMasterPersonalInfo}" method="post" class="input-pers-info" enctype="multipart/form-data">
         <span>Имя</span><input type="text" name="name" th:value="${session.currentMaster.name}"><br>
-        <span>Дата начала работы</span><input type="date" name="workStarted" th:value="${session.currentMaster.dateOfWorkStartFormatted}"><br>
+        <span>Дата начала работы</span><input type="date" name="workStarted" th:value="${session.currentMaster.dateOfWorkStartFormattedISO}"><br>
         <span>Аватар</span><input type="file" name="file"><br>
         <button type="submit">Сохранить изменения</button>
       </form>
@@ -126,7 +126,7 @@
       <a class="edit show-update-label"><img th:src="@{/loadFile(uri=edit.png)}"></a>
       <span>Имя</span><span th:text="${session.currentMaster.name}"></span><br>
       <span>E-mail:</span><span th:text="${session.currentMaster.user.email}"></span><br>
-      <span>Дата начала работы</span><span th:value="${session.currentMaster.dateOfWorkStartFormatted}"></span><br>
+      <span>Дата начала работы</span><span th:text="${session.currentMaster.dateOfWorkStartFormatted}"></span><br>
     </div>
   </div>
 </content>
