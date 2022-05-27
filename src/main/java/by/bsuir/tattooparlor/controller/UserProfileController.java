@@ -24,7 +24,7 @@ import static by.bsuir.tattooparlor.util.FileUtils.trySaveNewPictureByPath;
 @Controller
 public class UserProfileController {
 
-    private static final String SRC = "/Users/stanislav/idea/new/TattooParlor/src/main/resources/static/imgs/profiles/";
+    private static final String SRC = "C:\\Users\\User\\Desktop\\inferno\\BSUIR\\Parlor\\src\\main\\resources\\static\\imgs\\profiles\\";
 
     private final IClientManager clientManager;
     private final IClientRateManager clientRateManager;

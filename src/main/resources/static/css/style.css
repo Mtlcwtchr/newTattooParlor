@@ -408,7 +408,6 @@ button{
 .input-pers-info span {
     display: inline-block;
     width: 200px;
-    margin-left: 70px;
 }
 
 
@@ -509,7 +508,8 @@ button{
     transform: translateY(-50%);
 }
 
-.order .edit img{
+.order .edit img, .quad .delete-item img {
+
     padding: 5px;
     width: 30px;
     height: 30px;
@@ -519,6 +519,11 @@ button{
     position: absolute;
     top: 0;
     right: 0;
+}
+
+.quad .delete-item img {
+    width: 20px;
+    height: 20px;
 }
 
 .order .edit:hover {
@@ -693,4 +698,28 @@ button{
     line-height: 0;
     height: 80vh;
     letter-spacing: unset;
+}
+
+.hackerman {
+    width: 100vw;
+    height: 100vh;
+}
+
+.edit-pic {
+    width: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.edit-pic img {
+    width: 20px;
+}
+
+.update-profile-label, .view-profile-label {
+    display: inline-block;
+    position: relative;
+    border: 1px solid #ffffff;
+    vertical-align: top;
+    margin: 0 30px;
+    padding: 10px 60px 10px 20px;
 }
