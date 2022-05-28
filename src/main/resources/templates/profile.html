@@ -6,7 +6,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script type="text/javascript" src="js/script.js"></script>
   <script>
-    $(document).ready(function() {
+  $(document).ready(function() {
 
       document.querySelectorAll('.show-update-label').forEach((link) => {
         link.addEventListener('click', () => {
@@ -22,7 +22,19 @@
         })
       })
 
+      document.querySelectorAll('.copy-promo').forEach((link) => {
+        link.addEventListener('click', () => {
+          let id = link.getAttribute('about');
+          $('.promo-' + id).select();
+          document.execCommand('copy');
+        })
+      })
     })
+
+    function copyPromo(promo) {
+      navigator.clipboard.writeText(promo);
+    }
+
   </script>
   <meta charset="utf-8">
  </head>
@@ -107,7 +119,7 @@
         <td class="value" th:text="${discount.discount.percentage}"></td>
         <td class="desc" th:text="${discount.discount.description}"></td>
         <td class="status" th:text="${discount.statusDescription}"></td>
-        <td class="act"><button>Copy</button></td>
+        <td class="act"><button onclick="copyPromo(this.getAttribute('about'))" th:about="${discount.discount.promocode}">Copy</button></td>
       </tr>
     </table>
   </div>

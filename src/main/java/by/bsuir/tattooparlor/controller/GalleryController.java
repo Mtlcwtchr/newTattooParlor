@@ -62,7 +62,7 @@ public class GalleryController {
             retVal = "catalog-admin";
         }
         List<Product> products = productManager.findAllGallery();
-        Collections.sort(products, this::sortByLikes);
+        Collections.sort(products, Comparator.comparing(Product::getId));
         Collections.reverse(products);
         List<List<Product>> quarts = ListUtils.mapToQuarts(products);
 
@@ -120,6 +120,16 @@ public class GalleryController {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+        }
+        return "redirect:/gallery";
+    }
+
+    @RequestMapping("/deleteItem")
+    public String deleteItem(HttpSession session,
+                              @RequestParam(name = "productId") int productId) {
+        User currentUser = (User) session.getAttribute("currentUser");
+        if(currentUser != null && currentUser.getRole() == UserRole.ADMIN) {
+            productManager.delete(productId);
         }
         return "redirect:/gallery";
     }

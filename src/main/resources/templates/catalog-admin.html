@@ -26,7 +26,7 @@
       <div>
         <div class="quad" th:each="quad, iStat : ${products}">
           <div onmouseout="hidePlus()" onmouseover="showPlus()" class="item" th:each="item, jStat : ${quad}">
-            <a th:href="@{/formOrder(itemId=${item.id})}" class="delete-item"><img th:src="@{loadFile(uri=delete.png)}"></a>
+            <a th:href="@{/deleteItem(itemId=${item.id})}" class="delete-item"><img th:src="@{loadFile(uri=delete.png)}"></a>
             <img class="sketch" th:src="@{/loadFile(uri=${item.imageUri})}">
             <div style="display: flex;">
               <div class="rate">

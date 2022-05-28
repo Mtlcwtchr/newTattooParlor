@@ -3,7 +3,17 @@
 <head>
   <title>Buba Tattoo</title>
   <link rel="stylesheet" type="text/css" href="css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script type="text/javascript" src="js/script.js"></script>
+  <script>
+    $(document).ready(function() {
+      let searchParams = new URLSearchParams(window.location.search)
+      let masterId = searchParams.get('masterId')
+      $('html, body').animate({
+        scrollTop: $("#" + masterId).offset().top
+      }, 1000);
+    })
+  </script>
   <meta charset="utf-8">
  </head>
 <body>
@@ -14,7 +24,7 @@
     <div th:each="pair, iStat : ${products}" th:id="${pair.key.id}">
       <h2 th:text="${pair.key.name}"></h2>
       <div class="work" th:each="product, jStat : ${pair.value}">
-        <img th:if="${jStat.index % 2 == 0}" th:src="@{/loadFile(uri=${product.imageUri})}"><img th:if="${jStat.index % 2 == 0}" th:src="@{/loadFile(uri=${product.completedImageUri})}">
+        <img height="40" th:if="${jStat.index % 2 == 0}" th:src="@{/loadFile(uri=${product.imageUri})}"><img th:if="${jStat.index % 2 == 0}" th:src="@{/loadFile(uri=${product.completedImageUri})}">
         <img th:if="${jStat.index % 2 != 0}" th:src="@{/loadFile(uri=${product.completedImageUri})}"><img th:if="${jStat.index % 2 != 0}" th:src="@{/loadFile(uri=${product.imageUri})}">
       </div>
     </div>

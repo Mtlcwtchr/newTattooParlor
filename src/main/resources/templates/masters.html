@@ -13,7 +13,7 @@
     <div class="master">
       <img th:src="@{/loadMasterProfilePic(masterId=${master.id})}">
       <div class="desc">
-        <h1 th:text="${master.name}"></h1><br>
+        <a th:href="@{/workGallery(masterId=${master.id})}"><h1 th:text="${master.name}"></h1><br></a>
         <p th:text="${master.masterDescription}"></p>
         <p th:text="${'Опыт работы: '} + ${master.experience} + ${' лет'}"></p>
         <p th:text="${'Рейтинг: '} +${master.rating}"></p>
