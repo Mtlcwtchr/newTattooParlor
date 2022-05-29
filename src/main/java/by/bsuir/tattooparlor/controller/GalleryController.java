@@ -4,10 +4,7 @@ import by.bsuir.tattooparlor.config.GlobalPaths;
 import by.bsuir.tattooparlor.entity.*;
 import by.bsuir.tattooparlor.entity.helpers.GalleryType;
 import by.bsuir.tattooparlor.entity.helpers.UserRole;
-import by.bsuir.tattooparlor.util.IClientRateManager;
-import by.bsuir.tattooparlor.util.IOrderManager;
-import by.bsuir.tattooparlor.util.IProductManager;
-import by.bsuir.tattooparlor.util.ListUtils;
+import by.bsuir.tattooparlor.util.*;
 import by.bsuir.tattooparlor.util.calculator.ICalculationsManager;
 import by.bsuir.tattooparlor.util.exception.UtilException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,12 +97,12 @@ public class GalleryController {
         User currentUser = (User) session.getAttribute("currentUser");
         if(currentUser != null && currentUser.getRole() == UserRole.ADMIN) {
             try {
-                String fileName = getPictureNewUri(
+                String fileName = FileUtils.getNewPictureUri(
                         Integer.toHexString(multipartFile.getName().hashCode() + new Date().hashCode()),
                         multipartFile.getContentType().replace("/", "."));
                 String fileUri = fileName;
 
-                File file = trySaveNewPictureByPath(multipartFile, fileName);
+                File file = FileUtils.trySaveNewPictureByPath(multipartFile, fileName);
                 BufferedImage image = ImageIO.read(file);
                 int difficulty = calculationsManager.getDifficulty(image);
                 int colorsCount = calculationsManager.getColorsCount(image);
@@ -136,16 +133,6 @@ public class GalleryController {
 
     private int sortByLikes(Product m, Product n) {
         return Long.compare(m.getLikesCount(), n.getLikesCount());
-    }
-
-    private String getPictureNewUri(String fileName, String contentType) {
-        return GlobalPaths.IMAGES_SRC + Integer.toHexString(fileName.hashCode()) + contentType;
-    }
-
-    private File trySaveNewPictureByPath(MultipartFile multipartFile, String pictureUri) throws IOException {
-        File file = new File(pictureUri);
-        multipartFile.transferTo(file);
-        return file;
     }
 
     private Map<TattooMaster, List<Product>> mapToMasterOrdered(List<Order> orders) {

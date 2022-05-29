@@ -12,12 +12,13 @@ import java.util.List;
 public class FileUtils {
 
     public static String getNewPictureUri(String fileName, String contentType) {
-        return GlobalPaths.IMAGES_SRC + Integer.toHexString(fileName.hashCode()) + contentType;
+        return Integer.toHexString(fileName.hashCode()) + contentType;
     }
 
-    public static void trySaveNewPictureByPath(MultipartFile multipartFile, String profilePictureUri) throws IOException {
-        File file = new File(profilePictureUri);
+    public static File trySaveNewPictureByPath(MultipartFile multipartFile, String profilePictureUri) throws IOException {
+        File file = new File(GlobalPaths.IMAGES_SRC + profilePictureUri);
         multipartFile.transferTo(file);
+        return file;
     }
 
 }

@@ -56,11 +56,7 @@ public class ResourceController {
         if (profilePictureUri == null || profilePictureUri.isBlank()) {
            profilePictureUri = NO_PROFILE_PICTURE_URI;
         }
-        try {
-            response.sendRedirect("/loadFile?uri=" + profilePictureUri);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        loadImage(profilePictureUri, response);
     }
 
     @GetMapping("/loadMasterProfilePic")
@@ -71,8 +67,8 @@ public class ResourceController {
             if (profilePictureUri == null || profilePictureUri.isBlank()) {
                 profilePictureUri = NO_PROFILE_PICTURE_URI;
             }
-            response.sendRedirect("/loadFile?uri=" + profilePictureUri);
-        } catch (IOException | UtilException e) {
+            loadImage(profilePictureUri, response);
+        } catch (UtilException e) {
             e.printStackTrace();
         }
     }

@@ -1,5 +1,7 @@
 package by.bsuir.tattooparlor.controller;
 
+import antlr.StringUtils;
+import by.bsuir.tattooparlor.config.GlobalPaths;
 import by.bsuir.tattooparlor.entity.*;
 import by.bsuir.tattooparlor.entity.helpers.UserRole;
 import by.bsuir.tattooparlor.util.*;
@@ -24,8 +26,6 @@ import static by.bsuir.tattooparlor.util.FileUtils.trySaveNewPictureByPath;
 
 @Controller
 public class UserProfileController {
-
-    private static final String SRC = "C:\\Users\\User\\Desktop\\inferno\\BSUIR\\Parlor\\src\\main\\resources\\static\\imgs\\profiles\\";
 
     private final IAuthService authService;
     private final IClientManager clientManager;
@@ -74,7 +74,7 @@ public class UserProfileController {
 
         try{
             if(multipartFile != null && !multipartFile.isEmpty()) {
-                String profilePictureUri = getProfilePictureUri(multipartFile.getOriginalFilename(), multipartFile.getContentType().replace("/", "."));
+                String profilePictureUri = FileUtils.getNewPictureUri(multipartFile.getOriginalFilename(), multipartFile.getContentType().replace("/", "."));
                 trySaveNewPictureByPath(multipartFile, profilePictureUri);
 
                 Client currentClient = (Client) session.getAttribute("currentClient");
@@ -123,7 +123,7 @@ public class UserProfileController {
 
         try{
             if(multipartFile != null && !multipartFile.isEmpty()) {
-                String profilePictureUri = getProfilePictureUri(multipartFile.getOriginalFilename(), multipartFile.getContentType().replace("/", "."));
+                String profilePictureUri = FileUtils.getNewPictureUri(multipartFile.getOriginalFilename(), multipartFile.getContentType().replace("/", "."));
                 trySaveNewPictureByPath(multipartFile, profilePictureUri);
 
                 TattooMaster currentMaster = (TattooMaster) session.getAttribute("currentMaster");
@@ -142,10 +142,6 @@ public class UserProfileController {
         session.setAttribute("currentMaster", currentMaster);
 
         return "redirect:/profile";
-    }
-
-    private String getProfilePictureUri(String fileName, String contentType) {
-        return SRC + Integer.toHexString(fileName.hashCode()) + contentType;
     }
 
 }
