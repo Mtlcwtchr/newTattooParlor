@@ -3,6 +3,7 @@ package by.bsuir.tattooparlor.controller;
 import by.bsuir.tattooparlor.entity.*;
 import by.bsuir.tattooparlor.entity.helpers.UserRole;
 import by.bsuir.tattooparlor.util.*;
+import by.bsuir.tattooparlor.util.exception.UtilException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,14 +27,15 @@ public class UserProfileController {
 
     private static final String SRC = "C:\\Users\\User\\Desktop\\inferno\\BSUIR\\Parlor\\src\\main\\resources\\static\\imgs\\profiles\\";
 
+    private final IAuthService authService;
     private final IClientManager clientManager;
     private final IClientRateManager clientRateManager;
     private final ITattooMasterManager tattooMasterManager;
     private final IOrderManager orderManager;
     private final IDiscountManager discountManager;
 
-    @Autowired
-    public UserProfileController(IClientManager clientManager, IClientRateManager clientRateManager, ITattooMasterManager tattooMasterManager, IOrderManager orderManager, IDiscountManager discountManager) {
+    public UserProfileController(IAuthService authService, IClientManager clientManager, IClientRateManager clientRateManager, ITattooMasterManager tattooMasterManager, IOrderManager orderManager, IDiscountManager discountManager) {
+        this.authService = authService;
         this.clientManager = clientManager;
         this.clientRateManager = clientRateManager;
         this.tattooMasterManager = tattooMasterManager;
@@ -88,6 +90,24 @@ public class UserProfileController {
         currentClient = clientManager.update(currentClient);
         session.setAttribute("currentClient", currentClient);
 
+        return "redirect:/profile";
+    }
+
+    @PostMapping("/updateUserPassword")
+    public String updateUserPassword(@RequestParam(name = "password") String password,
+                                     HttpSession session) {
+        try {
+            User currentUser = (User) session.getAttribute("currentUser");
+            if (currentUser != null) {
+                long userId = currentUser.getId();
+                boolean updated = authService.updatePassword(userId, password);
+                if (!updated) {
+                    return "redirect:/profile?error=same_password";
+                }
+            }
+        } catch (UtilException ex) {
+            ex.printStackTrace();
+        }
         return "redirect:/profile";
     }
 

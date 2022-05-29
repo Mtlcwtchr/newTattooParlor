@@ -19,4 +19,5 @@ public interface IAuthService {
     Client tryAuthorizeClient(User user) throws UtilException;
     TattooMaster tryAuthorizeMaster(User user) throws UtilException;
     User tryAuthorizeAdmin(User user) throws UtilException;
+    boolean updatePassword(long id, String password) throws UtilException;
 }

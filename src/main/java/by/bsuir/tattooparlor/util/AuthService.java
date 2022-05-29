@@ -174,6 +174,20 @@ public class AuthService implements IAuthService {
         return user.orElseThrow(NoGuestUserPresentedException::new);
     }
 
+    @Override
+    public boolean updatePassword(long id, String password) throws UtilException {
+        User user = userRepository.findById(id).orElseThrow(NoUserPresentedException::new);
+        String hashPassword = PasswordProtector.checkPassword(password);
+        if (user.getPassword().equals(hashPassword)) {
+            return false;
+        }
+
+        user.setPassword(hashPassword);
+        userRepository.saveAndFlush(user);
+
+        return false;
+    }
+
     private String getGuestUserLogin(String phone) {
         return "guest_" + Integer.toHexString(phone.hashCode());
     }

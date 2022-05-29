@@ -734,3 +734,14 @@ button{
     text-align: center;
     margin-top: 20%;
 }
+
+.wrong-input {
+    outline: 2px solid red;
+    border: none;
+    border-radius: 2px;
+}
+
+.unblock-button {
+    border-color: #fff;
+    background-color: #000000;
+}

@@ -3,6 +3,142 @@
 <head>
   <title>Inferno Tattoo</title>
   <link rel="stylesheet" type="text/css" href="css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>
+    let backColor;
+    let bordColor;
+    let textVal;
+
+    let passConfirmed = false;
+    let passCorrect = false;
+    let phoneCorrect = false;
+    let loginCorrect = false;
+    let emailCorrect = false;
+    let nameCorrect = false;
+
+    $(document).ready(function() {
+
+      backColor = document.getElementById('apply-button').style.backgroundColor;
+      bordColor = document.getElementById('apply-button').style.borderColor;
+      textVal = document.getElementById('apply-button').textContent;
+
+      document.querySelectorAll('#apply-button').forEach((link) => {
+        link.addEventListener('mouseover', () => {
+          let element = document.getElementById('apply-button');
+          if (!passConfirmed || !passCorrect || !phoneCorrect || !loginCorrect || !emailCorrect || !nameCorrect) {
+            element.textContent = 'Все поля должны быть заполнены корректно';
+            element.style.backgroundColor = 'gray';
+            element.style.borderColor = 'gray';
+          } else {
+            element.textContent = textVal;
+            element.style.backgroundColor = backColor;
+            element.style.borderColor = bordColor;
+          }
+        })
+      })
+
+      document.querySelectorAll('#apply-button').forEach((link) => {
+        link.addEventListener('mouseout', () => {
+          let element = document.getElementById('apply-button');
+          element.textContent = textVal;
+          element.style.backgroundColor = backColor;
+          element.style.borderColor = bordColor;
+        })
+      })
+
+      $('#sign-up').submit(function (evt) {
+        if(!passConfirmed || !passCorrect || !phoneCorrect || !loginCorrect || !emailCorrect || !nameCorrect) {
+          evt.preventDefault();
+        }
+      });
+
+      document.querySelectorAll('#pass-main').forEach((link) => {
+        link.addEventListener('input', () => {
+          let pass = document.getElementById('pass-main').value
+
+          if (pass === "" || pass.length < 5) {
+            link.classList.add('wrong-input')
+            passCorrect = false
+          } else {
+            link.classList.remove('wrong-input')
+            passCorrect = true
+          }
+        })
+      })
+
+      document.querySelectorAll('#pass-confirm').forEach((link) => {
+        link.addEventListener('input', () => {
+          let pass = document.getElementById('pass-main').value
+          let passCopy = document.getElementById('pass-confirm').value
+
+          if (pass === "" || passCopy === "" || pass !== passCopy) {
+            link.classList.add('wrong-input')
+            passConfirmed = false
+          } else {
+            link.classList.remove('wrong-input')
+            passConfirmed = true
+          }
+        })
+      })
+
+      document.querySelectorAll('#phone').forEach((link) => {
+        link.addEventListener('input', () => {
+          let phonePattern = /[+375][0-9]{12}/
+          let phone = document.getElementById('phone').value
+
+          if (phone === "" || !phone.match(phonePattern)) {
+            link.classList.add('wrong-input')
+            phoneCorrect = false
+          } else {
+            link.classList.remove('wrong-input')
+            phoneCorrect = true
+          }
+        })
+      })
+
+      document.querySelectorAll('#login').forEach((link) => {
+        link.addEventListener('input', () => {
+          let login = document.getElementById('login').value
+
+          if (login === "") {
+            link.classList.add('wrong-input')
+            loginCorrect = false
+          } else {
+            link.classList.remove('wrong-input')
+            loginCorrect = true
+          }
+        })
+      })
+
+      document.querySelectorAll('#email').forEach((link) => {
+        link.addEventListener('input', () => {
+          let email = document.getElementById('email').value
+          if (email === "") {
+            link.classList.add('wrong-input')
+            emailCorrect = false
+          } else {
+            link.classList.remove('wrong-input')
+            emailCorrect = true
+          }
+        })
+      })
+
+      document.querySelectorAll('#name').forEach((link) => {
+        link.addEventListener('input', () => {
+          let name = document.getElementById('name').value
+          if (name === "") {
+            link.classList.add('wrong-input')
+            nameCorrect = false
+          } else {
+            link.classList.remove('wrong-input')
+            nameCorrect = true
+          }
+        })
+      })
+
+    })
+
+  </script>
   <meta charset="utf-8">
  </head>
 
@@ -10,20 +146,20 @@
 <div th:insert="header :: header"></div>
 
 <content>
-  <form class="sign" action="/applyClient" method="post">
+  <form id="sign-up" class="sign" action="/applyClient" method="post">
     <h1>InfernoTattoo</h1>
     <div class="inputs">
-      <input type="text" name="login" placeholder="Логин">
-      <input type="email" name="email" placeholder="E-mail">
-      <input type="text" name="name" placeholder="Имя">
-      <input type="text" name="phone" placeholder="Телефон">
-      <input type="password" name="password" placeholder="Пароль">
-      <input type="password" name="" placeholder="Подтвердите пароль">
+      <input id="login" type="text" name="login" placeholder="Логин">
+      <input id="email" type="email" name="email" placeholder="E-mail">
+      <input id="name" type="text" name="name" placeholder="Имя">
+      <input id="phone" type="text" name="phone" pattern="[+375][0-9]{12}" placeholder="Телефон">
+      <input type="password" id="pass-main" name="password" placeholder="Пароль">
+      <input type="password" id="pass-confirm" name="" placeholder="Подтвердите пароль">
     </div>
     <div th:if="${param.error != null && !param.error.isEmpty()}" class="ui-state-error">
         <span class="ui-state-error-text" th:text="${param.error}"></span>
     </div>
-    <button>Зарегистрироваться</button>
+    <button id="apply-button">Зарегистрироваться</button>
     <br>
     <p class="or">
       или&nbsp;<a href="/sign-in">Войдите</a><br>если у Вас уже есть аккаунт

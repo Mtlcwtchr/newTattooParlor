@@ -41,7 +41,7 @@
                                                         </select><br>
 
         <span class="info-in">Дата: </span><input type="datetime-local" name="dateTime" th:min="${currentOrder.minDateTime}" th:max="${currentOrder.maxDateTime}"><br>
-        <span class="info-in">Номер телефона: </span><input type="text" name="contactPhone" th:value="${currentOrder.client == null ? '' : currentOrder.client.phone}" min="" max="13"><br>
+        <span class="info-in">Номер телефона: </span><input type="text" name="contactPhone" pattern="[+375][0-9]{9}" th:value="${currentOrder.client == null ? '' : currentOrder.client.phone}" min="" max="13"><br>
         <span class="info-in">Тариф: </span><span class="info-value" th:text="${currentOrder.tariff}"></span><br>
         <span class="info-in">Промокод: </span><input type="text" name="promocode" min="" max="13"><br>
       </div>

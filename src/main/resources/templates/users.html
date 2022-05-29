@@ -37,7 +37,7 @@
                   </div>
                   <div th:if="${master.user.status == master.user.status.BLOCKED}">
                       <form th:action="@{/setUserStatus(userId=${master.id}, status=${master.user.status.CONFIRMED})}" method="post">
-                          <button>Unblock</button>
+                          <button class="unblock-button">Unblock</button>
                       </form>
                   </div>
               </td>
@@ -56,7 +56,7 @@
                   </div>
                   <div th:if="${client.user.status == client.user.status.BLOCKED}">
                       <form th:action="@{/setUserStatus(userId=${client.id}, status=${client.user.status.CONFIRMED})}" method="post">
-                          <button>Unblock</button>
+                          <button class="unblock-button">Unblock</button>
                       </form>
                   </div>
               </td>
