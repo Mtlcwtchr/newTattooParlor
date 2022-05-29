@@ -86,6 +86,19 @@ public class DiscountManager implements IDiscountManager {
     }
 
     @Override
+    public ClientDiscount tryAddPromoToClient(Client client, String promo) throws UtilException {
+        Discount discount = discountRepository.findByPromocode(promo).orElseThrow(NoDiscountPresentedException::new);
+
+        ClientDiscount clientDiscount = new ClientDiscount();
+        clientDiscount.setDiscount(discount);
+        clientDiscount.setOwner(client);
+        clientDiscount.setStatus(ClientDiscountStatus.ACTIVE);
+        clientDiscount = clientDiscountRepository.saveAndFlush(clientDiscount);
+
+        return clientDiscount;
+    }
+
+    @Override
     public void delete(long id) {
         discountRepository.deleteById(id);
     }

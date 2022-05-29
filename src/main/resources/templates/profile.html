@@ -15,6 +15,10 @@
 
     $(document).ready(function() {
 
+      backColor = document.getElementById('apply-button').style.backgroundColor;
+      bordColor = document.getElementById('apply-button').style.borderColor;
+      textVal = document.getElementById('apply-button').textContent;
+
       document.querySelectorAll('.show-update-label').forEach((link) => {
         link.addEventListener('click', () => {
           $('.view-profile-label').css('display', 'none');
@@ -176,6 +180,10 @@
 
   <div class="p-div users sales">
     <h1>Скидки</h1>
+    <form th:action="@{/addClientDiscount}" class="add-promo">
+      <h4>Добавить промокод</h4>
+      <input type="text" name="promocode"><button>+</button>
+    </form>
     <br>
     <table>
       <tr>

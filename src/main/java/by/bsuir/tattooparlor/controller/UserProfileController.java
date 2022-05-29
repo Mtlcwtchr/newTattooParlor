@@ -144,4 +144,20 @@ public class UserProfileController {
         return "redirect:/profile";
     }
 
+    @RequestMapping("/addClientDiscount")
+    public String addClientDiscount(@RequestParam(name = "promocode") String promo, HttpSession session) {
+        try {
+            User currentUser = (User) session.getAttribute("currentUser");
+            if(currentUser.getRole() != UserRole.CLIENT) {
+                return "redirect:/profile";
+            }
+            Client currentClient = (Client) session.getAttribute("currentClient");
+            ClientDiscount clientDiscount = discountManager.tryAddPromoToClient(currentClient, promo);
+        } catch (UtilException e) {
+            e.printStackTrace();
+            return "redirect:/profile?error=invalid_promo";
+        }
+        return "redirect:/profile";
+    }
+
 }
