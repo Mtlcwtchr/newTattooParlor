@@ -8,7 +8,7 @@
 <div th:insert="header :: header"></div>
 
 <header>
-    <a class="logo">BubaTattoo</a>
+    <a th:href="@{/}" class="logo"><img th:src="@{/loadFile(uri=logo.png)}"></a>
     <table class="menu">
         <td><a th:href="@{/}">О нас</a></td>
         <td><a th:href="@{/gallery}">Каталог</a></td>

@@ -56,9 +56,14 @@ header{
 
 header .logo{
     display: inline-block;
-    padding-left: 0;
+    padding: 15px 0px 0px;
     float: left;
     line-height: 1px;
+
+}
+
+.logo img {
+    height: 28px;
 }
 
 header table{
@@ -141,7 +146,8 @@ h1, h2 {
 .catalog .main, .desc{
     padding: 20px 0;
     display: inline-block;
-    width: 50%;
+    width: 60%;
+    text-align: justify;
 }
 
 .catalog .main img{
@@ -722,4 +728,9 @@ button{
     vertical-align: top;
     margin: 0 30px;
     padding: 10px 60px 10px 20px;
+}
+
+.oops {
+    text-align: center;
+    margin-top: 20%;
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>EPAM Tattoo</title>
+  <title>Inferno Tattoo</title>
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <meta charset="utf-8">
  </head>
@@ -11,22 +11,22 @@
 
 <content>
   <form class="sign" th:action="@{/applyMaster}" method="post">
-    <h1>BubaTattoo</h1>
+    <h1>InfernoTattoo Мастерам</h1>
     <div class="inputs">
-      <input type="text" name="login" placeholder="Login">
+      <input type="text" name="login" placeholder="Логин">
       <input type="email" name="email" placeholder="E-mail">
-      <input type="text" name="name" placeholder="Name">
+      <input type="text" name="name" placeholder="Имя">
       <input type="date" name="workStarted" th:max="${session.today}">
-      <input type="password" name="password" placeholder="Password">
-      <input type="password" name="" placeholder="Confirm password">
+      <input type="password" name="password" placeholder="Пароль">
+      <input type="password" name="" placeholder="Подтвердите пароль">
     </div>
     <div th:if="${param.error != null && !param.error.isEmpty()}" class="ui-state-error">
         <span class="ui-state-error-text" th:text="${param.error}"></span>
     </div>
-    <button>Sign Up</button>
+    <button>Зарегистрироваться</button>
     <br>
     <p class="or">
-      or&nbsp;<a href="/sign-in">Sign In</a><br>if you already have an account
+      или&nbsp;<a href="/sign-in">Войдите</a><br>если у Вас уже есть аккаунт
     </p>
   </div>
 </form>

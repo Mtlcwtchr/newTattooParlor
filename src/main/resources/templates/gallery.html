@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>EPAM Tattoo</title>
+  <title>Inferno Tattoo</title>
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <script type="text/javascript" src="js/script.js"></script>
   <meta charset="utf-8">
@@ -13,16 +13,13 @@
 <content>
   <div class="catalog">
     <div class="imgs">
-      <h1>Catalog</h1>
-      <table class="filter">
+      <h1>Галерея</h1>
+      <!--<table class="filter">
         <td>
-          <a href="">Easy</a>
-          <a href="">Medium</a>
-          <a href="">Hard</a>
-          <a href="">Black</a>
-          <a href="">Colored</a>
+          <a href=""></a>
+          <a href=""></a>
         </td>
-      </table>
+      </table>-->
 
       <div>
         <div class="quad" th:each="quad, iStat : ${products}">

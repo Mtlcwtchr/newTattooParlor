@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>EPAM Tattoo</title>
+  <title>Inferno Tattoo</title>
   <meta charset="utf-8">
   <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
@@ -12,13 +12,14 @@
   <div class="catalog">
     <div class="main">
       <div class="desc">
-        &nbsp;&nbsp;&nbsp;&nbsp;What is Lorem Ipsum?<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+        &nbsp;&nbsp;&nbsp;&nbsp;Украшение тела – одно из древнейших проявлений творческих способностей человека. Рисунок на теле человека всегда служил не только украшением, но и знаком социального отличия: принадлежности к племени, роду. Татуировки наделяли особой силой, они считались магическими посланиями. Тенденции в обществе с течением времени менялись, как и причины нанесения татуировки для человека.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;Что мы предлагаем?<br>
+        &nbsp;&nbsp;&nbsp;Наши <a class="red-style" th:href="@{/masters}">Мастера</a> вкладывают всю свою душу в разработку уникальных эскизов и готовы подобрать изображение для Вас с учетом всех пожеланий и предпочтений! Ознакомиться с готовыми эскизами Вы можете в <a class="red-style" th:href="@{/gallery}">Каталоге</a>. После выполнения работы эскиз будет недоступен другим клиентам, так как мы всегда за индивидуальность! Однако с примерами выполненных работ Вы можете ознакомиться в <a class="red-style" th:href="@{/workGallery}">Галерее работ</a>, чтобы упростить выбор своего мастера.
       </div>
       <img th:src="@{/loadFile(uri=main.png)}">
     </div>
     <div class="imgs">
-      <h1>Clients best choice</h1>
+      <h1>Лучшие работы</h1>
       <div>
         <div class="quad" th:each="quad, iStat : ${products}">
           <div class="item" th:each="item, iStat : ${quad}">
@@ -35,7 +36,6 @@
           </div>
         </div>
       </div>
-      <p class="more"><a href="/gallery">Click to se more</a></p>
     </div>
   </div>
 </content>

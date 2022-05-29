@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>EPAM Tattoo</title>
+  <title>Inferno Tattoo</title>
   <meta charset="utf-8">
   <link rel="stylesheet" type="text/css" href="css/style.css">
  </head>
@@ -11,10 +11,10 @@
 
 <content>
   <form class="sign" action="/authClient" method="post">
-    <h1>EpamTattoo</h1>
+    <h1>InfernoTattoo</h1>
     <div class="inputs">
-      <input type="text" name="login" placeholder="Login">
-      <input type="password" name="password" placeholder="Password">
+      <input type="text" name="login" placeholder="Логин">
+      <input type="password" name="password" placeholder="Пароль">
     </div>
     <div th:if="${param.error != null && !param.error.isEmpty()}" class="ui-state-error">
         <span class="ui-state-error-text" th:text="${param.error}"></span>
@@ -22,7 +22,7 @@
     <button>Sign In</button>
     <br>
     <p class="or">
-      or&nbsp;<a href="/sign-up">Sign Up</a><br>if you don't have an account
+      или&nbsp;<a href="/sign-up">Зарегистрируйтесь</a><br>если у Вас еще нет аккаунта
     </p>
   </form>
 </content>
