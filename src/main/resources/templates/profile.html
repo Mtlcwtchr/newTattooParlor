@@ -6,7 +6,14 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script type="text/javascript" src="js/script.js"></script>
   <script>
-  $(document).ready(function() {
+    let passConfirmed = false;
+    let passCorrect = false;
+
+    let backColor;
+    let bordColor;
+    let textVal;
+
+    $(document).ready(function() {
 
       document.querySelectorAll('.show-update-label').forEach((link) => {
         link.addEventListener('click', () => {
@@ -27,6 +34,65 @@
           let id = link.getAttribute('about');
           $('.promo-' + id).select();
           document.execCommand('copy');
+        })
+      })
+
+      document.querySelectorAll('#apply-button').forEach((link) => {
+        link.addEventListener('mouseover', () => {
+          let element = document.getElementById('apply-button');
+          if (!passConfirmed || !passCorrect || !phoneCorrect || !loginCorrect || !emailCorrect || !nameCorrect) {
+            element.textContent = 'Все поля должны быть заполнены корректно';
+            element.style.backgroundColor = 'gray';
+            element.style.borderColor = 'gray';
+          } else {
+            element.textContent = textVal;
+            element.style.backgroundColor = backColor;
+            element.style.borderColor = bordColor;
+          }
+        })
+      })
+
+      document.querySelectorAll('#apply-button').forEach((link) => {
+        link.addEventListener('mouseout', () => {
+          let element = document.getElementById('apply-button');
+          element.textContent = textVal;
+          element.style.backgroundColor = backColor;
+          element.style.borderColor = bordColor;
+        })
+      })
+
+      $('#new-pass-submit').submit(function (evt) {
+        if(!passConfirmed || !passCorrect || !phoneCorrect || !loginCorrect || !emailCorrect || !nameCorrect) {
+          evt.preventDefault();
+        }
+      });
+
+      document.querySelectorAll('#pass-main').forEach((link) => {
+        link.addEventListener('input', () => {
+          let pass = document.getElementById('pass-main').value
+
+          if (pass === "" || pass.length < 5) {
+            link.classList.add('wrong-input')
+            passCorrect = false
+          } else {
+            link.classList.remove('wrong-input')
+            passCorrect = true
+          }
+        })
+      })
+
+      document.querySelectorAll('#pass-confirm').forEach((link) => {
+        link.addEventListener('input', () => {
+          let pass = document.getElementById('pass-main').value
+          let passCopy = document.getElementById('pass-confirm').value
+
+          if (pass === "" || passCopy === "" || pass !== passCopy) {
+            link.classList.add('wrong-input')
+            passConfirmed = false
+          } else {
+            link.classList.remove('wrong-input')
+            passConfirmed = true
+          }
         })
       })
     })
@@ -57,6 +123,13 @@
         <span>Аватар: </span><input type="file" name="file"><br>
         <button type="submit">Сохранить</button>
       </form>
+
+      <form id="new-pass-submit" th:action="@{/updateUserPassword}" method="post" class="input-pers-info">
+        <span>Новый пароль: </span><input id="pass-main" type="password" name="password"><br>
+        <span>Подтвердить пароль: </span><input id="pass-confirm" type="password" name=""><br>
+        <button id="apply-button" type="submit">Изменить пароль</button>
+      </form>
+
     </div>
 
     <div class="input-pers-info view-profile-label">
