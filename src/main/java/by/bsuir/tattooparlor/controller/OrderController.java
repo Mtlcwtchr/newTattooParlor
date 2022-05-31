@@ -306,6 +306,7 @@ public class OrderController {
                             FileUtils.trySaveNewPictureByPath(multipartFile, fileName);
                             Product product = order.getProduct();
                             product.setCompletedImageUri(fileName);
+                            productManager.save(product);
                         }
                     } catch (IOException ex) {
                         ex.printStackTrace();

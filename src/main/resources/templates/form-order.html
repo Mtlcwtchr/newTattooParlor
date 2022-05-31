@@ -20,7 +20,7 @@
                                                <option th:each="master, iStat : ${masters}" th:text="${master.name}" th:value="${master.id}"></option>
                                              </select><br>
 
-        <span class="info-in">Размер: </span><select name="imageSize">
+        <span class="info-in">Размер: </span><select class="info-value" name="imageSize">
                                                <option th:value="${imageSizes.TEN}">10x10</option>
                                                <option th:value="${imageSizes.TWENTY}">20x20</option>
                                                <option th:value="${imageSizes.THIRTY}">30x30</option>
@@ -29,7 +29,7 @@
                                                <option th:value="${imageSizes.SIXTY}">60x60</option>
                                              </select><br>
 
-        <span class="info-in">Количество цветов: </span><select name="colorsCount">
+        <span class="info-in">Количество цветов: </span><select class="info-value" name="colorsCount">
                                                           <option value="1">1</option>
                                                           <option value="2">2</option>
                                                           <option value="3">3</option>
@@ -40,10 +40,10 @@
                                                           <option value="8">8</option>
                                                         </select><br>
 
-        <span class="info-in">Дата: </span><input type="datetime-local" name="dateTime" th:min="${currentOrder.minDateTime}" th:max="${currentOrder.maxDateTime}"><br>
-        <span class="info-in">Номер телефона: </span><input type="text" name="contactPhone" pattern="[+375][0-9]{9}" th:value="${currentOrder.client == null ? '' : currentOrder.client.phone}" min="" max="13"><br>
+        <span class="info-in">Дата: </span><input class="info-value" type="datetime-local" name="dateTime" th:min="${currentOrder.minDateTime}" th:max="${currentOrder.maxDateTime}"><br>
+        <span class="info-in">Номер телефона: </span><input class="info-value" type="text" name="contactPhone" pattern="[+375][0-9]{12}" th:value="${currentOrder.client == null ? '' : currentOrder.client.phone}" min="" max="13"><br>
         <span class="info-in">Тариф: </span><span class="info-value" th:text="${currentOrder.tariff}"></span><br>
-        <span class="info-in">Промокод: </span><input type="text" name="promocode" min="" max="13"><br>
+        <span class="info-in">Промокод: </span><input class="info-value" type="text" name="promocode" min="" max="13"><br>
       </div>
       <img th:src="@{/loadFile(uri=${currentOrder.product.imageUri})}">
       <div class="order-status">

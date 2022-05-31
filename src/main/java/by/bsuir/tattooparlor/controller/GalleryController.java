@@ -55,7 +55,7 @@ public class GalleryController {
     public String proceedToGallery(HttpSession session, Model model) {
         User currentUser = (User) session.getAttribute("currentUser");
         String retVal = "gallery";
-        if (currentUser != null && currentUser.getRole() == UserRole.ADMIN) {
+        if (currentUser != null && currentUser.getRole() != UserRole.CLIENT) {
             retVal = "catalog-admin";
         }
         List<Product> products = productManager.findAllGallery();

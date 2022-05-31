@@ -179,7 +179,7 @@ h1, h2 {
     height: 100%;
 }
 
-.catalog .imgs .quad .rate{
+.rate{
     display: inline-flex;
     margin: 0 auto;
     min-height: 30px;
@@ -187,15 +187,29 @@ h1, h2 {
     margin-top: 10px;
 }
 
-.catalog .imgs .quad .rate a{
+.work .rate {
+    display: inline-flex;
+    height: revert;
+    margin: 0;
+}
+
+.work .like, .work .dislike {
+    vertical-align: middle;
+}
+
+.work .rate-num {
+    line-height: 30px;
+}
+
+.rate a{
     display: inline-block;
 }
 
-.catalog .imgs .quad .rate a:hover{
+.rate a:hover{
     transform: scale(1.09);
 }
 
-.catalog .imgs .quad .rate img {
+.rate .like, .rate .dislike {
     display: inline-block;
     max-width: 30px;
     max-height: 30px;
@@ -465,7 +479,7 @@ button{
 }
 
 .order-status {
-    margin-left: 100px;
+    margin-left: 90px;
     display: inline-block;
     vertical-align: top;
     line-height: 200px;
@@ -745,6 +759,7 @@ button{
     border-color: #fff;
     background-color: #000000 !important;
 }
+
 
 .add-promo {
     margin: 5px auto;

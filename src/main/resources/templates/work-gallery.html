@@ -23,9 +23,18 @@
   <div class="catalog res">
     <div th:each="pair, iStat : ${products}" th:id="${pair.key.id}">
       <h2 th:text="${pair.key.name}"></h2>
-      <div class="work" th:each="product, jStat : ${pair.value}">
-        <img height="40" th:if="${jStat.index % 2 == 0}" th:src="@{/loadFile(uri=${product.imageUri})}"><img th:if="${jStat.index % 2 == 0}" th:src="@{/loadFile(uri=${product.completedImageUri})}">
-        <img th:if="${jStat.index % 2 != 0}" th:src="@{/loadFile(uri=${product.completedImageUri})}"><img th:if="${jStat.index % 2 != 0}" th:src="@{/loadFile(uri=${product.imageUri})}">
+
+        <div class="work" th:each="product, jStat : ${pair.value}">
+          <div class="rate">
+            <a><div class="rate-num" th:text="${product.dislikesCount}"></div></a>
+            <a th:href="@{/rate(productId=${product.id}, markValue=-1)}"><img class="dislike" th:src="@{/loadFile(uri=dislike.png)}" th:if="${!product.isDislikedByClient(session.currentClient)}" /><img class="dislike" th:src="@{/loadFile(uri=dislike_active.png)}" th:if="${product.isDislikedByClient(session.currentClient)}" /></a>
+
+            <img height="40" th:if="${jStat.index % 2 == 0}" th:src="@{/loadFile(uri=${product.imageUri})}"><img th:if="${jStat.index % 2 == 0}" th:src="@{/loadFile(uri=${product.completedImageUri})}">
+            <img th:if="${jStat.index % 2 != 0}" th:src="@{/loadFile(uri=${product.completedImageUri})}"><img th:if="${jStat.index % 2 != 0}" th:src="@{/loadFile(uri=${product.imageUri})}">
+
+            <a th:href="@{/rate(productId=${product.id}, markValue=1)}"><img class="like" th:src="@{/loadFile(uri=like.png)}" th:if="${!product.isLikedByClient(session.currentClient)}" /><img class="dislike" th:src="@{/loadFile(uri=like_active.png)}" th:if="${product.isLikedByClient(session.currentClient)}" /></a>
+            <a class="rate-num" th:text="${product.likesCount}"></a>
+        </div>
       </div>
     </div>
   </div>

@@ -13,20 +13,11 @@
   <div class="catalog">
     <div class="imgs">
       <h1>Catalog</h1>
-      <table class="filter">
-        <td>
-          <a href="">Easy</a>
-          <a href="">Medium</a>
-          <a href="">Hard</a>
-          <a href="">Black</a>
-          <a href="">Colored</a>
-        </td>
-      </table>
 
       <div>
         <div class="quad" th:each="quad, iStat : ${products}">
           <div onmouseout="hidePlus()" onmouseover="showPlus()" class="item" th:each="item, jStat : ${quad}">
-            <a th:href="@{/deleteItem(itemId=${item.id})}" class="delete-item"><img th:src="@{loadFile(uri=delete.png)}"></a>
+            <a th:href="@{/deleteItem(productId=${item.id})}" class="delete-item"><img th:src="@{loadFile(uri=delete.png)}"></a>
             <img class="sketch" th:src="@{/loadFile(uri=${item.imageUri})}">
             <div style="display: flex;">
               <div class="rate">
@@ -41,7 +32,7 @@
             <form class="create-new-item" th:action="@{/addNewItem}" enctype="multipart/form-data"  method="post">
               <input id="pl" class="plus" type="file" name="uploadFile" style="display: none">
               <label for="pl">
-                <img class="plus" th:src="@{/loadFile(uri=pluss.png)}">>
+                <img class="plus" th:src="@{/loadFile(uri=pluss.png)}">
               </label>
               <button type="submit">Добавить</button>
             </form>

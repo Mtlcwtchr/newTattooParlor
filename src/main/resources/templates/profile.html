@@ -6,18 +6,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script type="text/javascript" src="js/script.js"></script>
   <script>
-    let passConfirmed = false;
-    let passCorrect = false;
-
-    let backColor;
-    let bordColor;
-    let textVal;
 
     $(document).ready(function() {
-
-      backColor = document.getElementById('apply-button').style.backgroundColor;
-      bordColor = document.getElementById('apply-button').style.borderColor;
-      textVal = document.getElementById('apply-button').textContent;
 
       document.querySelectorAll('.show-update-label').forEach((link) => {
         link.addEventListener('click', () => {
@@ -41,64 +31,6 @@
         })
       })
 
-      document.querySelectorAll('#apply-button').forEach((link) => {
-        link.addEventListener('mouseover', () => {
-          let element = document.getElementById('apply-button');
-          if (!passConfirmed || !passCorrect || !phoneCorrect || !loginCorrect || !emailCorrect || !nameCorrect) {
-            element.textContent = 'Все поля должны быть заполнены корректно';
-            element.style.backgroundColor = 'gray';
-            element.style.borderColor = 'gray';
-          } else {
-            element.textContent = textVal;
-            element.style.backgroundColor = backColor;
-            element.style.borderColor = bordColor;
-          }
-        })
-      })
-
-      document.querySelectorAll('#apply-button').forEach((link) => {
-        link.addEventListener('mouseout', () => {
-          let element = document.getElementById('apply-button');
-          element.textContent = textVal;
-          element.style.backgroundColor = backColor;
-          element.style.borderColor = bordColor;
-        })
-      })
-
-      $('#new-pass-submit').submit(function (evt) {
-        if(!passConfirmed || !passCorrect || !phoneCorrect || !loginCorrect || !emailCorrect || !nameCorrect) {
-          evt.preventDefault();
-        }
-      });
-
-      document.querySelectorAll('#pass-main').forEach((link) => {
-        link.addEventListener('input', () => {
-          let pass = document.getElementById('pass-main').value
-
-          if (pass === "" || pass.length < 5) {
-            link.classList.add('wrong-input')
-            passCorrect = false
-          } else {
-            link.classList.remove('wrong-input')
-            passCorrect = true
-          }
-        })
-      })
-
-      document.querySelectorAll('#pass-confirm').forEach((link) => {
-        link.addEventListener('input', () => {
-          let pass = document.getElementById('pass-main').value
-          let passCopy = document.getElementById('pass-confirm').value
-
-          if (pass === "" || passCopy === "" || pass !== passCopy) {
-            link.classList.add('wrong-input')
-            passConfirmed = false
-          } else {
-            link.classList.remove('wrong-input')
-            passConfirmed = true
-          }
-        })
-      })
     })
 
     function copyPromo(promo) {
@@ -107,7 +39,7 @@
 
   </script>
   <meta charset="utf-8">
- </head>
+</head>
 
 <body>
 <div th:insert="header :: header"></div>
@@ -125,13 +57,9 @@
         <span>Имя: </span><input type="text" name="name" th:value="${session.currentClient.name}"><br>
         <span>Номер телефона: </span><input type="text" name="phone" th:value="${session.currentClient.phone}"><br>
         <span>Аватар: </span><input type="file" name="file"><br>
-        <button type="submit">Сохранить</button>
-      </form>
-
-      <form id="new-pass-submit" th:action="@{/updateUserPassword}" method="post" class="input-pers-info">
         <span>Новый пароль: </span><input id="pass-main" type="password" name="password"><br>
         <span>Подтвердить пароль: </span><input id="pass-confirm" type="password" name=""><br>
-        <button id="apply-button" type="submit">Изменить пароль</button>
+        <button type="submit">Сохранить</button>
       </form>
 
     </div>
@@ -180,7 +108,7 @@
 
   <div class="p-div users sales">
     <h1>Скидки</h1>
-    <form th:action="@{/addClientDiscount}" class="add-promo">
+    <form method="post" th:action="@{/addClientDiscount}" class="add-promo">
       <h4>Добавить промокод</h4>
       <input type="text" name="promocode"><button>+</button>
     </form>
@@ -197,7 +125,7 @@
       <tr th:each="discount, iStat : ${discounts}">
         <td class="id" th:text="${discount.id}"></td>
         <td class="code" th:text="${discount.discount.promocode}"></td>
-        <td class="value" th:text="${discount.discount.percentage}"></td>
+        <td class="value" th:text="${discount.discount.valueFormatted}"></td>
         <td class="desc" th:text="${discount.discount.description}"></td>
         <td class="status" th:text="${discount.statusDescription}"></td>
         <td class="act"><button onclick="copyPromo(this.getAttribute('about'))" th:about="${discount.discount.promocode}">Copy</button></td>
@@ -214,16 +142,18 @@
     <div class="update-profile-label" style="display: none">
       <a class="edit-pic show-view-label"><img th:src="@{/loadFile(uri=edit.png)}"></a>
       <form th:action="@{/updateMasterPersonalInfo}" method="post" class="input-pers-info" enctype="multipart/form-data">
-        <span>Имя</span><input type="text" name="name" th:value="${session.currentMaster.name}"><br>
-        <span>Дата начала работы</span><input type="date" name="workStarted" th:value="${session.currentMaster.dateOfWorkStartFormattedISO}"><br>
+        <span>Имя: </span><input type="text" name="name" th:value="${session.currentMaster.name}"><br>
+        <span>Дата начала работы: </span><input type="date" name="workStarted" th:value="${session.currentMaster.dateOfWorkStartFormattedISO}"><br>
         <span>Аватар</span><input type="file" name="file"><br>
+        <span>Новый пароль: </span><input id="pass-main" type="password" name="password"><br>
+        <span>Подтвердить пароль: </span><input id="pass-confirm" type="password" name=""><br>
         <button type="submit">Сохранить изменения</button>
       </form>
     </div>
     <div class="view-profile-label">
       <a class="edit-pic show-update-label"><img th:src="@{/loadFile(uri=edit.png)}"></a>
-      <span>Имя</span><span th:text="${session.currentMaster.name}"></span><br>
-      <span>E-mail:</span><span th:text="${session.currentMaster.user.email}"></span><br>
+      <span>Имя: </span><span th:text="${session.currentMaster.name}"></span><br>
+      <span>E-mail: </span><span th:text="${session.currentMaster.user.email}"></span><br>
       <span>Дата начала работы</span><span th:text="${session.currentMaster.dateOfWorkStartFormatted}"></span><br>
     </div>
   </div>
