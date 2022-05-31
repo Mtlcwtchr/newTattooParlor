@@ -66,10 +66,20 @@ public class UserProfileController {
     public String updateClientPersonalInfo(@RequestParam(name = "name") String name,
                                            @RequestParam(name = "phone") String phone,
                                            @RequestParam(name = "file", required = false) MultipartFile multipartFile,
+                                           @RequestParam(name = "password", required = false) String password,
                                            HttpSession session) {
         User currentUser = (User) session.getAttribute("currentUser");
         if(currentUser.getRole() != UserRole.CLIENT) {
             return "redirect:/profile";
+        }
+
+        if (password != null && !password.isEmpty()) {
+            try {
+                long userId = currentUser.getId();
+                boolean updated = authService.updatePassword(userId, password);
+            } catch (UtilException ex) {
+                ex.printStackTrace();
+            }
         }
 
         try{
@@ -93,32 +103,24 @@ public class UserProfileController {
         return "redirect:/profile";
     }
 
-    @PostMapping("/updateUserPassword")
-    public String updateUserPassword(@RequestParam(name = "password") String password,
-                                     HttpSession session) {
-        try {
-            User currentUser = (User) session.getAttribute("currentUser");
-            if (currentUser != null) {
-                long userId = currentUser.getId();
-                boolean updated = authService.updatePassword(userId, password);
-                if (!updated) {
-                    return "redirect:/profile?error=same_password";
-                }
-            }
-        } catch (UtilException ex) {
-            ex.printStackTrace();
-        }
-        return "redirect:/profile";
-    }
-
     @PostMapping("/updateMasterPersonalInfo")
     public String updateMasterPersonalInfo(@RequestParam(name = "name") String name,
                                            @RequestParam(name = "workStarted", required = false) String workStarted,
                                            @RequestParam(name = "file", required = false) MultipartFile multipartFile,
+                                           @RequestParam(name = "password", required = false) String password,
                                            HttpSession session) {
         User currentUser = (User) session.getAttribute("currentUser");
         if(currentUser.getRole() != UserRole.MODERATOR) {
             return "redirect:/profile";
+        }
+
+        if (password != null && !password.isEmpty()) {
+            try {
+                long userId = currentUser.getId();
+                boolean updated = authService.updatePassword(userId, password);
+            } catch (UtilException ex) {
+                ex.printStackTrace();
+            }
         }
 
         try{

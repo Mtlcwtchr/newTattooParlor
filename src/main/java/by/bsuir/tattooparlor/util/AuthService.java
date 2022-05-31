@@ -188,6 +188,12 @@ public class AuthService implements IAuthService {
         return false;
     }
 
+    @Override
+    public User confirmUser(User user) {
+        user.setStatus(UserStatus.CONFIRMED);
+        return userRepository.saveAndFlush(user);
+    }
+
     private String getGuestUserLogin(String phone) {
         return "guest_" + Integer.toHexString(phone.hashCode());
     }

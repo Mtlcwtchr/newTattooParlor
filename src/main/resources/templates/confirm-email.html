@@ -5,9 +5,10 @@
   <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-  <form style="margin-top: 20%;" class="add-promo">
+  <form style="margin-top: 20%;" th:action="@{/confirmEmail}" method="post" class="add-promo">
     <h4>Код подтверждения</h4>
-    <input type="text" name=""><button>OK</button>
+    <span th:if="${param.error != null && !param.error.isEmpty()}" th:text="param.error"></span>
+    <input type="text" name="code" size="6"><button>OK</button>
   </form>
 </body>
 </html>

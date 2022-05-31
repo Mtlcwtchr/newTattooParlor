@@ -101,7 +101,9 @@ public class OrderController {
             order.setContactPhone(contactPhone);
             order.setClient(client);
             Product product = order.getProduct();
-            product.setColorsCount(colorsCount);
+            if (colorsCount != 0) {
+                product.setColorsCount(colorsCount);
+            }
             int totalCost = calculationsManager.getTotalCost(product, master, imageSize);
 
             try {

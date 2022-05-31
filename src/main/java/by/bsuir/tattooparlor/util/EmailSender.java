@@ -28,7 +28,7 @@ public class EmailSender implements IEmailSender {
     }
 
     @Override
-    public boolean sendVerificationEmail(String receiver, int verificationCode){
+    public boolean sendVerificationEmail(String receiver, String verificationCode){
         return sendEmail(receiver, String.format("Your verification code is %s", verificationCode));
     }
 

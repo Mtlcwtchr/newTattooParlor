@@ -89,6 +89,13 @@ public class DiscountManager implements IDiscountManager {
     public ClientDiscount tryAddPromoToClient(Client client, String promo) throws UtilException {
         Discount discount = discountRepository.findByPromocode(promo).orElseThrow(NoDiscountPresentedException::new);
 
+        try {
+            ClientDiscount promoEx = findByPromoForClient(client, promo);
+            if(promoEx != null) {
+                return promoEx;
+            }
+        } catch (UtilException ignored) {}
+
         ClientDiscount clientDiscount = new ClientDiscount();
         clientDiscount.setDiscount(discount);
         clientDiscount.setOwner(client);

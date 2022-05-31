@@ -69,6 +69,10 @@ public class PriceCalculationsController {
                 master = masterManager.findById(masterId);
             }
 
+            if (colorsCount == 0) {
+                colorsCount = calculationsManager.getColorsCount(image);
+            }
+
             int totalCost = calculationsManager.getTotalCost(image, colorsCount, master, size);
             int difficulty = calculationsManager.getDifficulty(image);
 
