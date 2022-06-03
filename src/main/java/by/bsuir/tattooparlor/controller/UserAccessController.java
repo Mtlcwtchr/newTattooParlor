@@ -86,6 +86,7 @@ public class UserAccessController {
             return "redirect:/confirmEmail?error=wrong_code";
         } else {
             authService.confirmUser(user);
+            emailSender.sendPostVerificationEmail(user.getEmail());
             return "redirect:/sign-in";
         }
     }
